@@ -52,126 +52,135 @@ En d'autre termes nous allons essayer de faire :
 * des classes **les plus disjointes possible** (*faible couplage*) pour qu'une modification dans une classe ne nous demande pas de modifier les autres
 * tout en essayant d'avoir **les tâches réalisées par une seule classe les plus liées possible** (*forte cohésion*).
 
-> 🧙‍♂️ Il faut garder en permanence cette règle en tête. Elle fait perdre peut-être un peu de temps au début, car elle oblige à réfléchir, mais sur le long terme elle est plus efficace.
+> Notre jeu s'inspirera de *Pokémon Unite* (aucune connaissance du jeu, ni de *Pokémon* n'est nécessaire).  
+> Dans un premier temps, nous allons faire affronter 2 Pokémons.  
+> Chaque Pokémon sera défini par :
+>
+> * des statistiques
+>   * hp : health point
+>   * attack, defense, speed... : qui serviront déterminer la force de ses attaques
+> * un type : [Attacker, Defender, All Rounder, Speedster, Supporter](https://www.nationhive.com/fr/jeux/pokemon-unite/guide/roles-des-pokemon)
+>   * selon le type, la force de l'attaque dépendra de telle ou telle statistique
 
-Notre jeu s'inspirera de *Pokémon Unite* (aucune connaissance du jeu, et de *Pokémon* n'est nécessaire). Il va avoir un système de rôle : Attacker, Defender, All Rounder, Speedster, Supporter.  
+### :small_orange_diamond: Première approche : le « `if/elif/else` » :skull
 
-Chaque rôle va disposer de bonus propre qui doit être le plus évolutif possible. De même, chaque *Pokémon* va avoir des attaques qui pourront avoir des méthodes de calculs différentes et des effets variés.
-
-### :small_orange_diamond: Le "`if/elif/else` :skull:"
-
-La première approche possible est d'utiliser des `if/elif/else`. Par exemple :
+Imaginons que nous créions les 3 classes suivantes avec le **type** comme attribut de `Pokemon`. Pour calculer la puissance d'une attaque, voici comment nous devrions nous y prendre :
 
 ```mermaid
 classDiagram
-
- class Pokemon {
- - __type : String
- - __current_stat : Statistique
- }
- 
- class Statistique {
- - __hp : int
- - __attaque : int
- - __defense : int
- - __spe_atk : int
- - __spe_def : int
- - __vitesse : int
- }
- 
- class FightService {
- +get_role_mutliplier() float
- }
- 
- 
- FightService ..> Pokemon : <<use>>
- Pokemon --> Statistique : possède
+  class Pokemon {
+    + type : String
+    + stat : Statistic
+  }
+  
+  class Statistic {
+    + hp : int
+    + attack : int
+    + defense : int
+    + spe_atk : int
+    + spe_def : int
+    + speed : int
+  }
+  
+  class BattleService {
+    + get_pokemon_attack_coef(Pokemon) : float
+    + resolve_battle(Pokemon, Pokemon)
+  } 
+  
+  BattleService ..> Pokemon : use
+  Pokemon --> Statistic : own
 ```
 
 ```python
-class FightService:
- def get_role_mutliplier(pokemon : Pokemon) -> float :
-        if pokemon.type=="Attacker":
-            multiplier = 1 + (self.speed_current+self.attack_current) / 200
-        elif pokemon.type=="Defender":
-            multiplier = 1 + (self.attack_current + self.defense_current) / 200
-        elif pokemon.type=="All rounder":
-            multiplier = 1 + (self.sp_atk_current + self.sp_def_current) / 200
-        elif pokemon.type=="Speedster":
-            multiplier = 1 + (self.speed_current+self.sp_atk_current) / 200
-        elif pokemon.type=="Supporter":
-            multiplier = 1 + (self.sp_atk_current+self.defense_current) / 200
-        else:
-            raise Exception("type inconnu")
+class BattleService:
+    def get_pokemon_attack_coef(pokemon : Pokemon) -> float :
+        if pokemon.type == "Attacker":
+            multiplier = 1 + (pokemon.stat.speed + pokemon.stat.attack) / 200
+        elif pokemon.type == "Defender":
+            multiplier = 1 + (pokemon.stat.attack + self.defense_current) / 200
+        elif pokemon.type == "All rounder":
+            multiplier = 1 + (pokemon.stat.sp_atk + pokemon.stat.sp_def) / 200
+        elif pokemon.type == "Speedster":
+            multiplier = 1 + (pokemon.stat.speed + pokemon.stat.sp_atk) / 200
+        elif pokemon.type == "Supporter":
+            multiplier = 1 + (pokemon.stat.sp_atk + pokemon.stat.defense) / 200
+        return multiplier
 ```
 
-> **Question 1 :** Expliquez pourquoi une implémentation à base de `if/elif/else` pour les rôles est une mauvaise idée ?  
-Imaginez s'il y avait plusieurs blocs de code similaires dans notre application, et que nous devions ajouter un nouveau type.
+> **Question 1 :** Expliquez pourquoi une implémentation à base de `if/elif/else` pour les rôles est une mauvaise idée ? Imaginez s'il y avait plusieurs blocs de code similaires dans notre application, et que nous devions ajouter un nouveau type.
+
+---
 
 ### :small_orange_diamond: La puissance de la POO
 
 Au lieu d'externaliser les comportements de nos *Pokémons*, nous allons mettre tous leurs comportements spécifiques dans des classes filles d'une super classe `Pokemon`. Ceci est rendu possible grâce à deux propriétés des objets en POO :
 
-* **héritage** : il est possible de spécialiser une classe existante en modifiant son comportement ou en ajoutant de nouvaux
+* **héritage** : il est possible de spécialiser une classe existante en modifiant son comportement, ou en ajoutant de nouveaux
 * **polymorphisme** : deux fonctions peuvent avoir le même nom mais avoir des comportements différents
 
 En plus, comme chacun de nos *Pokémons* va forcement être d'un type, aucun ne sera simplement de la classe `Pokemon`, cela nous permet de rendre cette classe *abstraite*. En définissant clairement notre classe abstraite nous allons avoir :
 
 * Un plan pour toutes les classes qui en héritent. Cela à pour avantages de :
-  * Donner des informations sur la structuration du code
-  
-  * Permettre de générer automatiquement les méthodes à définir (pas tous les IDE font ça)
-  
+  * Donner des informations sur la structuration du code  
+  * Permettre de générer automatiquement les méthodes à définir
   * Limiter les bug. Si on oublie une méthode, le code plante au démarrage, ce qui évite des comportements non prévus difficile à détecter
-  
-    > 🧙‍♂️ Un bug clair est moins problématique qu'un bug invisible qui ne fait pas stopper votre code mais produit de mauvais résultat
-* Une **interface** unique pour tous les types de *Pokémons*. Quelque soit le rôle du *Pokémon*, il sera considéré comme un `AbstractPokemon` partout dans le code. Cette unicité rend le code plus facile à écrire.
+* Une **interface** unique pour tous les types de *Pokémons*. Quelque soit le type du *Pokémon*, il sera considéré comme un `AbstractPokemon` partout dans le code. Cette unicité rend le code plus facile à écrire.
+
+---
 
 ### :small_orange_diamond: Un peu de code
 
-**✍Hands-on 1** : Implémentez les classes pythons dans le package `business_object/pokemon` en respectant le diagramme UML suivant :
+* [ ] **✍Hands-on 1** : Implémentez les classes pythons dans le package `business_object/pokemon` en respectant le diagramme UML ci-dessous composé des classes suivantes :
+
+* `BattleService` : comporte une méthode pour faire s'affronter 2 Pokemons
+* `AbstractPokemon` : représente un Pokemon
+  * dispose de 3 attirbuts *Protected*
+  * d'un constructeur qui initialise la valeur de ces 3 attributs
+  * et de la méthode abstraite `get_pokemon_attack_coef()` qui sera spécifiée dans les classes filles
+* `Attacker`, `Defender` et `AllRounder` héritent de `AbstractPokemon`
+  * définissent la méthode `get_pokemon_attack_coef()`
 
 ```mermaid
 classDiagram
- class AbstractPokemon {
- <<abstract>>
-  # _current_stat : Statistique
-  # _level : int
-  # _name : str
-  +get_pokemon_attack_coef()$ float
-  +level_up() : None
+  class AbstractPokemon {
+    <<abstract>>
+    # _current_stat : Statistique
+    # _level : int
+    # _name : str
+    +get_pokemon_attack_coef() :  float
   }
   
- class FightService {
-  +attaquer() AttaqueInfo
- }
+  class BattleService {
+    +resolve_battle() Battle
+  } 
  
+  class Statistique {
+    - __hp : int
+    - __attaque : int
+    - __defense : int
+    - __spe_atk : int
+    - __spe_def : int
+    - __vitesse : int
+   }
  
- class Statistique {
-        - __hp : int
-        - __attaque : int
-        - __defense : int
-        - __spe_atk : int
-        - __spe_def : int
-        - __vitesse : int
- }
- 
- FightService ..>"2" AbstractPokemon : use
- Attacker --|> AbstractPokemon
- Defender --|> AbstractPokemon
- AllRounder --|> AbstractPokemon
- AbstractPokemon --* Statistique
+  AbstractPokemon <|-- Attacker
+  AbstractPokemon <|-- Defender
+  AbstractPokemon <|-- AllRounder
+  AbstractPokemon --* Statistique
+  BattleService ..>"2" AbstractPokemon : use
 
 
 ```
 
 Reprenez les formules de la **✍Question 1** pour calculer les coefficients d'attaque.
 
-Pour faire une classe abstraite, utilisez le package AbstractBaseClass (ABC, doc [ici](https://docs.python.org/fr/3/library/abc.html)). Voici un exemple de classe abstraite (ne copiez/collez pas ce code !):
+Pour faire une classe abstraite, utilisez le package `abc`.  
+Voici un exemple de classe abstraite (ne copiez/collez pas ce code !):
 
 ```python
 # Fichier abstract_personnage.py
 from abc import ABC, abstractmethod
+
 class AbstractPersonnage(ABC):
     def __init__(self, phrase_attaque:str, phrase_defense:str) -> None:
         self._phrase_attaque = phrase_attaque
@@ -179,12 +188,8 @@ class AbstractPersonnage(ABC):
        
     @abstractmethod # décorateur qui définit une méthode comme abstraite
     def degat_attaque(self) -> int:
-        """
-        Calcule les dégâts de l'attaque. Chaque classe à une méthode de calcul
-        différente
-        :return: les dégâts de l'attaque
-        :rtype: int
-        """
+     pass
+
 # Fichier magicien.py
 from abstract_personnage import AbstractPersonnage
 class Magicien(AbstractPersonnage):
@@ -196,7 +201,7 @@ class Magicien(AbstractPersonnage):
         return 10
 ```
 
-Vous devrez arriver à une arborescence proche de celle-ci à la fin de cette session de code:
+Vous devrez arriver à une arborescence proche de celle-ci à la fin de cette session de code :
 
 ```
 📦pokemon_unite_lite
@@ -208,10 +213,12 @@ Vous devrez arriver à une arborescence proche de celle-ci à la fin de cette se
  ┃ ┃ ┗ 📜all_rounder.py
  ┃ ┗ 📜 statistique.py
  ┗ 📂service
-   ┗ 📜fight_service.py
+   ┗ 📜battle_service.py
 ```
 
-#### ✍Hands-on 2 : Testez votre code
+### :small_orange_diamond: Testez votre code
+
+* [ ] **✍Hands-on 2**
 
 Pour cela vous allez utiliser le package `unittest` de python (doc [ici](https://docs.python.org/3/library/unittest.html)). Ce package permet de réaliser des tests unitaires dans des classes séparées. L'avantage par rapport à `doctest`, c'est que les tests ne "polluent" pas vos classes, et qu'il est possible de *patcher* certains comportements des classes. Vous allez faire un dossier test à la racine du projet où vous allez y mettre vos tests en reproduisant l'architecture de votre application, en ce concentrant pour le moment sur la partie "*Pokémon*".
 
@@ -225,7 +232,7 @@ Pour cela vous allez utiliser le package `unittest` de python (doc [ici](https:/
  ┃ ┃ ┗ 📜all_rounder.py
  ┃ ┗ 📜 statistique.py
  ┣ 📂service
- ┃ ┗ 📜fight_service.py
+ ┃ ┗ 📜battle_service.py
  ┗ 📂test
   ┗ 📂test_business_object
       ┗ 📂test_pokemon
@@ -246,35 +253,26 @@ from business_object.statistic import Statistic
 
 class TestDefenderPokemon(TestCase):
     def test_get_coef_damage_type(self):
-        # GIVEN -> mettez ici tout ce qui sert à initialisez le test (création d'objet)
+        # GIVEN (ce qui sert à initialiser le test)
         attack = 100
         defense = 100
         snorlax = DefenderPokemon(stat_current=Statistic(
             attack=attack,
             defense=defense
         ))
-        # WHEN -> mettez ici la méthode à tester
+
+        # WHEN (la méthode à tester)
         multiplier = snorlax.get_pokemon_attack_coef()
-        # THEN -> metter ici les assertions = ce que vous voulez tester.
+
+        # THEN (vérification que la méthode retourne le bon résultat)
         self.assertEqual(2, multiplier)
-```
-
-Je vous conseille de respecter la structure GIVEN/WHEN/THEN pour vos tests. Elle est assez simple et permet de décomposer simplement les processus de vos test :
-
-```python
-def a_random_test(self):
- # GIVEN -> mettez ici tout ce qui sert à initialisez le test (création d'objet)
-    objet_a_tester = DummyObject()
-    valeur = "toto"
- # WHEN -> mettez ici la méthode à tester
-    res = objet_a_tester.dummy_funcion(valeur)
- # THEN -> metter ici les assertions = ce que vous voulez tester.
-    self.assertEquals("otot", res)
 ```
 
 **Question 2** : Pouvez-vous tester la méthode `level_up()` directement sur un `AbstractPokemon` ? Avez vous une idée comment faire ?
 
-## L'agrégation, l'autre façon d'ajouter de la souplesse dans le code
+---
+
+## :arrow_forward: L'agrégation, l'autre façon d'ajouter de la souplesse dans le code
 
 Maintenant que nos *Pokémons* sont faits, nous allons y ajouter les attaques. Notre système va devoir respecter certaines contraintes :
 
