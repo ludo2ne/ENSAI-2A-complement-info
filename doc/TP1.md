@@ -43,24 +43,51 @@ Ce TP sera réalisé avec l'IDE (**I**ntegred **D**evelopment **E**nvironment) `
 
 ---
 
+### :small_orange_diamond: Ce que vous allez coder
+
+Notre jeu s'inspirera de *Pokémon Unite* (aucune connaissance du jeu, ni de *Pokémon* n'est nécessaire).  
+Pour résumer en quelques mots, voici les objets que nous allons manipuler :
+
+* `Pokemon` : qui ont diverses caractéristiques et statistiques
+  * hp : health point
+  * attack, defense, speed... : qui serviront déterminer la force de ses attaques
+  * un type : [Attacker, Defender, All Rounder, Speedster, Supporter](https://www.ationhive.com/fr/jeux/pokemon-unite/guide/roles-des-pokemon)
+* `Statistic` : pour éviter de surcharger la classe `Pokemon`, de nombreuses stats sont stockées dans un objet de la classe `Statistic`
+* `Attack` : différents types d'attaques dont disposeront les Pokémons
+* `BattleService` : classe qui servira à faire s'affronter 2 Pokémons pour déterminer l'issue du combat (sert uniquement en fin de ce TP)
+
+---
+
 ## :arrow_forward: 2. Modélisation et implémentation
 
-Avant d'écrire du code, nous allons réfléchir à la meilleure conception possible pour réaliser nos `Pokémons`. Notre conception essai:era au maximum de respecter la règle suivante : **faible couplage, forte cohésion**.  
+> Dans un premier temps, nous allons coder uniquement les **Pokémons** (la classe `Statistic` est déjà codée).
+> En fonction de son type, son coefficient d'attaque dépendra de diverses statistiques.
+
+```mermaid
+classDiagram
+ class Pokemon {
+ - __type : String
+ - __current_stat : Statistique
+ + get_pokemon_attack_coef() float
+ }
+ 
+ class Statistic {
+ - __hp : int
+ - __attaque : int
+ - __defense : int
+ - __spe_atk : int
+ - __spe_def : int
+ - __vitesse : int
+ }
+ Pokemon --> Statistic : possède
+```
+
+Avant d'écrire du code, nous allons réfléchir à la meilleure conception possible pour réaliser nos Pokémons. Notre conception essaiera au maximum de respecter la règle suivante : **faible couplage, forte cohésion**.  
 
 En d'autre termes nous allons essayer de faire :
 
 * des classes **les plus disjointes possible** (*faible couplage*) pour qu'une modification dans une classe ne nous demande pas de modifier les autres
 * tout en essayant d'avoir **les tâches réalisées par une seule classe les plus liées possible** (*forte cohésion*).
-
-> Notre jeu s'inspirera de *Pokémon Unite* (aucune connaissance du jeu, ni de *Pokémon* n'est nécessaire).  
-> Dans un premier temps, nous allons faire affronter 2 Pokémons.  
-> Chaque Pokémon sera défini par :
->
-> * des statistiques
->   * hp : health point
->   * attack, defense, speed... : qui serviront déterminer la force de ses attaques
-> * un type : [Attacker, Defender, All Rounder, Speedster, Supporter](https://www.nationhive.com/fr/jeux/pokemon-unite/guide/roles-des-pokemon)
->   * selon le type, la force de l'attaque dépendra de telle ou telle statistique
 
 ### :small_orange_diamond: Première approche : le « `if/elif/else` » :skull
 
@@ -205,23 +232,23 @@ Les classes de test seront organisées de la manière suivante, en reproduisant 
         ┗ 📜test_all_rounder_pokemon.py
 ```
 
-> * [ ] **Question 4** : Pouvez-vous tester la méthode `level_up()` directement sur un `AbstractPokemon` ? Avez vous une idée comment faire ?
+> * [ ] **Question 4** : Pouvez-vous tester la méthode `level_up()` directement sur un `AbstractPokemon` ? Avez vous une idée comment faire ? (ne pas coder cette question)
 
 ---
 
 ## :arrow_forward: L'agrégation, l'autre façon d'ajouter de la souplesse dans le code
 
-Maintenant que nos *Pokémons* sont faits, nous allons y ajouter les attaques. Notre système va devoir respecter certaines contraintes :
+Maintenant que nos *Pokémons* sont faits, nous allons y ajouter les attaques.  
 
-* Plusieurs types d'attaque vont devoir coexister, chacune avec un mode de calcul de dégâts différent, à minima nous allons avoir :
-  * Des attaques "normales" qui utilisent l'attaque et la défense des pokémons ;
-  * Des attaques "spéciales" qui utilisent l'attaque spé et la défense spé des pokémons ;
-  * Des attaques à dégâts fixe qui font un nombre fixe de dégât.
+Notre système va devoir respecter certaines contraintes :
+
+* Plusieurs types d'attaques vont coexister, chacune avec un mode de calcul de dégâts différent :
+  * Des attaques "normales" qui utilisent l'attaque et la défense des Pokémons
+  * Des attaques "spéciales" qui utilisent l'attaque spé et la défense spé des Pokémons
+  * Des attaques à dégâts fixes qui font un nombre fixe de dégâts.
 * Un pokémon peut avoir plusieurs attaques et le type de l'attaque doit être transparent pour le pokémon.
 
-### Types d'attaques
-
-#### Attaque à dégâts variables
+### :small_orange_diamond: Attaques à dégâts variables
 
 Les attaques à dégâts variables vont utiliser la formule classique dégât de pokémon :
 $$
@@ -229,7 +256,7 @@ Damage = \big ( \frac{(\frac{2*Level}{5}+2)* Power *Att}{Def*50} +2\big) *random
 $$
 avec $Att$​ et $Def$​​ pouvant valoir l'attaque ou l'attaque spé et défense ou défense spé, $Power$​ la valeur de puissance de l'attaque, $random$​​ une valeur comprise dans l'intervalle [0.85; 1] et $other\_multipliers$​​ tous les autres multiplicateurs possible, comme le coefficient d'attaque des pokémons.
 
-Comme nous souhaitons juste modifier 2 facteurs de notre attaque, sans modifier la formule général, nous allons utiliser le patron de conception *template method*, dont voici la modélisation UML dans notre cas :
+Comme nous souhaitons juste modifier 2 facteurs de notre attaque, sans modifier la formule générale, nous allons utiliser le patron de conception *template method*, dont voici la modélisation UML dans notre cas :
 
 ```mermaid
 classDiagram
@@ -308,11 +335,11 @@ class SpecialAttack(AbstractFormulaAttack):
         return pkmon_targeted.current_spe_def
 ```
 
-#### ✍Hands on 3 : attaques à dégâts variables
+> * [ ] **Question 6** : Implémenter les 3 classes ci-dessus et créez des tests pour vérifier que tout fonctionne correctement
 
-Implémenter les 3 classes ci-dessus et créez des tests pour vérifier que tout fonctionne correctement
+---
 
-#### Attaques à dégâts fixes
+### :small_orange_diamond: Attaques à dégâts fixes
 
 Maintenant nous allons faire des attaques à dégâts fixes. Ces attaques ont un comportement très différents de nos attaques déjà faites, donc les faire hériter de `AbstractFormulaAttack` n'aurait pas de sens. À la place nous allons faire un autre niveau d'héritage
 
@@ -355,80 +382,81 @@ class AbstractAttack{
 
 La méthode `compute_damage`de la nouvelle classe `FixedDamageAttack` retournera juste la puissance (*power*) de l'attaque.
 
-#### ✍Hands-on 4 : attaques à dégâts fixes
+> * [ ] **Question 7** Implémentez les 2 nouvelle classes et créez des tests pour vérifier que tout fonctionne correctement
 
-Implémentez les 2 nouvelle classes et créez des tests pour vérifier que tout fonctionne correctement
+---
 
-### Architecture finale (bonus, si vous avez le temps)
+## :arrow_forward: Architecture finale (bonus, si vous avez le temps)
 
 Nous allons maintenant rattacher les bouts pour créer notre architecture finale :
 
 ```mermaid
 classDiagram
- class AbstractPokemon {
- <<abstract>>
-  # _current_stat : Statistique
-  # _level : int
-  # _name : str
-  # _attack_list : List~AbstractAttack~
-  +get_pokemon_attack_coef()$  float
-  +level_up() None
+  class AbstractPokemon {
+    <<abstract>>
+    # _current_stat : Statistique
+    # _level : int
+    # _name : str
+    # _attack_list : List~AbstractAttack~
+    +get_pokemon_attack_coef()$  float
+    +level_up() None
   }
   
- class FightService {
-  + resolve_fight(APkm,APkm)
-  + resolve_attack(APkm,APkm, ATck)
- }
+  class BattleService {
+    + resolve_fight(APkm,APkm)
+    + resolve_attack(APkm,APkm, ATck)
+  }  
  
+  class Statistique {
+    - hp : int
+    - attaque : int
+    - defense : int
+    - spe_atk : int
+    - spe_def : int
+    - vitesse : int
+  }
  
- class Statistique {
-        - hp : int
-        - attaque : int
-        - defense : int
-        - spe_atk : int
-        - spe_def : int
-        - vitesse : int
- }
+  BattleService ..>"2" AbstractPokemon : use
+  AbstractPokemon <|-- Attacker
+  AbstractPokemon <|-- Defender
+  AbstractPokemon <|-- AllRounder
+   Statistique *-- AbstractPokemon
  
- FightService ..>"2" AbstractPokemon : use
- Attacker --|> AbstractPokemon
- Defender --|> AbstractPokemon
- AllRounder --|> AbstractPokemon
- AbstractPokemon --* Statistique
- 
- class AbstractAttack{
- <<abstract>>
- # _power : int
- # _name : str
- # _description : str
- +compute_damage(APkm, APkm)$ int
- }
- class FixedDamageAttack{
-  + compute_damage(APkm,APkm )  int
- }
-    class AbstractFormulaAttack{
+  class AbstractAttack{
     <<abstract>>
-  -get_attack_stat(APkm)$  float
-  -get_defense_stat(APkm)$  float
-  + compute_damage(APkm,APkm ) int
- }
+    # _power : int
+    # _name : str
+    # _description : str
+    +compute_damage(APkm, APkm)$ int
+  }
+
+  class FixedDamageAttack{
+    + compute_damage(APkm,APkm )  int
+  }
+
+  class AbstractFormulaAttack{
+    <<abstract>>
+    -get_attack_stat(APkm)$  float
+    -get_defense_stat(APkm)$  float
+    + compute_damage(APkm,APkm ) int
+  }
  
-    class PhysicalAttack{
-  -get_attack_stat(APkm)$  float
-  -get_defense_stat(APkm)$  float
- }
+  class PhysicalAttack{
+   -get_attack_stat(APkm)$  float
+   -get_defense_stat(APkm)$  float
+  }
  
-    class SpecialAttack{
-  -get_attack_stat(APkm)  float
-  -get_defense_stat(APkm)  float
- }
+  class SpecialAttack{
+    -get_attack_stat(APkm)  float
+    -get_defense_stat(APkm)  float
+  }
  
- FixedDamageAttack--|>AbstractAttack
- AbstractFormulaAttack--|>AbstractAttack
- SpecialAttack--|>AbstractFormulaAttack
- PhysicalAttack--|>AbstractFormulaAttack
- AbstractAttack <.. FightService : use
- AbstractPokemon o-->"0..*" AbstractAttack
+  AbstractAttack <|-- FixedDamageAttack
+  AbstractAttack <|-- AbstractFormulaAttack
+  AbstractFormulaAttack <|-- SpecialAttack
+  AbstractFormulaAttack <|-- PhysicalAttack
+  BattleService >.. AbstractAttack  : use
+  AbstractPokemon o-->"0..*" AbstractAttack
 
 ```
 
@@ -441,14 +469,4 @@ Cette architecture permet de décorréler les attaques des pokémons et de spéc
 
 Le fait d'externaliser le comportement des attaques dans des classes spécifiques puis de les lier aux Pokémon via une relation d'agrégation assez souple qui permet de changer dynamiquement les attaques d'un Pokémon est le patron de conception *strategy*.
 
-#### ✍Hands-on 5 : Let's code
-
-Implémentez le diagramme de classe ci-dessus et testez votre code en écrivant de nouveaux tests unitaires.
-
-```
-<style>
-  body{
-    text-align: justify
-  }
-</style>
-```
+> * [ ] **Question 8** : Implémentez le diagramme de classe ci-dessus et testez votre code en écrivant de nouveaux tests unitaires.
