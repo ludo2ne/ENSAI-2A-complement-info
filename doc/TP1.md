@@ -45,7 +45,7 @@ Ce TP sera réalisé avec l'IDE (**I**ntegred **D**evelopment **E**nvironment) `
 
 ## :arrow_forward: 2. Modélisation et implémentation
 
-Avant d'écrire du code, nous allons réfléchir à la meilleure conception possible pour réaliser nos `Pokémons`. Notre conception essayera au maximum de respecter la règle suivante : **faible couplage, forte cohésion**.  
+Avant d'écrire du code, nous allons réfléchir à la meilleure conception possible pour réaliser nos `Pokémons`. Notre conception essai:era au maximum de respecter la règle suivante : **faible couplage, forte cohésion**.  
 
 En d'autre termes nous allons essayer de faire :
 
@@ -64,46 +64,9 @@ En d'autre termes nous allons essayer de faire :
 
 ### :small_orange_diamond: Première approche : le « `if/elif/else` » :skull
 
-Imaginons que nous créions les 2 classes suivantes avec le **type** comme attribut de `Pokemon`. Pour calculer la puissance d'une attaque, voici comment nous devrions nous y prendre :
+Ouvrez le code, et observez la classe `Pokemon`. Nous nous interessons à la méthode `get_pokemon_attack_coef()` qui va servir à déterminer la puissance de l'attaque en fonction du type de *Pokémon*.
 
-```mermaid
-classDiagram
-  class Pokemon {
-    # name : String
-    # level : int
-    # type : String
-    # stat_current : Statistic
-  }
-  
-  class Statistic {
-    - hp : int
-    - attack : int
-    - defense : int
-    - spe_atk : int
-    - spe_def : int
-    - speed : int
-  }
-  
-  Pokemon --> Statistic : own
-```
-
-```python
-class Pokemon:
-    def get_pokemon_attack_coef(self) -> float :
-        if pokemon.type == "Attacker":
-            multiplier = 1 + (self.stat.speed + self.stat.attack) / 200
-        elif pokemon.type == "Defender":
-            multiplier = 1 + (self.stat.attack + self.defense_current) / 200
-        elif pokemon.type == "All rounder":
-            multiplier = 1 + (self.stat.sp_atk + self.stat.sp_def) / 200
-        elif pokemon.type == "Speedster":
-            multiplier = 1 + (self.stat.speed + self.stat.sp_atk) / 200
-        elif pokemon.type == "Supporter":
-            multiplier = 1 + (self.stat.sp_atk + self.stat.defense) / 200
-        return multiplier
-```
-
-> **Question 1 :** Expliquez pourquoi une implémentation à base de `if/elif/else` pour les rôles est une mauvaise idée ? Imaginez s'il y avait plusieurs blocs de code similaires dans notre application, et que nous devions ajouter un nouveau type.
+> * [ ] **Question 1 :** Expliquez pourquoi une implémentation à base de `if/elif/else` pour les types est une mauvaise idée ? Imaginez s'il y avait plusieurs blocs de code similaires dans notre application, et que nous devions ajouter un nouveau type.
 
 ---
 
@@ -120,21 +83,18 @@ En plus, comme chacun de nos *Pokémons* va forcement être d'un type, aucun ne 
   * Donner des informations sur la structuration du code  
   * Permettre de générer automatiquement les méthodes à définir
   * Limiter les bug. Si on oublie une méthode, le code plante au démarrage, ce qui évite des comportements non prévus difficile à détecter
-* Une **interface** unique pour tous les types de *Pokémons*. Quelque soit le type du *Pokémon*, il sera considéré comme un `AbstractPokemon` partout dans le code. Cette unicité rend le code plus facile à écrire.
+* Une **interface** unique pour tous les types de *Pokémons*. Quelque soit le type du *Pokémon*, il sera considéré comme un `AbstractPokemon` partout dans le code.
 
 ---
 
-### :small_orange_diamond: Un peu de code
+> * [ ] **Question 2** :
+>   * [ ] transformez la classe `Pokemon` en classe abstraite `AbstractPokemon`
+>     * renommez également le fichier en `abstract_pokemon.py`
+>   * [ ] transformez la méthode `get_pokemon_attack_coef()` en méthode abstraite
+>   * [ ] créez les classes `Attacker`, `Defender` et `AllRounder` qui héritent de `AbstractPokemon`
+>   * [ ] dans ces 3 classes, implémentez la méthode `get_pokemon_attack_coef()`
 
-* [ ] **✍Hands-on 1** : Implémentez les classes pythons dans le package `business_object/pokemon` en respectant le diagramme UML ci-dessous composé des classes suivantes :
-
-* `BattleService` : comporte une méthode pour faire s'affronter 2 Pokemons
-* `AbstractPokemon` : représente un Pokemon
-  * dispose de 3 attirbuts *Protected*
-  * d'un constructeur qui initialise la valeur de ces 3 attributs
-  * et de la méthode abstraite `get_pokemon_attack_coef()` qui sera spécifiée dans les classes filles
-* `Attacker`, `Defender` et `AllRounder` héritent de `AbstractPokemon`
-  * définissent la méthode `get_pokemon_attack_coef()`
+Pour vous aider, voici le diagramme de classe :
 
 ```mermaid
 classDiagram
@@ -166,10 +126,23 @@ classDiagram
   BattleService ..>"2" AbstractPokemon : use
 ```
 
-Reprenez les formules de la **✍Question 1** pour calculer les coefficients d'attaque.
+Vous devriez arriver à une arborescence proche de celle-ci :
+
+```
+📦pokemon_unite_lite
+ ┣ 📂business_object
+ ┃ ┣ 📂pokemon
+ ┃ ┃ ┣ 📜abstract_pokemon.py
+ ┃ ┃ ┣ 📜attacker.py
+ ┃ ┃ ┣ 📜defender.py
+ ┃ ┃ ┗ 📜all_rounder.py
+ ┃ ┗ 📜 statistique.py
+ ┗ 📂service
+   ┗ 📜battle_service.py
+```
 
 Pour faire une classe abstraite, utilisez le package `abc`.  
-Voici un exemple de classe abstraite (ne copiez/collez pas ce code !):
+Voici, pour vous inspirer, un exemple de ce qui est attendu :
 
 ```python
 # Fichier abstract_personnage.py
@@ -195,26 +168,9 @@ class Magicien(AbstractPersonnage):
         return 10
 ```
 
-Vous devrez arriver à une arborescence proche de celle-ci à la fin de cette session de code :
-
-```
-📦pokemon_unite_lite
- ┣ 📂business_object
- ┃ ┣ 📂pokemon
- ┃ ┃ ┣ 📜abstract_pokemon.py
- ┃ ┃ ┣ 📜attacker.py
- ┃ ┃ ┣ 📜defender.py
- ┃ ┃ ┗ 📜all_rounder.py
- ┃ ┗ 📜 statistique.py
- ┗ 📂service
-   ┗ 📜battle_service.py
-```
-
----
-
 ### :small_orange_diamond: Testez votre code
 
-* [ ] **✍Hands-on 2**
+* [ ] **Question 3**
 
 Pour cela vous allez utiliser le package `unittest` de python (doc [ici](https://docs.python.org/3/library/unittest.html)). Ce package permet de réaliser des tests unitaires dans des classes séparées. L'avantage par rapport à `doctest`, c'est que les tests ne "polluent" pas vos classes, et qu'il est possible de *patcher* certains comportements des classes. Vous allez faire un dossier test à la racine du projet où vous allez y mettre vos tests en reproduisant l'architecture de votre application, en ce concentrant pour le moment sur la partie "*Pokémon*".
 
