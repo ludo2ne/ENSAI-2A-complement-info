@@ -168,8 +168,6 @@ classDiagram
   AbstractPokemon <|-- AllRounder
   AbstractPokemon --* Statistique
   BattleService ..>"2" AbstractPokemon : use
-
-
 ```
 
 Reprenez les formules de la **✍Question 1** pour calculer les coefficients d'attaque.
@@ -215,6 +213,8 @@ Vous devrez arriver à une arborescence proche de celle-ci à la fin de cette se
  ┗ 📂service
    ┗ 📜battle_service.py
 ```
+
+---
 
 ### :small_orange_diamond: Testez votre code
 
