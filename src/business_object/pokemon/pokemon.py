@@ -1,6 +1,5 @@
 import copy
 
-# from abc import ABC, abstractmethod
 from business_object.statistic import Statistic
 
 
@@ -14,7 +13,7 @@ class Pokemon():
                  stat_current=None,
                  level=0,
                  name=None,
-                 pk_type=None) -> None:
+                 type_pk=None) -> None:
         """
         Constructor to create a Pokemon
         """
@@ -22,7 +21,7 @@ class Pokemon():
         self._stat_current: Statistic = stat_current
         self._level: int = level
         self._name: str = name
-        self._type: str = pk_type
+        self._type: str = type_pk
 
     def get_pokemon_attack_coef(self) -> float:
         """
@@ -32,20 +31,15 @@ class Pokemon():
             float : the multiplier
         """
         if self._type == "Attacker":
-            multiplier = 1 + (self._stat_current.speed +
-                              self._stat_current.attack) / 200
+            multiplier = 1 + (self.speed_current + self.attack_current) / 200
         elif self._type == "Defender":
-            multiplier = 1 + (self._stat_current.attack +
-                              self._stat_current.defense) / 200
+            multiplier = 1 + (self.attack_current + self.defense_current) / 200
         elif self._type == "All rounder":
-            multiplier = 1 + (self._stat_current.sp_atk +
-                              self._stat_current.sp_def) / 200
+            multiplier = 1 + (self.sp_atk_current + self.sp_def_current) / 200
         elif self._type == "Speedster":
-            multiplier = 1 + (self._stat_current.speed +
-                              self._stat_current.sp_atk) / 200
+            multiplier = 1 + (self.speed_current + self.sp_atk_current) / 200
         elif self._type == "Supporter":
-            multiplier = 1 + (self._stat_current.sp_atk +
-                              self._stat_current.defense) / 200
+            multiplier = 1 + (self.sp_atk_current + self.defense_current) / 200
         else:
             raise Exception("type inconnu")
 
@@ -57,17 +51,29 @@ class Pokemon():
         """
         self._level += 1
 
-    def reset_actual_stat(self):
+    def reset_actual_stat(self) -> None:
         self._stat_current = copy.deepcopy(self._stat_max)
 
-    def get_hit(self, damage):
+    def get_hit(self, damage) -> None:
+        """
+        Decrease health point when receiving damages
+        """
         if damage > 0:
             if damage < self.hp_current:
                 self.hp_current -= damage
             else:
                 self.hp_current = 0
 
-    # Max stat_max getter
+    def __str__(self):
+        res = "I am " + str(self._name)
+        res += ", level : " + str(self._level)
+        res += ", attack coef : " + str(self.get_pokemon_attack_coef())
+        return res
+
+    # -------------------------------------------------------------------------
+    # Getters and Setters
+    # -------------------------------------------------------------------------
+
     @property
     def attack(self):
         return self._stat_max.attack
@@ -92,7 +98,6 @@ class Pokemon():
     def speed(self):
         return self._stat_max.speed
 
-    # Current stat_max getter/setter
     @property
     def attack_current(self):
         return self._stat_current.attack

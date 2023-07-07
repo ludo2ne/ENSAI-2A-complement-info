@@ -64,46 +64,42 @@ En d'autre termes nous allons essayer de faire :
 
 ### :small_orange_diamond: Première approche : le « `if/elif/else` » :skull
 
-Imaginons que nous créions les 3 classes suivantes avec le **type** comme attribut de `Pokemon`. Pour calculer la puissance d'une attaque, voici comment nous devrions nous y prendre :
+Imaginons que nous créions les 2 classes suivantes avec le **type** comme attribut de `Pokemon`. Pour calculer la puissance d'une attaque, voici comment nous devrions nous y prendre :
 
 ```mermaid
 classDiagram
   class Pokemon {
-    + type : String
-    + stat : Statistic
+    # name : String
+    # level : int
+    # type : String
+    # stat_current : Statistic
   }
   
   class Statistic {
-    + hp : int
-    + attack : int
-    + defense : int
-    + spe_atk : int
-    + spe_def : int
-    + speed : int
+    - hp : int
+    - attack : int
+    - defense : int
+    - spe_atk : int
+    - spe_def : int
+    - speed : int
   }
   
-  class BattleService {
-    + get_pokemon_attack_coef(Pokemon) : float
-    + resolve_battle(Pokemon, Pokemon)
-  } 
-  
-  BattleService ..> Pokemon : use
   Pokemon --> Statistic : own
 ```
 
 ```python
-class BattleService:
-    def get_pokemon_attack_coef(pokemon : Pokemon) -> float :
+class Pokemon:
+    def get_pokemon_attack_coef(self) -> float :
         if pokemon.type == "Attacker":
-            multiplier = 1 + (pokemon.stat.speed + pokemon.stat.attack) / 200
+            multiplier = 1 + (self.stat.speed + self.stat.attack) / 200
         elif pokemon.type == "Defender":
-            multiplier = 1 + (pokemon.stat.attack + self.defense_current) / 200
+            multiplier = 1 + (self.stat.attack + self.defense_current) / 200
         elif pokemon.type == "All rounder":
-            multiplier = 1 + (pokemon.stat.sp_atk + pokemon.stat.sp_def) / 200
+            multiplier = 1 + (self.stat.sp_atk + self.stat.sp_def) / 200
         elif pokemon.type == "Speedster":
-            multiplier = 1 + (pokemon.stat.speed + pokemon.stat.sp_atk) / 200
+            multiplier = 1 + (self.stat.speed + self.stat.sp_atk) / 200
         elif pokemon.type == "Supporter":
-            multiplier = 1 + (pokemon.stat.sp_atk + pokemon.stat.defense) / 200
+            multiplier = 1 + (self.stat.sp_atk + self.stat.defense) / 200
         return multiplier
 ```
 
