@@ -6,9 +6,9 @@ from utils.singleton import Singleton
 
 
 class BattleService(metaclass=Singleton):
-    def resolve_battle(self
-                       , monstie_1: AbstractPokemon
-                       , monstie_2: AbstractPokemon) -> Battle:
+    def resolve_battle(self,
+                       monstie_1: AbstractPokemon,
+                       monstie_2: AbstractPokemon) -> Battle:
         """
         A battle is divide in round. Each round one pokemon will be
         the attacker, the other the defender. The battle end one

@@ -170,9 +170,20 @@ class Magicien(AbstractPersonnage):
 
 ### :small_orange_diamond: Testez votre code
 
-* [ ] **Question 3**
+> * [ ] **Question 3** : Testez la méthode `get_pokemon_attack_coef()` pour les classes `AttackerPokemon` et `AllRounderPokemon`.  
+> Pour lancer tous les tests du projet, exécutez dans le terminal : `python -m unittest`
 
-Pour cela vous allez utiliser le package `unittest` de python (doc [ici](https://docs.python.org/3/library/unittest.html)). Ce package permet de réaliser des tests unitaires dans des classes séparées. L'avantage par rapport à `doctest`, c'est que les tests ne "polluent" pas vos classes, et qu'il est possible de *patcher* certains comportements des classes. Vous allez faire un dossier test à la racine du projet où vous allez y mettre vos tests en reproduisant l'architecture de votre application, en ce concentrant pour le moment sur la partie "*Pokémon*".
+Pour cela vous allez utiliser le package `unittest` de python.  
+
+Ce package permet de réaliser des tests unitaires dans des classes séparées. L'avantage par rapport à `doctest`, c'est que les tests ne "polluent" pas vos classes, et qu'il est possible de *patcher* certains comportements des classes.  
+
+Un exemple de test est donnée dans la classe `testDefenderPokemon`. Pour rappel, un test se décompose en 3 parties :
+
+* **GIVEN** : création des objets nécessaires à la réalisation du test
+* **WHEN** : appel de la méthode à tester
+* **THEN** : vérification du résultat
+
+Les classes de test seront organisées de la manière suivante, en reproduisant l'architecture de votre application :
 
 ```
 📦pokemon_unite_lite
@@ -188,39 +199,13 @@ Pour cela vous allez utiliser le package `unittest` de python (doc [ici](https:/
  ┗ 📂test
   ┗ 📂test_business_object
       ┗ 📂test_pokemon
-        ┣ 📜abstract_pokemon_test.py
-        ┣ 📜attacker_test.py
-        ┣ 📜defender_test.py
-        ┗ 📜all_rounder_test.py
+        ┣ 📜test_abstract_pokemon.py
+        ┣ 📜test_attacker_pokemon.py
+        ┣ 📜test_defender_pokemon.py
+        ┗ 📜test_all_rounder_pokemon.py
 ```
 
-Voici un exemple de test avec le module `unittest` de python :
-
-```python
-from unittest import TestCase
-
-from business_object.pokemon.defender_pokemon import DefenderPokemon
-from business_object.statistic import Statistic
-
-
-class TestDefenderPokemon(TestCase):
-    def test_get_coef_damage_type(self):
-        # GIVEN (ce qui sert à initialiser le test)
-        attack = 100
-        defense = 100
-        snorlax = DefenderPokemon(stat_current=Statistic(
-            attack=attack,
-            defense=defense
-        ))
-
-        # WHEN (la méthode à tester)
-        multiplier = snorlax.get_pokemon_attack_coef()
-
-        # THEN (vérification que la méthode retourne le bon résultat)
-        self.assertEqual(2, multiplier)
-```
-
-**Question 2** : Pouvez-vous tester la méthode `level_up()` directement sur un `AbstractPokemon` ? Avez vous une idée comment faire ?
+> * [ ] **Question 4** : Pouvez-vous tester la méthode `level_up()` directement sur un `AbstractPokemon` ? Avez vous une idée comment faire ?
 
 ---
 
