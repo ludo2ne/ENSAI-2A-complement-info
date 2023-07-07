@@ -1,6 +1,6 @@
 class Statistic:
     """
-    A very basic class. Inventory all the game stats
+    Inventory all the game statistics
     """
 
     def __init__(self,
