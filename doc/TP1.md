@@ -11,7 +11,6 @@ header:  ${title} - ${author}
 ## :arrow_forward: 0. Avant de commencer
 
 Ce TP mêle explications et phases de code.  
-Ces phases de code sont appelées "**✍Hands on**", c'est à ce moment là que vous devez écrire du code.
 
 Les explications de ce TP ne doivent pas prendre le pas sur celles de votre intervenant. Prenez les comme une base de connaissance pour plus tard, mais préférez toujours les explications orales.
 
@@ -19,8 +18,8 @@ Les explications de ce TP ne doivent pas prendre le pas sur celles de votre inte
 
 ## :arrow_forward: 1. Introduction et mise en place
 
-Vous allez créer les **objets métier** pour un jeu *Pokémons*.  
-Un objet métier représente un concept que notre application va manipuler. Il représente dans votre code quelque chose de concret, qui modèlise la réalité.
+Vous allez créer les **objets métier** pour un jeu *Pokémon*.  
+Un objet métier représente dans votre code quelque chose de concret, qui modèlise la réalité.
 
 > **Objet métier (business object)** : représentation informatique d'un objet "réel" que notre programme va manipuler pour répondre à un besoin. Dans le cas de notre application cela sera des *Pokémons*, des attaques ou des objets.  
 >
@@ -32,6 +31,7 @@ Ce TP sera réalisé avec l'IDE (**I**ntegred **D**evelopment **E**nvironment) `
 
 * Ouvrez `Git Bash`
 * Créez un dossier pour stocker le code du TP
+  * par exemple, copiez la ligne ci-dessous, puis collez là dans Git Bash (clic droit > Paste)
   * `mkdir -p /p/Cours2A/UE3_Complements_informatique/TP/TP1 && cd $_`
 * Clonez le dépôt
   * `git clone TODO`
@@ -53,14 +53,14 @@ Pour résumer en quelques mots, voici les objets que nous allons manipuler :
   * attack, defense, speed... : qui serviront déterminer la force de ses attaques
   * un type : [Attacker, Defender, All Rounder, Speedster, Supporter](https://www.ationhive.com/fr/jeux/pokemon-unite/guide/roles-des-pokemon)
 * `Statistic` : pour éviter de surcharger la classe `Pokemon`, de nombreuses stats sont stockées dans un objet de la classe `Statistic`
-* `Attack` : différents types d'attaques dont disposeront les Pokémons
-* `BattleService` : classe qui servira à faire s'affronter 2 Pokémons pour déterminer l'issue du combat (sert uniquement en fin de ce TP)
+* `Attack` : différents types d'attaques dont disposeront les Pokémons (partie 3)
+* `BattleService` : servira à faire s'affronter 2 Pokémons pour déterminer l'issue du combat (partie 4)
 
 ---
 
 ## :arrow_forward: 2. Modélisation et implémentation
 
-> Dans un premier temps, nous allons coder uniquement les **Pokémons** (la classe `Statistic` est déjà codée).
+> Dans un premier temps, nous allons coder uniquement les `Pokemons` (la classe `Statistic` est déjà codée).
 > En fonction de son type, son coefficient d'attaque dépendra de diverses statistiques.
 
 ```mermaid
@@ -236,7 +236,7 @@ Les classes de test seront organisées de la manière suivante, en reproduisant 
 
 ---
 
-## :arrow_forward: L'agrégation, l'autre façon d'ajouter de la souplesse dans le code
+## :arrow_forward: 3. L'agrégation, l'autre façon d'ajouter de la souplesse dans le code
 
 Maintenant que nos Pokémons sont faits, nous allons y ajouter les attaques.  
 
@@ -249,10 +249,38 @@ Notre système va devoir respecter certaines contraintes :
   * Des attaques à dégâts fixes qui font un nombre fixe de dégâts.
 * Un pokémon peut avoir plusieurs attaques et le type de l'attaque doit être transparent pour le pokémon.
 
+---
+
+### :small_orange_diamond: Attaques à dégâts fixes
+
+Nous allons commencer par les attaques à dégâts fixes. Comme il y aura un autre type d'attaques, toutes les attaques hériterons de la classe abstraite `AbstractAttack` déjà créée. Cette classe possède la méthode abstraite `compute_damage()` qui devra être implémentée dans les classes filles.
+
+```mermaid
+classDiagram
+
+  class AbstractAttack{
+    <<abstract>>
+    # _power : int
+    # _name : str
+    # _description : str
+    + compute_damage(APkm, APkm)$  int
+  }
+
+   class FixedDamageAttack{
+    + compute_damage(APkm,APkm )  int
+   }
+ 
+   AbstractAttack <|-- FixedDamageAttack
+```
+
+> * [ ] **Question 5** Implémentez la classe `FixedDamageAttack`, ainsi que sa méthode `compute_damage()` qui retournera simplement la puissance (*power*) de l'attaque.  
+> Créez des tests pour vérifier que tout fonctionne correctement.
+
+---
+
 ### :small_orange_diamond: Attaques à dégâts variables
 
-Nous allons commencer par coder les attaques à dégâts variables.  
-Les attaques à dégâts variables vont utiliser la formule suivante :
+Nous allons ensuite coder les attaques à dégâts variables. Elles utilisent la formule suivante :
 $$
 Damage = \big ( \frac{(\frac{2*Level}{5}+2)* Power *Att}{Def*50} +2\big) *random* other\_multipliers
 $$
@@ -270,88 +298,51 @@ La seule différence entre attaque physique et spéciale vient des coefficients 
 ```mermaid
 classDiagram
 
-   class AbstractFormulaAttack{
+  class AbstractAttack{
     <<abstract>>
-     # _power : int
-  # _name : str
-  # _description : str
-  -get_attack_stat(AbstractPokemon)$  float
-  -get_defense_stat(AbstractPokemon)$  float
-  + compute_damage(APkm,APkm)  int
- }
- 
-    class PhysicalAttack{
-  -get_attack_stat(AbstractPokemon)  float
-  -get_defense_stat(AbstractPokemon)  float
- }
- 
-    class SpecialAttack{
-  -get_attack_stat(AbstractPokemon)  float
-  -get_defense_stat(AbstractPokemon)  float 
- }
- 
- SpecialAttack--|>AbstractFormulaAttack
- PhysicalAttack--|>AbstractFormulaAttack
+    # _power : int
+    # _name : str
+    # _description : str
+    + compute_damage(APkm, APkm)$  int
+  }
 
+   class FixedDamageAttack{
+    + compute_damage(APkm,APkm )  int
+   }
+
+  class AbstractFormulaAttack{
+    <<abstract>>
+    -get_attack_stat(APkm)$  float
+    -get_defense_stat(APkm)$  float
+    +compute_damage(APkm,APkm)  int
+  }
+ 
+  class PhysicalAttack{
+    -get_attack_stat(APkm)  float
+    -get_defense_stat(APkm)  float
+  }
+ 
+  class SpecialAttack{
+    -get_attack_stat(APkm)  float
+    -get_defense_stat(APkm)  float
+  }
+ 
+   AbstractAttack <|-- FixedDamageAttack
+   AbstractAttack <|-- AbstractFormulaAttack
+   AbstractFormulaAttack <|-- SpecialAttack
+   AbstractFormulaAttack <|-- PhysicalAttack
 ```
 
 La classe `AbstractFormulaAttack` va contenir :
 
-* la méthode concrète (en opposition à abstraite) `compute_damage(pkmon_attacker: AbstratPokemon, pkmon_targeted: AbstractPokemon)` . Cette méthode va contenir la formule de calcul des dégâts, mais en appelant les méthodes  `get_attaque_stat(AbstratPokemon)` et `get_defense_stat(AbstratPokemon)` pour savoir quelle statistique utiliser
-* les méthodes abstraites `get_attack_stat(AbstratPokemon)` et `get_defense_stat(AbstratPokemon)`. Ces méthodes devront être implémentées dans les classes filles pour déterminer quelles statistiques utiliser.
+* la méthode `compute_damage(pkmon_attacker: AbstratPokemon, pkmon_targeted: AbstractPokemon)`. Cette méthode va contenir la formule de calcul des dégâts, mais en appelant les méthodes  `get_attaque_stat(AbstractPokemon)` et `get_defense_stat(AbstractPokemon)` pour savoir quelle statistique utiliser
+* les méthodes abstraites `get_attack_stat(AbstractPokemon)` et `get_defense_stat(AbstractPokemon)`. Ces méthodes devront être implémentées dans les classes filles pour déterminer quelles statistiques utiliser.
 
-> * [ ] **Question 6** : Implémenter les 3 classes ci-dessus et créez des tests pour vérifier que tout fonctionne correctement
-
----
-
-### :small_orange_diamond: Attaques à dégâts fixes
-
-Maintenant nous allons faire des attaques à dégâts fixes. Ces attaques ont un comportement très différents de nos attaques déjà faites, donc les faire hériter de `AbstractFormulaAttack` n'aurait pas de sens. À la place nous allons faire un autre niveau d'héritage
-
-```mermaid
-classDiagram
-
-class AbstractAttack{
- <<abstract>>
- # _power : int
- # _name : str
- # _description : str
- +compute_damage(APkm, APkm)$  int
- }
- class FixedDamageAttack{
-  + compute_damage(APkm,APkm )  int
- }
-    class AbstractFormulaAttack{
-    <<abstract>>
-  -get_attack_stat(APkm)$  float
-  -get_defense_stat(APkm)$  float
-  +compute_damage(APkm,APkm)  int
- }
- 
-    class PhysicalAttack{
-  -get_attack_stat(APkm)  float
-  -get_defense_stat(APkm)  float
- }
- 
-    class SpecialAttack{
-  -get_attack_stat(APkm)  float
-  -get_defense_stat(APkm)  float
- }
- 
- FixedDamageAttack--|>AbstractAttack
- AbstractFormulaAttack--|>AbstractAttack
- SpecialAttack--|>AbstractFormulaAttack
- PhysicalAttack--|>AbstractFormulaAttack
-
-```
-
-La méthode `compute_damage` de la nouvelle classe `FixedDamageAttack` retournera juste la puissance (*power*) de l'attaque.
-
-> * [ ] **Question 7** Implémentez les 2 nouvelle classes et créez des tests pour vérifier que tout fonctionne correctement
+> * [ ] **Question 6** : Implémentez les 3 nouvelles classes et créez des tests pour vérifier que tout fonctionne correctement
 
 ---
 
-## :arrow_forward: Architecture finale (bonus, si vous avez le temps)
+## :arrow_forward: 4. Architecture finale (bonus, si vous avez le temps)
 
 Nous allons maintenant rattacher les bouts pour créer notre architecture finale :
 
@@ -425,13 +416,13 @@ classDiagram
 
 ```
 
+> * [ ] **Question 7** : Implémentez le diagramme de classe ci-dessus et testez votre code en écrivant de nouveaux tests unitaires.
+
 Cette architecture permet de décorréler les attaques des pokémons et de spécifier le comportement des attaques au fur et à mesure des héritages. Les avantages sont :
 
-* Pour la classe `AbstractPokemon`, toutes les attaques sont des `AbstractAttack`. Tant qu'elles exposent la méthode `compute_damage` notre programme va fonctionner. On peut ainsi facilement ajouter de nouveau type d'attaque sans problème.
-* Un *Pokémon* peut avoir des attaques de tous les types sans difficultés
+* Pour la classe `AbstractPokemon`, toutes les attaques sont des `AbstractAttack`. Tant qu'elles exposent la méthode `compute_damage` notre programme va fonctionner. On peut ainsi facilement ajouter de nouveaux types d'attaques sans problème.
+* Un *Pokémon* peut avoir des attaques de tous les types
 * Nous pouvons ajouter un système d'état comme la paralysie ou le poison assez facilement. Il faut pour cela modifier la classe `AbstractAttack` et les classes qui en héritent. Cela sera potentiellement long, mais ne demande pas de toucher à la partie "*Pokémon*" de notre architecture.
-* Une personne pourrait se concentrer sur la création des *Pokémons* alors qu'une autre pourrait se concentrer sur celles des attaques sans difficulté. Les deux parties du code sont relativement indépendante, la seule zone de couplage sont les classes `AbstractPokemon` et `AbstractAttack`, qui servent avant tous à définir ce qui doit être fait par les classes filles et ce qui est accessible à l'extérieur. **Ainsi tant que chaque personne implémente ce qui doit l'être dans sa partie et n'appelle que les méthodes abstraites publiques, la développement de l'application se passera dans de bonne condition.**
+* Une personne pourrait se concentrer sur la création des *Pokémons* alors qu'une autre pourrait se concentrer sur celles des attaques sans difficulté. Les deux parties du code sont relativement indépendantes, la seule zone de couplage sont les classes `AbstractPokemon` et `AbstractAttack`, qui servent avant tout à définir ce qui doit être fait par les classes filles et ce qui est accessible à l'extérieur.
 
-Le fait d'externaliser le comportement des attaques dans des classes spécifiques puis de les lier aux Pokémon via une relation d'agrégation assez souple qui permet de changer dynamiquement les attaques d'un Pokémon est le patron de conception *strategy*.
-
-> * [ ] **Question 8** : Implémentez le diagramme de classe ci-dessus et testez votre code en écrivant de nouveaux tests unitaires.
+Le fait d'externaliser le comportement des attaques dans des classes spécifiques puis de les lier aux Pokémons via une relation d'agrégation assez souple qui permet de changer dynamiquement les attaques d'un Pokémon est le patron de conception *strategy*.
