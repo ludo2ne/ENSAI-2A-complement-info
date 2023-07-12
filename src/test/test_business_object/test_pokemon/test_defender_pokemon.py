@@ -13,7 +13,9 @@ class TestDefenderPokemon(TestCase):
             attack=attack,
             defense=defense
         ))
+
         # WHEN
         multiplier = snorlax.get_pokemon_attack_coef()
+
         # THEN
         self.assertEqual(2, multiplier)

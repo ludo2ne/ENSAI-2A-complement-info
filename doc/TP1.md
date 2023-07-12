@@ -238,25 +238,34 @@ Les classes de test seront organisées de la manière suivante, en reproduisant 
 
 ## :arrow_forward: L'agrégation, l'autre façon d'ajouter de la souplesse dans le code
 
-Maintenant que nos *Pokémons* sont faits, nous allons y ajouter les attaques.  
+Maintenant que nos Pokémons sont faits, nous allons y ajouter les attaques.  
 
 Notre système va devoir respecter certaines contraintes :
 
 * Plusieurs types d'attaques vont coexister, chacune avec un mode de calcul de dégâts différent :
-  * Des attaques "normales" qui utilisent l'attaque et la défense des Pokémons
-  * Des attaques "spéciales" qui utilisent l'attaque spé et la défense spé des Pokémons
+  * Des attaques  à dégâts variables séparées en 2 types :
+    * attaques "physiques" qui utilisent l'attaque et la défense des Pokémons
+    * attaques "spéciales" qui utilisent l'attaque spé et la défense spé des Pokémons
   * Des attaques à dégâts fixes qui font un nombre fixe de dégâts.
 * Un pokémon peut avoir plusieurs attaques et le type de l'attaque doit être transparent pour le pokémon.
 
 ### :small_orange_diamond: Attaques à dégâts variables
 
-Les attaques à dégâts variables vont utiliser la formule classique dégât de pokémon :
+Nous allons commencer par coder les attaques à dégâts variables.  
+Les attaques à dégâts variables vont utiliser la formule suivante :
 $$
 Damage = \big ( \frac{(\frac{2*Level}{5}+2)* Power *Att}{Def*50} +2\big) *random* other\_multipliers
 $$
-avec $Att$​ et $Def$​​ pouvant valoir l'attaque ou l'attaque spé et défense ou défense spé, $Power$​ la valeur de puissance de l'attaque, $random$​​ une valeur comprise dans l'intervalle [0.85; 1] et $other\_multipliers$​​ tous les autres multiplicateurs possible, comme le coefficient d'attaque des pokémons.
 
-Comme nous souhaitons juste modifier 2 facteurs de notre attaque, sans modifier la formule générale, nous allons utiliser le patron de conception *template method*, dont voici la modélisation UML dans notre cas :
+avec :
+
+* $Att$​ : égal soit à l'attaque ou l'attaque spé
+* $Def$​​ : égal soit à la défense ou défense spé
+* $Power$​ : la valeur de puissance de l'attaque
+* $random$​​ :une valeur comprise dans l'intervalle [0.85; 1]
+* $other\_multipliers$​​ : les autres multiplicateurs possible, comme le coefficient d'attaque des pokémons.
+
+La seule différence entre attaque physique et spéciale vient des coefficients $Att$ et $Def$, le reste de la formule des dégâts est identique. Nous allons donc utiliser le patron de conception *template method*, dont voici la modélisation UML dans notre cas :
 
 ```mermaid
 classDiagram
@@ -290,50 +299,6 @@ La classe `AbstractFormulaAttack` va contenir :
 
 * la méthode concrète (en opposition à abstraite) `compute_damage(pkmon_attacker: AbstratPokemon, pkmon_targeted: AbstractPokemon)` . Cette méthode va contenir la formule de calcul des dégâts, mais en appelant les méthodes  `get_attaque_stat(AbstratPokemon)` et `get_defense_stat(AbstratPokemon)` pour savoir quelle statistique utiliser
 * les méthodes abstraites `get_attack_stat(AbstratPokemon)` et `get_defense_stat(AbstratPokemon)`. Ces méthodes devront être implémentées dans les classes filles pour déterminer quelles statistiques utiliser.
-
-Pour simplifier le code va ressembler à cela *(ce code est uniquement là pour vous donner un exemple !!!!)* :
-
-```python
-# abstract_formula_attck.py
-from abc import ABC
-class AbstractFormulaAttack(ABC):
- def __init__(power: int, name:str, description: str):
-  self._power: int = power
-  self._name: str = name
-  self._description: str = description
- 
- def compute_damage(pkmon_attacker : AbstractPokemon, pkmon_targeted : AbstractPokemon):
-        damage = self._power * self.get_attack_stat(pkmon_attacker)/self.get_defense_stat(pkmon_targeted) #ceci n'est pas la bonne formule
-        return damage
-    
-    @abstractmethod
-    def get_attack_stat(pkmon_attacker: AbstractPokemon):
-        pass
-    
-    @abstractmethod
-    def get_defense_stat(pkmon_targeted: AbstractPokemon):
-        pass
-    
-# physical_attack.py
-from business_object.pokemon.abstract_pokemon import AbastractPokemon
-class PhysicalAttack(AbstractFormulaAttack):
-    def get_attack_stat(pkmon_attacker: AbstractPokemon):
-        return pkmon_attacker.current_attack
-    
-
-    def get_defense_stat(defender: pkmon_targeted):
-        return pkmon_targeted.current_defense
-
-# special_attack.py
-from business_object.pokemon.abstract_pokemon import AbastractPokemon
-class SpecialAttack(AbstractFormulaAttack):
-    def get_attack_stat(pkmon_attacker: AbstractPokemon):
-        return pkmon_attacker.current_spe_atk
-    
-
-    def get_defense_stat(pkmon_targeted: AbstractPokemon):
-        return pkmon_targeted.current_spe_def
-```
 
 > * [ ] **Question 6** : Implémenter les 3 classes ci-dessus et créez des tests pour vérifier que tout fonctionne correctement
 
@@ -380,7 +345,7 @@ class AbstractAttack{
 
 ```
 
-La méthode `compute_damage`de la nouvelle classe `FixedDamageAttack` retournera juste la puissance (*power*) de l'attaque.
+La méthode `compute_damage` de la nouvelle classe `FixedDamageAttack` retournera juste la puissance (*power*) de l'attaque.
 
 > * [ ] **Question 7** Implémentez les 2 nouvelle classes et créez des tests pour vérifier que tout fonctionne correctement
 
