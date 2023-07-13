@@ -1,6 +1,6 @@
 ---
 title: TP 1 : Retour sur la POO, objets métier et patron de conception *strategy*
-author: Rémi Pépin
+author: Ludovic Deneuville
 subject: Complément informatique
 keywords: [POO, patron de conception]
 header:  ${title} - ${author}
@@ -38,10 +38,27 @@ Ce TP sera réalisé avec l'IDE (**I**ntegred **D**evelopment **E**nvironment) `
 * Ouvrez `Visual Studio Code`
   * File > Open Folder
   * `/p/Cours2A/UE3_Complements_informatique/TP/TP1/ENSAI-2A-complement-info-TP`
-  * Ouvrez un terminal dans VSCode (CTRL + ù)
-  * listez les branches `git branch -a`
-  
+
 Lisez le fichier `README.md` et suivez les instructions.
+Puis lancez le programme **main**.py pour vous assurer que tout fonctionne correctement.
+
+* Ouvrez un terminal dans VSCode (CTRL + ù)
+  * c'est le même terminal `Git Bash` que vous avez ouvert au début
+  * mais c'est plus pratique d'avoir tout au même endroit
+* listez les branches `git branch -a`
+
+Vous avez la possibilité de consulter la correction en changeant de branche si et seulement si vous êtes bloqué trop longtemps.  
+Voici quelques commandes git utiles :
+
+```git
+# Avant de changer de branches, créez un point de sauvegarde de votre travail
+git add .
+git commit -am "<message>"
+
+# changer de branche
+git checkout <nouvelle_branche>      # dans le terminal, la branche courante est indiquéée entre ()
+git checkout -                       # pour retourner à la branche précédente
+```
 
 ---
 
@@ -289,8 +306,8 @@ $$
 
 avec :
 
-* $Att$​ : égal soit à l'attaque ou l'attaque spé
-* $Def$​​ : égal soit à la défense ou défense spé
+* $Att$​ : égal soit à l'attaque ou l'attaque spé du Pokemon attaquant
+* $Def$​​ : égal soit à la défense ou défense spé du Pokemon défenseur
 * $Power$​ : la valeur de puissance de l'attaque
 * $random$​​ :une valeur comprise dans l'intervalle [0.85; 1]
 * $other\_multipliers$​​ : les autres multiplicateurs possible, comme le coefficient d'attaque des pokémons.
@@ -319,20 +336,20 @@ classDiagram
     +compute_damage(APkm,APkm)  int
   }
  
-  class PhysicalAttack{
+  class PhysicalFormulaAttack{
     -get_attack_stat(APkm)  float
     -get_defense_stat(APkm)  float
   }
  
-  class SpecialAttack{
+  class SpecialFormulaAttack{
     -get_attack_stat(APkm)  float
     -get_defense_stat(APkm)  float
   }
  
    AbstractAttack <|-- FixedDamageAttack
    AbstractAttack <|-- AbstractFormulaAttack
-   AbstractFormulaAttack <|-- SpecialAttack
-   AbstractFormulaAttack <|-- PhysicalAttack
+   AbstractFormulaAttack <|-- SpecialFormulaAttack
+   AbstractFormulaAttack <|-- PhysicalFormulaAttack
 ```
 
 La classe `AbstractFormulaAttack` va contenir :
@@ -359,11 +376,6 @@ classDiagram
     +get_pokemon_attack_coef()$  float
     +level_up() None
   }
-  
-  class BattleService {
-    + resolve_fight(APkm,APkm)
-    + resolve_attack(APkm,APkm, ATck)
-  }  
  
   class Statistique {
     - hp : int
@@ -373,12 +385,34 @@ classDiagram
     - spe_def : int
     - vitesse : int
   }
- 
+   
+  class BattleService {
+    + resolve_battle(APkm, APkm) : Battle
+    + get_order(APkm, APkm)
+    + choose_attack(APkm) : AAttack
+  }  
+  
+  class Battle{
+    - first_monstie : APkm
+    - second_monstie : APkm
+    - winner : APkm
+    - rounds : List<Round>
+  }
+
+  class Round{
+    attacker: APkm
+    defender: APkm
+    dealt_damage: int
+    attack_description: str
+  }
   BattleService ..>"2" AbstractPokemon : use
   AbstractPokemon <|-- Attacker
   AbstractPokemon <|-- Defender
   AbstractPokemon <|-- AllRounder
-   Statistique *-- AbstractPokemon
+  Statistique *-- AbstractPokemon
+
+  Battle .. BattleService
+  Battle .. Round
  
   class AbstractAttack{
     <<abstract>>
@@ -399,20 +433,20 @@ classDiagram
     + compute_damage(APkm,APkm ) int
   }
  
-  class PhysicalAttack{
+  class PhysicalFormulaAttack{
    -get_attack_stat(APkm)$  float
    -get_defense_stat(APkm)$  float
   }
  
-  class SpecialAttack{
+  class SpecialFormulaAttack{
     -get_attack_stat(APkm)  float
     -get_defense_stat(APkm)  float
   }
  
   AbstractAttack <|-- FixedDamageAttack
   AbstractAttack <|-- AbstractFormulaAttack
-  AbstractFormulaAttack <|-- SpecialAttack
-  AbstractFormulaAttack <|-- PhysicalAttack
+  AbstractFormulaAttack <|-- SpecialFormulaAttack
+  AbstractFormulaAttack <|-- PhysicalFormulaAttack
   BattleService >.. AbstractAttack  : use
   AbstractPokemon o-->"0..*" AbstractAttack
 
