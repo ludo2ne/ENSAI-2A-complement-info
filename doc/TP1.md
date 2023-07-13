@@ -34,12 +34,14 @@ Ce TP sera réalisé avec l'IDE (**I**ntegred **D**evelopment **E**nvironment) `
   * par exemple, copiez la ligne ci-dessous, puis collez là dans Git Bash (clic droit > Paste)
   * `mkdir -p /p/Cours2A/UE3_Complements_informatique/TP/TP1 && cd $_`
 * Clonez le dépôt
-  * `git clone TODO`
+  * `git clone git@github.com:ludo2ne/ENSAI-2A-complement-info-TP.git`
 * Ouvrez `Visual Studio Code`
   * File > Open Folder
-  * TODO
+  * `/p/Cours2A/UE3_Complements_informatique/TP/TP1/ENSAI-2A-complement-info-TP`
   * Ouvrez un terminal dans VSCode (CTRL + ù)
   * listez les branches `git branch -a`
+  
+Lisez le fichier `README.md` et suivez les instructions.
 
 ---
 
