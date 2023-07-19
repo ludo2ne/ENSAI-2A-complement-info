@@ -1,0 +1,33 @@
+@startuml
+scale 1.5
+abstract class AbstractEquipement {
+	#_nom String
+    #_id  int
+	 }
+
+abstract class AbstractArme <<abstract>> {
+    #_description_utilisation : String
+    #_base_attaque : int
+    +DATABASE_TYPE_LABEL : String
+    +utiliser_arme(Statistique) int
+}
+
+	 
+class Statistique {
+	 -__force : int
+	 -__agilite : int
+	 -__magie : int
+	 -__defense : int
+	 -__points_de_vie  : int
+}
+
+Statistique "1"--* AbstractEquipement
+AbstractEquipement <|-- AbstractArme
+Epee --|> AbstractArme
+Baton --|> AbstractArme
+Arc --|> AbstractArme
+AbstractArme <|-- Couteau
+AbstractArme <|-- Lance
+AbstractArme <|-- Livre
+
+@enduml

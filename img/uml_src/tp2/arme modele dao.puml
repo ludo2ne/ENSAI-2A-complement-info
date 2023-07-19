@@ -1,0 +1,52 @@
+@startuml
+scale 1.5
+abstract class AbstractEquipement {
+	#_nom String
+    #_id  int
+	 }
+
+abstract class AbstractArme <<abstract>> {
+    #_description_utilisation : String
+    #_base_attaque : int
+    +DATABASE_TYPE_LABEL : String
+    +utiliser_arme(Statistique) int
+}
+
+	 
+class Statistique {
+	 -__force : int
+	 -__agilite : int
+	 -__magie : int
+	 -__defense : int
+	 -__points_de_vie  : int
+}
+
+class ArmeDAO{
++ create(AbstractArme) : AbstractArme
++ find_by_name(str) : AbstractArme
++ find_all() : list[AbstractArme]
++ update(AbstractArme) : boolean
++ delete(AbstractArme) : boolean
+}
+
+class PoolConnection{
+ - __instance PoolConnection
+ + getConnexion() : connection 
+ + closeConnexions() : boolean 
+ + getInstance() : SimpleConnectionPool 
+ + putBackConnexion(connection) : None 
+}
+
+AbstractArme<.left. ArmeDAO: <<create>>
+ArmeDAO..> PoolConnection: <<use>>
+
+Statistique "1"--* AbstractEquipement
+AbstractEquipement <|-- AbstractArme
+Epee --|> AbstractArme
+Baton --|> AbstractArme
+Arc --|> AbstractArme
+AbstractArme <|-- Couteau
+AbstractArme <|-- Lance
+AbstractArme <|-- Livre
+
+@enduml

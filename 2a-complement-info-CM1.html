@@ -1,0 +1,937 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Complements d'informatique CM1</title>
+    <link rel="icon" href="reveal/img/ensai_logo_transparent.png" type="image/x-icon">
+
+
+    <link rel="stylesheet" href="reveal/css/reveal.css">
+    <link rel="stylesheet" href="reveal/css/theme/solarized.css">
+    <link rel="stylesheet" href="reveal/css/mine.css">
+    <link rel="stylesheet" href="reveal/css/simple-grid.css">
+
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="reveal/lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'reveal/css/print/pdf.css' : 'reveal/css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+
+
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'reveal/css/print/mine-pdf.css' : 'reveal/css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'reveal/css/theme/white.css' : 'reveal/css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section>
+                <section>
+                    <h1>Compléments info,  CM1</h1>
+                    <h3>Retour sur la POO</h3>
+                    <p>DENEUVILLE Ludovic (sur la base des cours de Rémi Pépin)</p>
+                    <p>ludovic.deneuville@ensai.fr</p>
+                </section>
+            </section>  
+			
+
+                <section>
+
+                    <section>
+                        <h2>Généralités</h2>                        
+                    </section>
+
+                    <section>
+                        <h3>But du cours</h3>
+                        <div class="important-bloc">
+                            Vous apporter les connaissances nécessaires pour mener à bien un projet informatique.
+                        </div>
+                        <ul>
+                            <li class="fragment">Comprendre les développeurs</li>
+                            <li class="fragment">Dépasser les 50 lignes de code</li>
+                            <li class="fragment">Conduire un projet</li>
+                            <li class="fragment">Travailler en équipe</li>
+                        </ul>
+                    </section>
+					
+					<section>
+						<h2>Retour sur la 1A</h2> 
+						
+						Qu'avez vous appris ?
+                           
+                        <aside class="notes">
+							SQL, Algo, Python, POO, Documentation, Git
+                        </aside>
+					</section>
+
+                    <section>
+                        <h3>Le programme</h3>
+                        <ol>
+                            <li>Analyse fonctionnelle, génie logiciel</li>
+                            <li>Programmation orientée objet avancée</li>
+                            <li>Communication avec une base de données en python</li>
+                            <li>Sécurité informatique</li>
+                            <li>Communication client-serveur</li>
+                            <li>Le versionnage avec git</li>
+                        </ol>
+                    </section>
+					
+                    <section>
+                        <h3>Le plan d'aujourd'hui</h3>
+                        <div class="container" style="font-size: xx-large;">
+                            <div class="col">
+                                <ol >
+                                    <li>L'analyse fonctionnelle
+                                        <ol><li>Définition</li>
+                                            <li>Diagrammes UML</li>
+                                        </ol>
+                                    </li>                                    
+                                        
+                                    <li>L'architecture logiciel
+                                        <ol>
+                                            <li>Définition</li>
+                                            <li>Séparation des responsabilités</li>
+                                        </ol>
+                                    </li>
+                                   
+                                </ol>
+                            </div>
+                            <div class="col" >
+                                <ol start="3">
+                                <li>Notions avancées de POO
+                                    <ol>
+                                        <li>Rappels</li>
+                                        <li>Classes abstraites</li>
+                                        <li>Bridge pattern</li>
+                                    </ol>
+                                </li>
+                                <li>Génie logiciel
+                                    <ol>
+                                        <li>Définition</li>
+                                        <li>Single responsibility principle</li>
+                                        <li>Design patterns</li>
+                                    </ol>
+                                </li>
+                            </ol>
+                            </div>
+                        </div>
+                        
+                           
+                        <aside class="notes">Programme assez vaste. Uniquement 1h30 donc il faut aller vite.
+                            Vous approfondirez les notions en TP.
+                        </aside>
+    
+                    </section>
+    
+            </section>
+
+
+            <section>
+                <section>
+                    <h2>Analyse fonctionnelle</h2>
+                    <iframe src="https://giphy.com/embed/l0HlQngl0Eja36dlS" width="960" height="540" frameBorder="0"
+                        class="giphy-embed no-print" allowFullScreen></iframe>
+						
+                    <aside class="notes">
+						Les questions qu'il faut se poser avant de commencer :
+                        <ul>
+							<li> Qu'est ce qu'on fait ? Qui le fait</li>
+							<li> Besoins du client</li>
+							<li> Fonctionnalités requises / optionnelles / bonus</li>
+							<li> Bien gérer les priorités</li>
+							<li> Répartition des rôles dans l'équipe </li>
+						</ul>
+					</aside>
+                </section>
+
+                <section>
+                    <h3>C'est quoi l'analyse fonctionnelle ?</h3>
+                    <ul>
+                        <li>Première étape de tous les projets</li>
+                        <li>Détermine les <span class="important">fonctions</span>, <span
+                                class="important">acteurs</span> du produit pour répondre aux <span
+                                class="important">besoins</span>
+                            du client
+                        </li>
+                        <li>Diagrammes pour échanger avec le client</li>
+                        <li>Priorise les travaux</li>
+                    </ul>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>Permet de s'approprier le sujet</li>
+                            <li>Ce n'est pas du temps perdu car rajouter des fonctionnalités non prévues
+                                est extrêmement compliqué
+                            </li>
+                            <li>Cette phase sera la première partie du rapport intermédiaire</li>
+                        </ul>
+                    </aside>
+                </section>
+                
+                <section>
+                    <img src="https://www.zentao.pm/file.php?f=201712/f_2a1ca764ce384a33d056f8256f6a1ce5&t=jpg&o=&s=&v=1512957254" alt="">
+					
+					<aside class="notes">
+                        <ul>
+                            <li>Important de discuter</li>
+                            <li>Reformulez</li>
+                            <li>Utilisez des mots simples</li>
+                            <li>Imaginez que vous expliquez le projet à vos grands parents</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Les questions à se poser </h3>
+                    <ul>
+                        <li>Quels sont les types d'utilisateurs qui vont utiliser mon application (administrateur, gestionnaire,
+                            client, etc.) ?</li>
+                        <li>Quelles sont les fonctionnalités ? Fonctionnalités communes entre les profils ?</li>
+                        <li>Comment fonctionnent les processus de l'application ?</li>
+						<li>Quels sont les diagrammes à utiliser ?</li>
+                    </ul>
+					
+                    <aside class="notes">
+                        <ul>
+							<li>Pour les premières questions diagramme de cas d'utilisation</li>
+							<li>Processus -> diagramme d'activité</li>
+                        	<li>Pourquoi faire des diagrammes ? D'un coup d'oeil on a toutes les infos</li>
+						</ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Les diagrammes UML</h3>
+                    <ul>
+                        <li>Cours de 1A</li>
+                        <li>UML 2.5, Pascal Roques, Eyrolles, Mémento (bibliothèque Ensai)</li>
+                    </ul>
+
+                    <aside class="notes">
+						Pas le temps de vous refaire un cours. <br>
+						Il y a des ressources à la bibliothèque et sur internet. <br>
+						Demandez à votre tuteur ce qu'il attend
+                    </aside>
+                </section>
+
+                <section>
+                    <iframe src="https://giphy.com/embed/TgF6xfH8V0mZcUyneP" width="960" height="540" frameBorder="0"
+                        class="giphy-embed no-print" allowFullScreen></iframe>
+
+                    <aside class="notes">Le cours va vraiment commencer donc si vous avez quelques question go !</aside>
+
+                </section>
+
+            </section>
+
+            <section>
+                <section>
+                    <h2>Architecture logicielle</h2>
+                    <img src="https://media.giphy.com/media/yoJC2s3ppnJ7P8m80M/giphy.gif" alt="" class="plain no-print">
+                </section>
+				
+                <section>
+					<h3>C'est quoi l'architecture logicielle?</h3>
+					<ul>
+						<li>Le pendant technique de l'analyse fonctionnelle</li>
+						<li>Maintenant que l'on a le <span class="important">qui et quoi</span>, on
+							détermine le <span class="important">comment</span></li>
+						<li>On dessine le code de notre application</li>
+						<li>Vision macro de notre application (agencement des grandes pièces)</li>
+					</ul>
+	
+					<aside class="notes">
+						Pour le moment on ne fait pas encore de code. <br>
+						On va seulement faire une ébauche de notre application avec les composants qui la compose (aussi bien logique que physique). <br>
+						Par exemple dans votre cas vous allez sûrement avoir :
+						<ul>
+							<li>Un code python qui tourne sur votre ordinateur</li>
+							<li>Un webservice externe qui vous fournis des données</li>
+							<li>Une base de données postgres.</li>
+						</ul>
+						C'est déjà 3 composants, mais rapidement on en beaucoup et il faut savoir comment les agencer
+					</aside>
+				</section>
+
+				<section>
+					<h3>Pourquoi c'est important : parallèle avec l'architecture </h3>
+	
+					<img src="https://media.giphy.com/media/3o6MbsNhExCQT940Le/giphy-downsized.gif" alt="" class="plain no-print">
+				</section>
+				
+				<section>
+					<h3>Pourquoi c'est important : parallèle avec l'architecture </h3>
+					<ul>
+						<li>Pièces, l'installation électrique, l'eau, le gaz, contraintes législatives,
+							s'adapter au terrain ...
+						</li>
+						<li>Besoin de réfléchir comment il faut agencer tout ça dès le début</li>
+						<li>Si on construit au fil de l'eau on risque d'avoir une maison incohérente (au mieux)</li>
+						<li><span class="important">Ce n'est pas du temps perdu !</span></li>
+					</ul>
+	
+					<aside class="notes">Certains personnes disent même qu'on devrait passer plus de temps à analyser
+						qu'à coder. Sujet à débat, mais montre bien que la phase analyse (comment je code les fonctions)
+						est super important ! <br>
+						ChatGPT peut presque coder à notre place.
+					</aside>
+				</section>
+				
+				<section>
+					<h3>Un grand principe : separation of concerns</h3>
+					<img class="plain w80 no-print" src="img/shreck_layers.webp" alt="">
+	
+					<aside class="notes">J'espère pas être trop vieux T_T</aside>
+				</section>
+	
+				<section>
+					<h3>Un grand principe : separation of concerns</h3>
+					<img src="img/3 couches.png" alt="" class="w80">
+	
+					<aside class="notes">Version macro en 3 couches.
+						<ul>
+							<li>Présentation : tout ce qui se charge de l'affichage</li>
+							<li>Business : c'est le métier de votre application, sa plu value</li>
+							<li>Data : gère le stockage. Plus de détails dans quelques minutes</li>
+						</ul>
+	
+						Chaque couche communique avec celles adjacentes. <br>
+						Une couche a juste à savoir comment elle doit demander une information et ce qu'on lui retourne <br>
+						Pas évident mais très important !!!
+					</aside>
+	
+				</section>
+	
+				<section>
+					<h3>Les principales couches d'une application</h3>
+					<ul>
+						<li><b><u>Présentation :</u></b> tout ce qui se charge de l'affichage (page web, console, fenêtre)</li>
+						<li><b><u>Métier :</u></b> c'est le métier de votre application, sa <span class="important">plus-value</span></li>
+						<li><b><u>Persistance :</u></b> gère la persistance des données. Base de données ou système de fichiers</li>
+					</ul>
+				</section>
+	
+				<section>
+					<h3>Pour votre projet</h3>
+					<ul>
+						<li><b><u>Présentation :</u></b> terminal</li>
+						<li><b><u>Métier :</u></b> votre code python</li>
+						<li><b><u>Persistance :</u></b> base de données</li>
+					</ul>
+					
+					<aside class="notes">
+                        <ul>
+                            Démo avec projet 2A 2022-2023
+                        </ul>
+                    </aside>
+				</section>	
+	
+				<section>
+					<h3>Zoom sur la couche métier</h3>
+					<img src="img/Zoom metier.png" class ="w90" alt="">
+					
+					<aside class="notes">
+                        A l'intérieur de la couche Métier, plusieurs couches. <br>
+						Dans les TP
+                        <ul>
+							<li> Couche présentation : View (on navigue entre des vues)</li>
+							<li> DAO, business_object, service</li>
+							<li> Controleur (client) : Il reçoit les demandes de l'utilisateur via l'interface utilisateur (par exemple, une requête HTTP dans le cas d'une application Web) et appelle les services appropriés pour exécuter les actions demandées.</li>
+                        </ul>
+                    </aside>
+				</section>
+				
+				<section>
+					<h3>Les couches de la couche métier 1/2</h3>
+					<ul>
+						<li><b><u>DAO (<em>Data access object</em>) :</u></b>
+							<ul>
+								<li>c'est la partie de votre code qui communique avec la base de données (CM3/TP3)</li>
+							</ul>
+						<li><b><u>Service :</u></b>
+							<ul>
+								<li>code métier</li>
+								<li>manipule des objets métiers pour créer de 
+									l'information ou de la valeur</li>
+								<li>Demande des objets à la couche DAO</li>
+								<li>Appelle les webservices externes (TP2-3)</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Les couches de la couche métier 2/2</h3>
+					<ul>
+						<li><b><u>Objets métiers :</u></b>
+							<ul>
+								<li>couche transversale</li>
+								<li>représentent des concepts métiers que votre code va manipuler</li>
+								<li>objets avec surtout des attributs et peu de méthodes</li>
+							</ul>
+						</li>
+						<li><b><u>Contrôleur :</u></b>
+							<ul>
+								<li>récupère les inputs des	utilisateurs</li>
+								<li>renvoie les données à afficher (TP 4)</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Pourquoi séparer en couche ?</h3>
+					<ul>
+						<li>Travail en groupe 🦸‍♀️🧙‍♂️👨‍💼👩‍🔬 </li>
+						<li>Lisibilité du code 📖 </li>
+						<li>Débogages 🐞</li>
+					</ul>
+					<div class="fragment important-box">Limiter les risques d'erreurs quand on modifie le code (éviter
+						l'assiette de spaghetti) 🍝</div>
+	
+					<aside class="notes">Il faut savoir qu'un code doit être lisible par les autres. <br>
+						Et les autres ça peut être soi-même dans 2 mois. Blague sur relecture de code. <br>
+						Si on a un code bien séparé, différentes équipes peuvent travailler en parallèle. <br/>
+						Et séparer en couche permet de trouver rapidement la source de problème
+					</aside>
+				</section>
+	
+	
+				<section>
+					<h3>Informations à retenir</h3>
+					<ul>
+						<li>Passer du temps à réfléchir aux différents modules d'une application n'est pas une perte
+							de temps 🕵️‍♀️
+						</li>
+						<li>Diviser en couche permet de travailler en parallèle 🧪🧫📚</li>
+						<li>Mais il faut encore réfléchir à comment bien coder 🤖</li>
+					</ul>
+				</section>
+
+            </section>
+
+            <section>
+                <section>
+                    <h2>Programmation orientée objet avancée</h2>
+                    <img src="img/meme padme.jpg" alt="">
+                    <aside class="notes">
+                        Rapides rappels, mais je ne peux ne pas faire un cours de POO <br>
+						Principes de la POO ?
+                    </aside>
+                </section>
+				
+                <section>
+                    <h3>Quelques rappels</h3>
+                    Les trois principes de l'objet :
+                    <ul>
+                        <li><b class="red">Encapsulation :</b> <span> un objet va contenir des
+                                <span class="important">attributs</span> et des <span class="important">méthodes</span>
+                            </span></li>
+                        <li><b class="red">Héritage :</b> <span> un objet peut <span class="important">hériter</span> des
+                                attributs et méthodes d'une autre classe pour les <span class="important">redéfinir</span>. Il va pouvoir également ajouter d'autres attributs/méthodes
+                            </span></li>
+                        <li><b class="red">Polymorphisme :</b> <span>une méthode peut être
+                                associée à un <span class="important">code différent</span> en fonction des paramètres passés ou de l'objet à qui elle appartient </span></li>
+                    </ul>
+                    <aside class="notes">
+                        Ce sont les trois principes qu'apporte la programmation orientée objet. Ils sont présentés par 
+                        ordre de "simplicité". La qualité de votre code va dépendre de votre maîtrise et application de ces
+                        principes. Cela prend du temps (il m'a fallu environ 2 ans en temps que dev pour bien les comprendre) <br>
+                        <ul>
+                            <li>Attribut : ce qu'il est</li>
+                            <li>Méthode : ce qu'il peut faire</li>
+                            <li>Héritage : Nouvelles capacités (ex : Médecin -> Chirurgien)</li>
+                            <li>Polymorphisme : 2 types (liste d'Animal.parler(malade=True)</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Un exemple pour illustrer tous ça</h3>
+                    Application de traitements automatiques des données :
+                    <ul>
+                        <li>Plusieurs sources de données : enquêtes, webscrapping, fichiers administratifs, ...</li>
+                        <li>Plusieurs formats de données : csv, xml, json, ... (<i>on en reparlera</i>)</li>
+                        <li>Plusieurs algo de traitements : stat exploratoire, régression, "machine learning", ...</li>
+                    </ul>
+                    <aside class="notes">
+                        Fondamentalement c'est une application assez simple. 
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Exemple de diagramme de classe</h3>
+                    <img src="img/uml/class_diagram_no_poo.png" alt="">
+                    <aside class="notes">
+						Voyer vous des choses à corriger ? <br>
+						Est-ce que la méthode process sera la même pour un csv, un json
+					</aside>
+                </section>
+                
+
+                <section>
+                    <h3>Un exemple avec de l'héritage</h3>
+                    <img src="img/uml/class_diagram_poo1.png" alt="class diagram 1" class="plain w80">
+                    <aside class="notes">
+                        La classe Source permet de centraliser des attributs communs, et de définir des méthodes
+                        communes, mais ces méthodes vont être surchargée par les classes filles. <br>
+                        Grâce au polymorphisme j'ai un comportement différent mais le code est clair, avec une partie
+                        commune à touts les types de fichier et une partie spécifique.
+                        <br />
+                        Code dans le dossier exemple poo
+                    </aside>
+
+                </section>
+
+
+                <section>
+                    <h3>Les classes abstraites</h3>
+                    <div class="important-box"><span class="important">Classe Abstraite </span>: classe dont
+                        l'implémentation n'est <span class="important">pas
+                            complète</span> et qui n'est <span class="important">pas instantiable</span>. Permet de
+                        passer un <span class="important">contrat</span>,
+                        les classes filles vont devoir implémenter ce qui manque.
+                    </div>
+                    <div>
+                        <p>Avantages :
+                        <ul>
+                            <li>On sait ce que toutes les classes filles doivent faire 👍</li>
+                            <li>On peut générer du code 🙏</li>
+                            <li>Limitent le risque d'erreur !! 👌</li>
+                        </ul>
+                        </p>
+
+                    </div>
+                    <aside class="notes">
+                        Certains objet n'ont pas besoin d'être implémenté complètement ni de pourvoir
+                        être instantiable. Souvent c'est pour des notions abstraites. <br>
+						Une bonne pratique, est d'associer à chaque concept concret, et concept abstrait.<br> 
+						Mais cela alourdi le code, alors on ne va pas faire ça. On va faire des concepts abstrait qui vont sens.
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Par exemple</h3>
+                    <img src="img/uml/class_diagram_poo_abstract_class.png" alt="class diagram with abstract class"
+                        class="plain">
+                    <aside class="notes">
+                        Pour vous cela peut sembler marginal comme changement (surtout à cause de python), mais ce 
+                        changement permet de manipuler l'abstraction au lieu des implémentations et avoir un code 
+                        propre (vous ferez ça en tp)
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Et en python ?</h3>
+                    <ul>
+                        <li>Pas de gestion native des classes abstraites 😱</li>
+                        <li>Module Abstract Base Classes (abc) pour résoudre le problème 🦾 </li>
+                        <li>Déjà inclus dans votre distribution python 😌</li>
+                            <ul>
+                                <li>Step 1 - Importer le module 🧳</li>
+                                <li>Step 2 - Hériter de ABC 👨‍👩‍👧‍👦</li>
+                                <li>Step 3 - Définir les méthodes abstraites 📝 </li>
+                                <li>Step 4 - ???</li>
+                                <li>Step 5 - Profit 💰💰</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <aside class="notes">L'autre gros défaut de python est son typage dynamique. Python va typer 
+                        les objets au runtime, et pas au compile time. Cela ne permet pas d'avoir autant d'outil
+                        que dans d'autres langages. Mais vous pouvez utiliser les docstring pour typer vos objets.
+                    </aside>
+                </section>
+
+
+                <section>
+                    <h3>Et si on ajoutait les formats de données ?</h3>
+                    <p>
+                        Actuellement 3 formats de données dans notre application :
+                    </p>
+                    <ul>
+                        <li>CSV : Comma Separated Values (tabulaire)</li>
+                        <li>XML : eXtended Markup Language (format à balise)</li>
+                        <li>Json : JavaScript Object Notation (format clef-valeur)  </li>
+                    </ul>
+                    <aside class="notes">
+                        On reviendra plus en détail sur les différents format
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Par exemple</h3>
+                    <img src="img/uml/class_diagram_poo_file_format.png" alt="class diagram with abstract class"
+                        class="plain w80">
+                        <p>Voyez-vous un problème ?</p>
+
+                    <aside class="notes">
+                        C'est gros !
+                    </aside>
+                </section>
+                <section>
+                    <h3>La puissance de la POO</h3>
+                    <ul>
+                        <li>Actuellement 4 * 3 classes "concrètes" à définir 😱</li>
+                        <li>La lecture du format est dépendante de la source 😵</li>
+                    </ul>
+                    <p>MAIS 🌽</p>
+                    <ul>
+                        <li>On peut externaliser ce traitement ! 😌</li>
+                        <li>Relation d'agrégation 🤯</li>
+                    </ul>
+                    <aside class="notes">
+                        Il faut bien comprendre que la POO permet de simplifier ce genre de chose avec l'héritage
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Le bridge pattern</h3>
+                    <img src="img/uml/class_diagram_poo_bridge_pattern.png" alt="" class="plain">
+                    <aside class="notes">
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Work smart, not hard</h3>
+                    <ul>
+                        <li >Composition + héritage : 9 classes 😎</li>
+                        <li >Héritage : 17 classes 😫</li>
+                        <li >On peut facilement ajouter des types et des formats 🥳</li>
+                    </ul>
+                    <p></p>
+                    <div class="fragment important-box">
+                        <span class="important"> Pattern Bridge 🌉 :</span> découpage d'une grosse
+                        classe en un groupe de petites classes avec leur propre hiérarchie qu'il faut
+                        ensuite assembler.
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Pour résumer</h3>
+                    <ul>
+                        <li>Utiliser la puissance de la POO 💣</li>
+                        <li>Préférer les objets spécifiques (héritage) au if/elif/else 🐱‍🏍</li>
+                        <li>Les classes abstraites sont des plans pour les futures classes 👷‍♀️👷‍♂️</li>
+                        <li>La POO permet de créer des codes plus lisibles, évolutifs et maintenables 👑</li>
+                    </ul>
+                </section>
+
+
+            </section>
+
+            <section>
+                <section>
+                    <h2>Le génie logiciel</h2>
+                    <video autoplay data-src="https://media.giphy.com/media/bU3bD2rsKq02Q/giphy.mp4" width="600"
+                        loop class="no-print"></video>
+                        <aside class="notes">On va aller un cran au dessus</aside>
+                </section>
+
+                <section>
+                    <h3>C'est quoi le génie logiciel ?</h3>
+                    <ul>
+                        <li>Un constat : coder bêtement ne permet pas de faire une application de qualité
+                        </li>
+                        <li>Mais empiler des briques bêtement ne permet pas de faire une maison même si on a un plan
+                        </li>
+                        <li>Besoin de planifier, de documenter, de tester, etc. </li>
+                    </ul>
+
+                    <aside class="notes">Et cette partie sera la seconde du rapport intermédiaire</aside>
+                </section>
+
+
+                <section>
+                    <h3>Pourquoi c'est important : parallèle la construction d'une maison</h3>
+
+                    <img src="https://media.giphy.com/media/l2JeblbdfRL0i2qOI/giphy.gif" alt="" class="plain no-print">
+                </section>
+                <section>
+                    <h3>Pourquoi c'est important : parallèle avec la construction d'une maison</h3>
+                    <ul>
+                        <li>Vous avez le plan de construction d'une maison (fournis par l'architecte)</li>
+                        <li>Mais implémenter ce plan demande des connaissances techniques</li>
+                        <li>Besoin de refaire des schémas pour des zones précises  (arches, escaliers ...)</li>
+                        <li><span class="important">Ce n'est pas du temps perdu !</span></li>
+                    </ul>
+                    <p class="fragment important-box">Faire du code de qualité c'est comme faire de l'artisanat de précision,
+                        cela demande outils, expérience et méthodes.
+                    </p>
+
+                    <aside class="notes">Certains personnes disent même qu'on devrait passer plus de temps à analyser
+                        qu'à coder. Sujet à débat, mais montre bien que la phase analyse (comment je code les fonctions)
+                        est super important !
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Quelques principes de base</h3>
+                    <ul>
+                        <li>Décomposition d'un programme en modules simples <span class="important">cohérents</span></li>
+                        <li>Les modules <span class="important">exposent</span> des méthodes utilisables / surchargeable par d'autres
+                            modules mais restent protégés aux modifications non prévues
+                        </li>
+                        <li>Chaque module doit être une <span class="important">boîte noire</span> pour les autres
+                        </li>
+                        <li>Si on garde les mêmes <span class="important">entrées/sorties</span> on peut changer un
+                            module sans risque
+                        </li>
+                        <li>Privilégier abstractions + héritage que if/elif/else 
+                        </li>
+                    </ul>
+
+                    <aside class="notes">
+                        Module archi != module python
+                        Couche c'est quand on a des modules empilés (beaucoup de voc à assimiler d'un coup)
+                        <br>
+                        Faire un dessin avec et sans. <br>
+						Expliquer que c'est le boulot d'un objet métier de dire comme il s'affiche et comment on le stocke. <br>
+						Pareil c'est pas le boulot d'une vue de faire un calcul. Par contre une vue peut demander.
+                        <br>
+                        Bien insister sur "l'indépendance des couches". Théoriquement si deux personnes travaillent sur 2
+                        couches et se sont mises d'accord sur comment elles communiquent le travail peut se faire en
+                        parallèle.
+                    </aside>
+                </section>
+
+
+
+
+                <section>
+                    <h3>Un mantra</h3>
+                    <p class="important-bloc">Faible couplage, forte cohérence</p>
+
+                    <ul>
+                        <li><span class="important">Faible couplage inter-classes </span> : modifier une classe doit
+                            impacter les autres le moins possible
+                        </li>
+                        <li><span class="important"> Forte cohérence intra-classe</span> : chaque classe doit être un
+                            ensemble cohérent d'attributs et méthodes
+                        </li>
+                    </ul>
+
+
+                    <aside class="notes">Garder ça en tête dès que vous faîte du code (R, Sas ...). Fonction le plus
+                        unitaire possible pour pouvoir la tester/la remplacer. Exploser votre code en plusieurs fichiers
+                        pour être réutilisable facilement. Pas facile au début, mais il faut y penser.
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Faible couplage, forte cohérence : pourquoi le respecter ?</h3>
+                    <ul>
+                        <li>Travail en groupe 🦸‍♀️🧙‍♂️👨‍💼👩‍🔬 </li>
+                        <li>Lisibilité du code 📖 </li>
+                        <li >Débogages 🐞</li>
+                    </ul>
+                    <div class="fragment important-box">Limiter les risques d'erreur quand on modifie le code (éviter
+                        l'assiette de spaghetti) 🍝</div>
+
+                    <aside class="notes">Spaghetti : code très chaotique ou on a l'impression que tout communique avec
+                        tout,
+                        et que chaque code fait un peu de tout. Besoin de prendre un bout de code et de le remonter à la
+                        main
+                        en "tirant" dessus. Ingérable quand il y a +1k lignes code (et différents langages)
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Retour sur le bridge pattern</h3>
+                    <img src="img/uml/class_diagram_poo_bridge_pattern.png" alt="" class="plain">
+                    <aside class="notes">
+						Je remontre le schéma quelques secondes
+                    </aside>
+                </section>
+				
+                <section>
+                    <h3>Retour sur le bridge pattern</h3>
+                    <ul>
+                        <li>La partie "Source" gère les traitements liés à la source</li>
+                        <li>La partie "Fichier" gère la lecture de fichier</li>
+                        <li>Seules les entrées/sorties comptent</li>
+                        <li>On peut ajouter une partie "Traitement" pour des traitements
+                            supplémentaires</li>
+                        <li>Pas de if/elif/else inutiles</li>
+                    </ul>
+                    <div class="important-bloc fragment">Chaque partie de notre code s'occupe d'une seule chose</div>
+					
+                    <aside class="notes">
+                        Avantages :
+                        <ul>
+                            <li>lecture du code facilité</li>
+                            <li>en cas de bug facile de trouver le coupable</li>
+                            <li>on peut répartir le travail facilement</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Les design patterns : histoire</h3>
+                    <div class="container">
+                        <div class="col">
+                            <ul>
+                                <li data-fragment-index="1">1994 : <em>Design Patterns – Elements of
+                                        Reusable Object-Oriented
+                                        Software</em> du <em>Gang of Four</em></li>
+                                <li>23 patrons au début</li>
+                                <li>Aujourd'hui environ 40</li>
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <img src="https://images-eu.ssl-images-amazon.com/images/I/51kuc0iWoKL._SY445_QL70_ML2_.jpg"
+                                alt="" data-fragment-index="1">
+                        </div>
+                    </div>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>1977 :<em>A Pattern Language</em> de Chistopher Alexander est un livre
+                                d'architecture qui a pour but de fournir des modèles prêt à l'emploi pour
+                                différents problèmes</li>
+                            <li>Avec le temps et la maîtrise des concepts on les retrouve. C'est épanouissant,
+                                mais on n'a pas toujours le temps de faire ça. Se hisser sur les épaules de géants comme
+                                pour les autres sciences.
+                            </li>
+                        </ul>
+                    </aside>
+                </section>
+				
+                <section>
+                    <h3>Les design patterns : définition</h3>
+                    <blockquote cite="https://fr.wikipedia.org/wiki/Patron_de_conception">
+                        &ldquo;En informatique, et plus particulièrement en développement logiciel, un patron de
+                        conception (souvent appelé design pattern) est un arrangement caractéristique de modules,
+                        reconnu comme bonne pratique en réponse à un problème de conception d'un logiciel. Il décrit une
+                        solution standard, utilisable dans la conception de différents logiciels.&rdquo;
+                    </blockquote>
+                </section>
+				
+                <section>
+                    <h3>Les design patterns : in a nutshell</h3>
+                    <ul>
+                        <li>Bonnes pratiques</li>
+                        <li>Solutions standards à des problèmes de conception</li>
+                        <li>Solutions robustes</li>
+                        <li>Indépendants de la technologie</li>
+                        <li>Indépendants du métier</li>
+                    </ul>
+                    <p class="important-bloc fragment">Est un outil qui est là pour vous aider</p>
+					
+                    <aside class="notes">
+                        En plus ils apportent un vocabulaire commun. <br>
+						Il est plus rapide de répondre "tu devrais utiliser un bridge" que "tu devrais faire une seconde hiérarchie de classes et assembler ces hiérarchies"
+                    </aside>
+                </section>
+				
+                <section>
+                    <h3>Les design patterns : exemple</h3>
+                    <p><b>Problème récurent :</b></p>
+                    <ul>
+                        <li>Créer des objets complexes qui sont une composition de caractéristiques
+                            indépendantes </li>
+                        <li>Dit autrement : découpler l'abstraction de son implémentation
+                            pour qu'elles puissent varier indépendamment</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Les design patterns : exemple</h3>
+                    <img src="img/uml/bridge_pattern.png" alt="">
+                    <p>C'est la forme "pure" du bridge pattern</p>
+                </section>
+                <section>
+                    <h3>Les design patterns : exemple</h3>
+                    <img src="img/uml/class_diagram_poo_bridge_pattern.png" alt="" class="plain">
+                    <aside class="notes">
+                    </aside>
+                </section>
+                <section>
+                    <h3>Les design patterns : exemple</h3>
+                    <img src="img/uml/class_diagram_poo_bridge_pattern_advanced.png" alt="" class="plain">
+                    <aside class="notes">
+                        A partir de la forme pure on peut la décliner à l'infini
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Pour résumer</h3>
+                    <ul>
+                        <li>Faire une application complexe demande un code complexe 🧩</li>
+                        <li>Sans phase de conception on va dans le mur 🧱</li>
+                        <li>Il existe des solutions prêtes à l'emploi à des problèmes courants 🧰</li>
+                    </ul>
+                    <div class="important-box fragment">Faible couplage, forte cohérence</div>
+                </section>
+
+                <section>
+                    <h3>Les design patterns : ressources utiles</h3>
+                    <ul>
+                        <li>Design patterns : catalogue de modèles de conception réutilisables / Erich Gamma ; Richard
+                            Helm, ; Ralph Johnson ; John Vlissides ; Jean-Marie Lasvergères </li>
+                        <li><a href="https://refactoring.guru/design-patterns">Refactoring guru</a></li>
+                        <li><a href="https://github.com/faif/python-patterns">Python Patters github</a></li>
+                        <li><a href="https://www.youtube.com/c/ArjanCodes">Chaîne YT ArjanCodes</a></li>
+                    </ul>
+                </section>
+
+            </section>
+            
+
+      
+
+            <section>
+                <h2>That's all folks</h2>
+                <img src="https://media.giphy.com/media/7yojoQtevjOCI/giphy-downsized.gif" alt="" class="plain no-print">
+            </section>
+
+        </div>
+    </div>
+
+    <script src="reveal/dist/reveal.js"></script>
+    <script src="reveal/plugin/zoom/zoom.js"></script>
+    <script src="reveal/plugin/notes/notes.js"></script>
+    <script src="reveal/plugin/search/search.js"></script>
+    <script src="reveal/plugin/markdown/markdown.js"></script>
+    <script src="reveal/plugin/highlight/highlight.js"></script>
+    <script>
+
+        // Also available as an ES module, see:
+        // https://revealjs.com/initialization/
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            center: true,
+            hash: true,
+            viewDistance: 3,
+            width: 1080,
+            height: 720,
+            slideNumber: 'c/t',
+            pdfSeparateFragments: false ,
+            // Learn about plugins: https://revealjs.com/plugins/
+            plugins: [RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight]
+        });
+
+    </script>
+
+</body>
+
+</html>
+

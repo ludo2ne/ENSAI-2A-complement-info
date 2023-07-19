@@ -1,0 +1,39 @@
+@startuml
+scale 1.5
+abstract class  AbstractPersonnage <<abstract>> {
+	#_nom : String
+	#_phrase_attaque : String
+	#_phrase_defense : String
+	+degats_attaque() float    
+	}
+
+class PersonnagesService {
+	+attaque() String
+}
+
+class Magicien {
+	#_nom : String
+	#_phrase_attaque : String
+	#_phrase_defense : String
+	+degats_attaque() float    
+}
+
+class Guerrier {
+	#_nom : String
+	#_phrase_attaque : String
+	#_phrase_defense : String
+	+degats_attaque() float    
+}
+
+class Voleur {
+	#_nom : String
+	#_phrase_attaque : String
+	#_phrase_defense : String
+	+degats_attaque() float    
+}
+
+	PersonnagesService ..> AbstractPersonnage : <<use>>
+	Magicien -up-|> AbstractPersonnage
+	Guerrier -up-|> AbstractPersonnage
+	Voleur -up-|> AbstractPersonnage
+@enduml

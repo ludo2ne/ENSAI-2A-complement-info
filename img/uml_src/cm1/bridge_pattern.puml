@@ -1,0 +1,45 @@
+@startuml
+scale 2
+
+abstract class Abstraction << abstract >> {
+
++ operation()
+# {abstract} refined_operation()
+
+
+}
+
+class RefinedAbstraction1 {
+    # refined_operation()
+}
+
+class RefinedAbstraction2 {
+    # refined_operation()
+}
+
+abstract class Implementator << abstract >> {
+
+# {abstract} operation_to_implement()
+
+}
+
+class ConcreteImplementor1 {
+    # operation_to_implement()
+}
+
+class ConcreteImplementor2 {
+    # operation_to_implement()
+}
+
+Abstraction <|-- RefinedAbstraction1
+Abstraction <|-- RefinedAbstraction2
+
+Implementator <|-- ConcreteImplementor1
+Implementator <|-- ConcreteImplementor2
+
+
+note "operation() : self.implementator.operation_to_implement()" as N
+Abstraction .up. N
+Abstraction o-right- Implementator
+
+@enduml

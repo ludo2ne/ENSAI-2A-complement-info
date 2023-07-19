@@ -1,0 +1,46 @@
+@startuml
+scale 1.5
+abstract class AbstractPersonnage 	<<abstract>> {
+	#_phrase_attaque : String 
+	#_phrase_defense : String 
+	+degats_attaque() float
+    }
+	 
+
+abstract class AbstractEquipement <<abstract>> {
+	#_nom : String
+}
+	 
+class Statistique {
+	 -__force : int
+	 -__agilite : int
+	 -__magie : int
+	 -__defense : int
+	 -__points_de_vie : int
+}
+
+class PersonnagesService {
+	+attaquer() float
+	+changer_arme(AbstractPersonnage,Arme) None
+}
+
+class Arme{
+	#_base_attaque : int
+}
+
+
+AbstractPersonnage <.right. PersonnagesService : <<use>>
+Arme <.. PersonnagesService : <<use>>
+
+
+
+AbstractPersonnage *-right-"1" Statistique
+Arme "0..1"<-- AbstractPersonnage
+AbstractEquipement <|-- Arme
+AbstractEquipement *-down-"1" Statistique
+
+Magicien -up-|> AbstractPersonnage
+Guerrier -up-|> AbstractPersonnage
+Voleur -up-|> AbstractPersonnage
+
+@enduml

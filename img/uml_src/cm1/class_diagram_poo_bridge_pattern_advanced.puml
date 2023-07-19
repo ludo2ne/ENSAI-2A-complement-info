@@ -1,0 +1,84 @@
+@startuml
+scale 2
+abstract class AbstractSource << abstract >> {
+    - String name
+    - Date start_collect
+    - Date end_collect
+
+    - common_process()
+    # {abstract} custom_process()
+    + process()
+
+}
+
+class Survey {
+    # custom_process()
+}
+
+class Census {
+    # custom_process()
+}
+
+class Webscrapping {
+    # custom_process()
+}
+
+class AdministrativeFile {
+    # custom_process()
+}
+
+
+abstract class AbstractFile << abstract >> {
+    - String path
+    #  {abstract} void parse()
+}
+
+class JsonFile {
+    # void parse()
+}
+
+class CsvFile {
+    # void parse()
+}
+
+class XmlFile {
+    # void parse()
+}
+
+
+abstract class AbstractStatisticalProcess << abstract >> {
+    # {abstract} void statistical_process()
+}
+
+class Exploration {
+    # void statistical_process()
+}
+
+class Regression {
+    # void statistical_process()
+}
+
+class KMeans{
+    # void statistical_process()
+}
+
+
+AbstractSource <|-- Survey
+AbstractSource <|-- Census
+AbstractSource <|-- Webscrapping
+AbstractSource <|-- AdministrativeFile
+
+AbstractFile <|-up-JsonFile
+AbstractFile <|-up-CsvFile
+AbstractFile <|-up-XmlFile
+
+
+AbstractStatisticalProcess <|-up- Exploration
+AbstractStatisticalProcess <|-up- Regression
+AbstractStatisticalProcess <|-up- KMeans
+
+
+AbstractSource o-right-"1" AbstractFile
+AbstractSource o-left-"1" AbstractStatisticalProcess
+
+@enduml

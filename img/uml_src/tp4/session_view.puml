@@ -1,0 +1,47 @@
+@startuml
+scale 1.5
+
+abstract class  AbstractView <<abstract>> {
+{static} #_session : Session
+{abstract} +display_info() : None
+{abstract} +make_choice() : AbstractView
+}
+
+class WelcomeView{
++display_info() : None
++make_choice() : AbstractView
+}
+class PersonnageView{
+
++display_info() : None
++make_choice() : AbstractView
+}
+
+class MonsterView{
++display_info() : None
++make_choice() : AbstractView
+}
+
+class CreationPersonnageView{
++display_info() : None
++make_choice() : AbstractView
+}
+
+
+
+class Session{
++personnafe_actif : AbstractPersonnage
++monstre_actif : Monstre
+
+}
+
+
+Session "1"<--o AbstractView
+AbstractView <|-left- WelcomeView
+AbstractView <|-- PersonnageView
+AbstractView <|-- MonsterView
+AbstractView <|-- CreationPersonnageView
+
+AbstractView..>AbstractView : <<create>>
+
+@enduml

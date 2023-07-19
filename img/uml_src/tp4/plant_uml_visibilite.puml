@@ -1,0 +1,13 @@
+@startuml
+scale 1.5
+
+class MaSuperClasse{
+    + attribut_public
+    - __attribut_privé
+    # _attribut_protégé
+    + methode_publique()
+    - __méthode_privée()
+    # _méthode_protégée()
+}
+
+@enduml
