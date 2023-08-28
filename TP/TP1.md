@@ -25,10 +25,11 @@ Ce TP sera réalisé avec l'IDE (**I**ntegred **D**evelopment **E**nvironment) `
   * par exemple, copiez la ligne ci-dessous, puis collez là dans Git Bash (clic droit > Paste)
   * `mkdir -p /p/Cours2A/UE3_Complements_informatique/TP/TP1 && cd $_`
 * Clonez le dépôt
-  * `git clone git@github.com:ludo2ne/ENSAI-2A-complement-info-TP.git`
+  * `git clone https://github.com/ludo2ne/ENSAI-2A-complement-info-TP.git`
 * Ouvrez `Visual Studio Code`
   * File > Open Folder
-  * `/p/Cours2A/UE3_Complements_informatique/TP/TP1/ENSAI-2A-complement-info-TP`
+    * Aller dans `/p/Cours2A/UE3_Complements_informatique/TP/TP1/`
+    * cliquer sur  `ENSAI-2A-complement-info-TP`, puis sur le bouton **Sélectionner un dossier**
 
 Lisez le fichier `README.md` et suivez les instructions.
 Puis lancez le programme **main**.py pour vous assurer que tout fonctionne correctement.
@@ -59,7 +60,7 @@ Notre jeu s'inspirera de *Pokémon Unite* (aucune connaissance du jeu, ni de *Po
 Pour résumer en quelques mots, voici les objets que nous allons manipuler :
 
 * `Pokemon` : qui ont diverses caractéristiques et statistiques
-  * hp : health point
+  * hp : health points
   * attack, defense, speed... : qui serviront déterminer la force de ses attaques
   * un type : [Attacker, Defender, All Rounder, Speedster, Supporter](https://www.ationhive.com/fr/jeux/pokemon-unite/guide/roles-des-pokemon)
 * `Statistic` : pour éviter de surcharger la classe `Pokemon`, de nombreuses stats sont stockées dans un objet de la classe `Statistic`
