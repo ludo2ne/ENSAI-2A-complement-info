@@ -33,7 +33,7 @@ Dans ce TP vous allez :
 
 En d'autres termes, un webservice est une application accessible via le web que l'on va pouvoir **requêter** soit pour obtenir des **ressources**, soit pour **modifier** les ressources accessibles. Un webservice peut seulement avoir pour but d'être une **point d'accès unique et normalisé** à des données (comme une interface à une base de données), mais il peut également être une **manière de contrôler un système d'information** (lancer des travaux, les mettre en attente, récupérer des résultats, etc)
 
-Les webservices utilisent le protocole HTTP qui est le protocole du web (et pas d'internet). C'est celui que vous utilisez sans le savoir avec votre navigateur web. Requêter un webservice se fait presque comme requêter une page web. Pour cela il vous faut l'adresse de la ressources, son *Uniforme Resource Identifier*, ou URI (c'est une notion plus général que les *Uniforme Resource Locator*, ou URL), une méthode (GET, POST, PUT, DELETE, [liste des méthodes](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods)), et potentiellement des données.
+Les webservices utilisent le protocole HTTP qui est le protocole du web (et pas d'internet). C'est celui que vous utilisez sans le savoir avec votre navigateur web. Requêter un webservice se fait presque comme requêter une page web. Pour cela il vous faut l'adresse de la ressource, son *Uniforme Resource Identifier*, ou URI (c'est une notion plus générale que les *Uniforme Resource Locator*, ou URL), une méthode (GET, POST, PUT, DELETE, [liste des méthodes](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods)), et potentiellement des données.
 
 ### :writing_hand:Hands on 1 : découverte d'Insomnia et premières requêtes `GET`
 
@@ -52,7 +52,7 @@ Les webservices utilisent le protocole HTTP qui est le protocole du web (et pas 
   - [Webservice](https://carbon-intensity.github.io/api-definitions/#carbon-intensity-api-v2-0-0) sur les émissions carbone du Royaume Uni :
     - `api.carbonintensity.org.uk/intensity`
     - `api.carbonintensity.org.uk/intensity/date/{date}` en remplaçant {data} par la date de votre choix au format YYYY-MM-DD
-  - [Webservice](https://data.rennesmetropole.fr/explore/?sort=modified) pour obtenir différent jeu de données ouvert de la ville de Rennes
+  - [Webservice](https://data.rennesmetropole.fr/explore/?sort=modified) pour obtenir différents jeux de données ouverts de la ville de Rennes
     - `data.rennesmetropole.fr/api/records/1.0/search?dataset=menus-cantines`
     - Testez différentes valeurs pour dataset :`eco-counter-data`, `rva-bal`, `resultats-des-elections-municipales-2020-a-acigne`
     - Ajouter à la fin de l'URI le paramètre `rows` et faites varier le nombre de lignes que vous recevez (ajouter simplement `&rows=X` à la requêter avec X le nombre de lignes)
@@ -103,7 +103,7 @@ Le principe va rester le même que faire une requête à la main, et on va utili
 Pour faire une requête `GET` vous allez seulement devoir faire : 
 
 ````python
-response = requests.get("http://example.org") # remplacez mon.url.com par un des exemples précédents
+response = requests.get("http://example.org") # remplacez http://example.org par un des exemples précédents
 ````
 
 Exécuter cette ligne de code va :
@@ -111,13 +111,13 @@ Exécuter cette ligne de code va :
 1. Envoyer la requête au serveur que vous contactez
 2. Récupérer la réponse (ie le volet de droite d'Insomnia)
 
-Cette réponse est contenu dans l'objet retourné par la fonction. Comme tout objet python il dispose d'attributs et de méthodes, et il va falloir appeler les bons pour lire le résultat.
+Cette réponse est contenue dans l'objet retourné par la fonction. Comme tout objet python il dispose d'attributs et de méthodes, et il va falloir appeler les bons pour lire le résultat.
 
 Vous pouvez faire
 
 - `response.text` pour obtenir le corps du résultat tout forme de string en laissant `requests` inférer l'encodage (cela fonctionne souvent). Problème vous avez seulement un string, et ce n'est pas le meilleur format de données à manipuler
 
-- `response.content` pour obtenir le corps du résultat comme des octets. Si vous faite un `print` vous allez bien avoir du texte (préfixé par `b'`) mais vos données ne seront pas sous forme de string. À moins d'avoir un cas d'utilisation très particulier (récupération d'image), cela ne vous servira pas
+- `response.content` pour obtenir le corps du résultat comme des octets. Si vous faites un `print` vous allez bien avoir du texte (préfixé par `b'`) mais vos données ne seront pas sous forme de string. À moins d'avoir un cas d'utilisation très particulier (récupération d'image), cela ne vous servira pas
 
 - `response.json()` pour obtenir le corps du résultat comme un `dict`. C'est ce que vous allez faire le plus souvent car le format json est un format simple à manipuler
 
@@ -128,13 +128,13 @@ Vous pouvez faire
   - 202 : requête acceptée, sans garantie du résultat (par exemple dans un système asynchrone)
   - 400 : erreur de syntaxe dans la requête
   - 401 : erreur, une authentification est nécessaire
-  - 403 : la ressource est interdite (droit insuffisant)
+  - 403 : la ressource est interdite (droits insuffisants)
   - 404 : ressource non trouvée
   - 405 : une mauvaise méthode http a été utilisée
   - 500 : erreur côté serveur
   - 503 : service temporairement indisponible
 
-  Pour résumer, un résultat 2XX indiquent un succès, un résultat 4XX ou 5XX un problème. 
+  Pour résumer, les résultats 2xx indiquent un succès, un résultat 4xx ou 5xx un problème. 
 
 - `response.encoding` pour obtenir l'encoding de votre requête (utile en cas de problème d'encoding)
 
@@ -147,7 +147,7 @@ En général la méthode qui vous intéresse est la méthode `response.json()` p
   ```` shell
   git add . #pour que git puisse voir les fichiers que vous avez crée la dernière fois
   git commit -m "Code du TP1" #pour sauvegarder le travail que vous avez fait lors du TP1
-  git checkout Tp2_base -b Tp2 #Vous récupérez le code de base du TP2 en faites une nouvelle branche pour le TP2
+  git checkout tp1_q7_correction -b tp2 #pour récupérer le code de base du TP2 et faire une nouvelle branche pour le TP2
   ````
   
 - Créez un package `client` et un fichier `attack_client.py` qui va appeler le webservice. Implémentez les méthodes suivantes : 

@@ -1,11 +1,3 @@
----
-title: TP 1 : Retour sur la POO, objets métier et patron de conception *strategy*
-author: Ludovic Deneuville
-subject: Complément informatique
-keywords: [POO, patron de conception]
-header:  ${title} - ${author}
----
-
 # TP 1 : Retour sur la POO, objets métier et patron de conception *strategy*
 
 ## :arrow_forward: 0. Avant de commencer
@@ -22,7 +14,6 @@ Vous allez créer les **objets métier** pour un jeu *Pokémon*.
 Un objet métier représente dans votre code quelque chose de concret, qui modèlise la réalité.
 
 > **Objet métier (business object)** : représentation informatique d'un objet "réel" que notre programme va manipuler pour répondre à un besoin. Dans le cas de notre application cela sera des *Pokémons*, des attaques ou des objets.  
->
 > Dans une application de e-commerce par exemple, les articles et comptes sont des objets métier. Ils permettent de séparer les données de l'application et les traitements. Cela conduit à avoir des objets contenant essentiellement des attributs et très peu de méthodes autre que des *getter* et *setter*.
 
 Ce TP sera réalisé avec l'IDE (**I**ntegred **D**evelopment **E**nvironment) `Visual Studio Code`.

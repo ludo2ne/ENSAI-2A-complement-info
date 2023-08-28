@@ -49,10 +49,10 @@
 
             <section>
                 <section>
-                    <h1>Compléments info,  CM2</h1>
+                    <h1>Compléments d'info,  CM2</h1>
                     <h3>Les webservices</h3>
-                    <p>Pépin Rémi, Ensai, 2022</p>
-                    <p>remi.pepin@ensai.fr</p>
+                    <p>DENEUVILLE Ludovic (sur la base des cours de Rémi Pépin)</p>
+                    <p>ludovic.deneuville@ensai.fr</p>
                 </section>
             </section>  
 
@@ -74,7 +74,7 @@
                             </ol>
                         </li>
                         <li>
-                            Hyper Text Trasfer Protocol
+                            Hyper Text Transfer Protocol
                             <ol>
                                 <li>Définition</li>
                                 <li>Exemples</li>
@@ -84,11 +84,7 @@
                 </section>
 
             </section>
-
-            <section class="no-print">
-                <h2>Question ?</h2>
-                <iframe src="https://giphy.com/embed/xT0xeuOy2Fcl9vDGiA" width="480" height="480" frameBorder="0" class="no-print giphy-embed" allowFullScreen></iframe>
-            </section>
+			
 
             <section>
                 <section>
@@ -144,6 +140,10 @@
 
                 <section>
                     <h2>Application Programming Interface (API)</h2>
+					
+					<aside class="notes">
+						Sert pour communiquer entre les couches
+					</aside>
                 </section>
 
                 <section>
@@ -153,6 +153,7 @@
                         qui offre des services à d'autres applications. On dit que l'application
                         <b>implémente</b> une API ou <b>expose</b> une API
                     </div>
+					
                 </section>
 
                 <section>
@@ -166,6 +167,10 @@
                         <li>Un moyen d'accéder aux ressources d'un hardware : 
                             <a href="https://developer.nvidia.com/nvapi">Nvidia API</a></li>
                     </ul>
+					
+					<aside class="notes">
+						scikit-learn is a Python module for machine learning
+					</aside>				
 
                 </section>
 
@@ -211,7 +216,7 @@
                 <section>
                     <h3>Wait what ?!</h3>
                     <p>
-                        Pourtant tout le monde utilisent les données twitter !
+                        Pourtant tout le monde utilise les données twitter !
 
                     </p>
 
@@ -230,13 +235,16 @@
                     <div class="fragment">
                         <p class="important">Problèmes</p>
                         <ul>
-                            <li>Crée du traffic artificiel (côté site)</li>
+                            <li>Crée du trafic artificiel (côté site)</li>
                             <li>Chaque changement dans le site casse notre application</li>
                             <li>Gérer le javascript 😱😱😱😱</li>
                         </ul>
                     </div>
 
-                    <aside class="notes">Dire que derrière un site il y a du HTML. Montrer un exemple ?</aside>
+                    <aside class="notes">
+					    Dire que derrière un site il y a du HTML. <br>
+						Montrer un exemple ?
+					</aside>
                 </section>
 
                 <section>
@@ -252,6 +260,11 @@
 
                 <section>
                     <h3>Démo</h3>
+					
+					<aside class="notes">
+						Exemple : https://api.gouv.fr/documentation/api_data_gouv <br>
+						https://anapioficeandfire.com/
+					</aside>
                 </section>
 
                 <section>
@@ -261,7 +274,12 @@
                         <li class="fragment important">Accessible via requête HTTP/HTTPS</li>
                         <li class="fragment">Sans interface graphique</li>
                         <li class="fragment important">Renvoie des données compréhensibles par les machines (JSON, XML...)</li>
-                    </ul>
+                    </ul>			
+					
+					<aside class="notes">
+						Webservice : une api particulière que nous allons utiliser
+					</aside>
+					
                 </section>
 
                 <section>
@@ -271,6 +289,10 @@
                         <li>SOAP : plus complet donc plus lourd que le REST, xml</li>
                         <li>RPC : Remote Procedure Call</li>
                     </ul>
+					
+					<aside class="notes">
+						REST est un style architectural qui définit un ensemble de contraintes et de principes					
+					</aside>					
                 </section>
 
                 <section>
@@ -285,7 +307,12 @@
                 <section>
                     <h3>Exemple</h3>
                     <a href="https://data.rennesmetropole.fr/api/records/1.0/search/?dataset=etat-du-trafic-en-temps-reel">
-                        Le traffic à Rennes en temps réel</a>
+                        Le trafic à Rennes en temps réel</a>
+						
+					<aside class="notes">
+						https://data.rennesmetropole.fr/explore/dataset/export-api-parking-citedia/api/
+					</aside>				
+					
                 </section>
 
                 <section>
@@ -368,8 +395,8 @@
 
                 <section>
                     <h3>Comparaison avec vie réelle</h3>
-                    <p class="fragment">Vous rentrez dans un taxi et demandez d'allez
-                        chez Rémi Pépin
+                    <p class="fragment">Vous rentrez dans un taxi et demandez d'aller
+                        chez Ludovic Deneuville
                     </p>
                     <p class="fragment">Deux options :</p>
                     <ul>
@@ -400,7 +427,7 @@
                         <li class="fragment">Serveur : répond aux clients</li>
                         <li class="fragment">Ne connaissent que les adresses IP</li>
                         <li class="fragment"> DNS : nom de domaine -> IP</li>
-                        <li class="fragment">Plusieurs ports chacun avec un type de comunication associée par défaut.
+                        <li class="fragment">Plusieurs ports chacun avec un type de communication associée par défaut.
                         </li>
                         <li class="fragment important">Communique via HTTP</li>
                     </ul>
@@ -446,7 +473,8 @@
                         <li>Le corps de la requête</li>
                     </ul>
                     <aside class="notes">
-                        Les paramètre son derière le ? le corps vous ne le voyez pas, mais possible de le voir
+                        Les paramètres sont derrière le ? <br>
+						le corps vous ne le voyez pas, mais possible de le voir
                     </aside>
                 </section>
 
@@ -470,8 +498,11 @@
                         <li>DELETE</li>
                     </ul>
                     <div class="fragment important-bloc ">C'est le CRUD !</div>
+					
+					<aside class="notes">
+						Comme en SQL
+					</aside>
                 </section>
-
 
 
                 <section>
@@ -577,8 +608,7 @@ def delete_all_rules(rules):
                         <ul>
                             <li>Très facile</li>
                             <li><code>res.json()</code> retourne un dictionnaire</li>
-                            <li><code>get()</code> peux devenir <code>post()</code> <code>put()</code> etc  </li>
-                            <li>Attention à la gestion de l'authentification </li>
+                            <li><code>get()</code> peux devenir <code>post()</code>, <code>put()</code>, etc.  </li>
                         </ul>
 
                     </section>
@@ -600,7 +630,13 @@ def delete_all_rules(rules):
                             <li><a href="https://www.djangoproject.com/">Django</a> : mature, robuste, complète</li>
                             <li class="fragment highlight-important""><a href="https://fastapi.tiangolo.com/">FastApi</a> : jeune, leger, moderne</li>
                         </ul>
+						
+						<aside class="notes">
+							FastApi pour le TP2
+						</aside>
+						
                     </section>
+					
                     <section>
                         <h3>FastApi : les bases </h3>
                         <pre><code data-trim data-noescape>
