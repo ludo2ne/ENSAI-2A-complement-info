@@ -100,7 +100,7 @@ En d'autre termes nous allons essayer de faire :
 * des classes **les plus disjointes possible** (*faible couplage*) pour qu'une modification dans une classe ne nous demande pas de modifier les autres
 * tout en essayant d'avoir **les tâches réalisées par une seule classe les plus liées possible** (*forte cohésion*).
 
-### :small_orange_diamond: Première approche : le « `if/elif/else` » :skull
+### :small_orange_diamond: Première approche : le « `if/elif/else` » :skull:
 
 Ouvrez le code, et observez la classe `Pokemon`. Nous nous interessons à la méthode `get_pokemon_attack_coef()` qui va servir à déterminer la puissance de l'attaque en fonction du type de *Pokémon*.
 
