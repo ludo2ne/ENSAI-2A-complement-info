@@ -50,8 +50,8 @@
                 <section>
                     <h1>Compléments info,  CM3</h1>
                     <h3>DAO et sécurité</h3>
-                    <p>Pépin Rémi, Ensai, 2022</p>
-                    <p>remi.pepin@ensai.fr</p>
+                    <p>DENEUVILLE Ludovic (sur la base des cours de Rémi Pépin)</p>
+                    <p>ludovic.deneuville@ensai.fr</p>
                 </section>
             </section>  
 
@@ -67,7 +67,7 @@
                             </ol>
                         </li>
                         <hr>
-                        <li>Sécurité informatique
+                        <li>Sécurité Informatique
                             <ol>
                                 <li>Définition</li>
                                 <li>Failles de sécurité</li>
@@ -111,22 +111,30 @@
                         <li>Carte graphique : unité de calcul spécialisée</li>
                     </ul>
 
-                    <aside class="notes">Bien insister sur CPU, RAM, disque ! Rendent 3 services différents
-                        <br>
+                    <aside class="notes">Bien insister sur CPU, RAM, disque ! Rendent 3 services différents <br>
                         <b>Faire un dessin</b>
+						<ul>
+							<li>CPU : processeur</li>
+							<li>DD : disque</li>
+							<li>RAM : barettes</li>
+						
                     </aside>
                 </section>
 
 
                 <section>
                     <h3>Comment résoudre ce problème ?</h3>
-
                     <img src="https://media2.giphy.com/media/a5viI92PAF89q/giphy.gif?cid=790b76119068737928a0a3e1282ee7ff952e04585d31791e&rid=giphy.gif"
                         class="plain w80 no-print" alt="Batman pensif">
+
+                    <aside class="notes">
+						Conserver les données une fois le programme terminé
+					</aside>						
+						
                 </section>
 
                 <section>
-                    <h3>Une question à ce poser</h3>
+                    <h3>Une question à se poser</h3>
                     <p>C'est quoi une variable python ?</p>
                     <ul class="fragment">
                         <li>Une référence (le nom de la variable)</li>
@@ -153,14 +161,17 @@
                 <section>
                     <h3>Pour résumer</h3>
                     <p>
-                        On veut sauvegarder des couples clef-valeur, avec des valeurs qui peuvent être elles-mêmes
-                        constituées de couples clef-valeur
+                        On veut sauvegarder des couples clef-valeur<br>
+						Avec des valeurs qui peuvent être elles-mêmes constituées de couples clef-valeur
                     </p>
 
                     <p class="fragment important">On veut sauvegarder un arbre 🌳
                     </p>
 
-                    <aside class="notes">Besoin d'un dessin, parallèle avec les dict python</aside>
+                    <aside class="notes">
+						Besoin d'un dessin <br>
+						Parallèle avec les dict python / json
+					</aside>
 
                 </section>
 
@@ -169,23 +180,24 @@
                     <h3>Comment faire ça ?</h3>
 
                     <ul>
-                        <li class="fragment">Écrire nos données sur le disque dur dans un fichier (sérialisation, format
-                            json, xml ...) <img class="plain icon no-print" src=https://img.icons8.com/dusk/48/000000/hdd.png>
+                        <li class="fragment">
+							Écrire nos données sur le disque dur dans un fichier 
+							(csv, json, xml ...) <img class="plain icon no-print" src=https://img.icons8.com/dusk/48/000000/hdd.png>
                         </li>
-                        <li class="fragment">Utiliser une base de données (SQL tables + relations; No-SQL) <img
+                        <li class="fragment">
+							Utiliser une base de données (SQL tables + relations; No-SQL) <img
                                 class="plain icon no-print" src="https://img.icons8.com/clouds/100/000000/favorite-database.png">
                         </li>
                     </ul>
 
                     <aside class="notes">
+						Pour les notions seront expliquées la semaine prochaine<br>
+						Question : Comment fait une BDD ? 
                         <ul>
-                            <li>Pour les notions seront expliquée la semaine prochaine</li>
-                            <li>Demander comment la base fait à leur avis ? Elle gère dans des fichiers
-                                et la on peut faire le parallèle avec les couches. La bdd rend un service, j'ignore
-                                comment
-                                elle
-                                fait mais je sais ce qu'elle attend en entrée et ce qu'elle me donne en sortie !
-                            </li>
+                            <li>Elle gère dans des fichiers</li>
+                            <li>on peut faire le parallèle avec les couches</li>
+							<li>La bdd rend un service, j'ignore comment elle fait</li>
+                            <li>je sais ce qu'elle attend en entrée et ce qu'elle me donne en sortie !</li>                            
                         </ul>
                     </aside>
                 </section>
@@ -224,10 +236,10 @@
                         </li>
                     </ul>
                     <aside class="notes">
-                        Placer le mot API (application programming interface). Rend un service à des clients. Comment
-                        elle
-                        fait ?
-                        Pas le problème du client. Comme vous au restaurant. Vous voulez manger, comment c'est fait vous
+                        Placer le mot API <br>
+						Rend un service à des clients. Comment elle fait ?<br>
+                        Pas le problème du client. <br>
+						Comme vous au restaurant. Vous voulez manger, comment c'est fait vous
                         importe peu tant que le service est rendu (avec un niveau d'exigence)
                     </aside>
                 </section>
@@ -244,9 +256,9 @@
                         </ul>
                     </div>
 
-                    <aside class="notes">Faire participer et essayer de montrer que ses 4 là suffisent.
-                        Après on peut avoir des raffinements en faisant des choses en masses, ou filtrer etc ...
-                        <br>
+                    <aside class="notes">Faire participer<br>
+						Essayer de montrer que ces 4 là suffisent.
+                        Après on peut avoir des raffinements en faisant des choses en masses, ou filtrer etc ...<br><br>
                         Quid de la copie ? Une copie c'est une lecture + creation donc on sait faire
                     </aside>
                 </section>
@@ -266,7 +278,10 @@
 
                     </div>
 
-                    <aside class="notes">On remet une couche (^.^) ça fait pas de mal</aside>
+                    <aside class="notes">
+						On remet une couche, ça fait pas de mal<br>
+						Dans la vraie vie, si changement de système, plus facile de migrer
+					</aside>
                 </section>
 
                 <section>
@@ -327,8 +342,8 @@ with getConnexion() as conn :
                                     , remplisage_des_trous)
                 
                             # On récupère l'id généré
-                            res = curseur.fetchone()/fetchall()/fetchmany()
-                            # utilisation du tableau
+                            res = curseur.fetchone()  # ou /fetchall()/fetchmany()
+							
                         return something
                 
                 </code></pre>
@@ -336,6 +351,11 @@ with getConnexion() as conn :
                 <section>
                     <h3>Un petit exemple : LivreDao</h3>
                     <img src="img/uml/class_diagramm_DAO.png" alt="">
+					
+                    <aside class="notes">
+						ISBN : International Standard Book Number 						
+					</aside>					
+					
                 </section>
 
 
@@ -343,23 +363,23 @@ with getConnexion() as conn :
                     <h3>Un petit exemple : LivreDao</h3>
 
                     <pre><code data-trim data-noescape python>
-def create(self, livre):
+def create(self, livre) -> Livre:
     """Pour créer un livre en base"""
-    with DBConnection().connection as conn :
-        with conn.cursor() as cursor :
+    with DBConnection().connection as conn:
+        with conn.cursor() as cursor:
             cursor.execute(
-            "INSERT INTO livre (isbm, titre,auteur)"\
-            " VALUES (%(isbm)s, %(titre)s, %(auteur)s) RETURNING id_livre;"
-            , {"isbm" :livre.isbm
-                , "titre":livre.titre
-                , "auteur":livre.auteur})
-            livre.id = cursor.fetchone()["id_livre"]          
-    return livre
-                
+                "INSERT INTO livre (isbm, titre, auteur)"
+                " VALUES (%(isbm)s, %(titre)s, %(auteur)s) RETURNING id_livre;",
+                {"isbm": livre.isbm, "titre": livre.titre, "auteur": livre.auteur},
+            )
+            livre.id = cursor.fetchone()["id_livre"]
+    return livre                
                 </code></pre>
 
-                    <aside class="notes">Exemple avec une base. Décrire le SQL, le reset c'est du technique, TP de
-                        cette aprem.
+                    <aside class="notes">
+						Exemple avec une base<br>
+						Décrire le SQL, le reste c'est du technique<br>
+						TP 3
                     </aside>
                 </section>
 
@@ -367,22 +387,29 @@ def create(self, livre):
                     <h3>Un petit exemple : LivreDao</h3>
 
                     <pre><code data-trim data-noescape>
-def find_all(self):
-"""Méthode pour récupérer tous livre en base"""
-# Récupération de la connexion
-with DBConnection().connection as conn :
-    with conn.cursor() as cursor :
-        cursor.execute(
-            "SELECT id_livre, isbm, titre,auteur FROM livre ;")
-        livre_bdd = cursor.fetchall()
-        livres= []
-        for livre in livre_bdd :
-            livres.append(Livre(
-                id=livre["id_livre"]
-                , isbm=livre["isbm"]
-                , titre=livre["titre"]
-                , auteur=livre["auteur"]))
-return livres
+def find_all(self) -> list[Livre]:
+    """Pour récupérer tous les livres en base"""
+    with DBConnection().connection as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                "SELECT id_livre,                  "
+                "       isbm,                      "
+                "       titre,                     "
+                "       auteur                     "
+                "  FROM livre ;                    "
+            )
+            livre_bdd = cursor.fetchall()
+            liste_livres = []
+            for livre in livre_bdd:
+                liste_livres.append(
+                    Livre(
+                        id=livre["id_livre"],
+                        isbm=livre["isbm"],
+                        titre=livre["titre"],
+                        auteur=livre["auteur"],
+                    )
+                )
+    return liste_livres
                 </code></pre>
 
                 </section>
@@ -392,7 +419,7 @@ return livres
                     <h3>Conclusion</h3>
 
                     <ul>
-                        <li class="fragment">Python travail en RAM (volatile) <img class="plain icon"
+                        <li class="fragment">Python travaille en RAM (volatile) <img class="plain icon"
                                 src="https://img.icons8.com/color/48/000000/the-flash-sign--v2.png">
                         </li>
                         <li class="fragment">Obligation d'avoir un mécanisme de persistance des données <img

@@ -59,12 +59,8 @@
                 <section>
                     <h3>Le plan</h3>
                     <ol style="font-size: xx-large;">
-                        <li>Rappels
-                            <ol>
-                                <li>Separation of concern</li>
-                                <li>API</li>
-                            </ol>
-                        </li>
+                        <li>Rappels</li>                        
+                        <li>API</li>
                         <li>
                             Webservice
                             <ol>
@@ -549,32 +545,39 @@
                     <section>
                         <h3>Contacter un webservice en python</h3>
                         <pre><code data-trim data-noescape>
-                            import requests
-                            url = "https://data.rennesmetropole.fr/api/records/1.0/search/"
-                            params = {"dataset":"etat-du-trafic-en-temps-reel"}
-                            res = requests.get(url=url
-                                            ,params=params )
+import requests
 
-                            print(res.json())
+# Construction de la requête
+url = "https://data.rennesmetropole.fr/api/records/1.0/search/"
+parametres = {"dataset": "etat-du-trafic-en-temps-reel", "rows": 2}
 
-                            print(res.json()["parameters"]["rows"])
+# Lancement de la requête
+res = requests.get(url=url, params=parametres)
+
+# Affichage du résultat
+print(res.json())
+
+print("\nNombre de lignes : ", res.json()["parameters"]["rows"])
                         </code></pre>
                     </section>
 
                     <section>
                         <h3>Contacter un webservice en python</h3>
                         <pre><code data-trim data-noescape class="language-python">
-def get_rules():
-    url_rule = "https://api.twitter.com/2/tweets/search/stream/rules"
-    response = requests.get(
-        url_rule, headers=bearer_oauth()
+import json
+import requests
+
+url = "https://anapioficeandfire.com/api/"
+end_point = "characters"
+parametres = {"gender": "Female", "isAlive": True, "culture": "Braavosi"}
+response = requests.get(url=url + end_point, params=parametres)
+
+# Teste si le serveur a répondu
+if response.status_code != 200:
+    raise Exception(
+        "Cannot reach (HTTP {}): {}".format(response.status_code, response.text)
     )
-    if response.status_code != 200:
-        raise Exception(
-            "Cannot get rules (HTTP {}): {}".format(response.status_code, response.text)
-        )
-    print(json.dumps(response.json()))
-    return response.json()
+print(json.dumps(response.json()))
 
                         </code></pre>
                     </section>
