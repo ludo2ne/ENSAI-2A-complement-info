@@ -292,9 +292,7 @@ classDiagram
 ### :small_orange_diamond: Attaques à dégâts variables
 
 Nous allons ensuite coder les attaques à dégâts variables. Elles utilisent la formule suivante :
-$$
-Damage = \big ( \frac{(\frac{2*Level}{5}+2)* Power *Att}{Def*50} +2\big) *random* other\_multipliers
-$$
+$Damage = \big ( \frac{(\frac{2*Level}{5}+2)* Power *Att}{Def*50} +2\big) *random* other\_multipliers$
 
 avec :
 
