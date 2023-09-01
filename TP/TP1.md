@@ -302,7 +302,7 @@ avec :
 * $Def$​​ : égal soit à la défense ou défense spé du Pokemon défenseur
 * $Power$​ : la valeur de puissance de l'attaque
 * $random$​​ :une valeur comprise dans l'intervalle [0.85; 1]
-* $other\_multipliers$​​ : les autres multiplicateurs possible, comme le coefficient d'attaque des pokémons.
+* $other\_ multipliers$ : les autres multiplicateurs possibles, comme le coefficient d'attaque des pokémons.
 
 La seule différence entre attaque physique et spéciale vient des coefficients $Att$ et $Def$, le reste de la formule des dégâts est identique. Nous allons donc utiliser le patron de conception *template method*, dont voici la modélisation UML dans notre cas :
 
