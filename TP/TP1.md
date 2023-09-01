@@ -244,6 +244,8 @@ Les classes de test seront organisées de la manière suivante, en reproduisant 
         ┗ 📜test_all_rounder_pokemon.py
 ```
 
+---
+
 :bulb: Problèmes d'imports
 
 * Vérifiez que le dossier parent dans l'explorer de VSCode (à gauche) est : **ENSAI-2A-complement-info-TP**
@@ -260,6 +262,8 @@ Les classes de test seront organisées de la manière suivante, en reproduisant 
 * Créez des fichiers `__init__.py` (vide)
   * dans TOUS les dossiers que vous créez
   * c'est un peu pénible mais ça peut débloquer la situation
+
+---
 
 
 > * [ ] **Question 4** : Pouvez-vous tester la méthode `level_up()` directement sur un `AbstractPokemon` ? Avez vous une idée comment faire ? (ne pas coder cette question)

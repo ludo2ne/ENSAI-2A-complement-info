@@ -15,11 +15,11 @@
 
 Dans ce TP vous allez : 
 
-- Faire des appels à un webservice à la main avec Insomnia
-- Faire des appels à un webservice avec la bibliothèque python **requests**
-- Découvrir la page swagger d'un webservice
-- Manipuler différents formats de données
-- Créer un webservice avec le framework python **fastAPI**
+* Faire des appels à un webservice à la main avec Insomnia
+* Faire des appels à un webservice avec la bibliothèque python **requests**
+* Découvrir la page swagger d'un webservice
+* Manipuler différents formats de données
+* Créer un webservice avec le framework python **fastAPI**
 
 ## :arrow_forward: 1. Appeler un webservice à la main
 
@@ -28,47 +28,64 @@ La première partie de ce TP ne nécessite pas d'écrire du code, mais seulement
 
 ### Webservices
 
-> :book: **Webservice** : le terme webservice est un terme vaste et il serait compliqué d'en donner une définition courte ([article wikipedia](https://en.wikipedia.org/wiki/Web_service)). Dans le cadre du projet un webservice désigne une application accessible via le protocole HTTP (**H**yper**T**ext **T**ransfer **P**rotocol*) qui respecte généralement l'architecture  REST (* **RE**presentational **S**tate **T**ransfer). Mais il en existe d'autre comme SOAP (**S**imple **O**bjet* **A**ccess **P**rotocol) ou RPC (**R**emote **P**rocedure **C**all)
+> :book: **Webservice** : le terme webservice est un terme vaste et il serait compliqué d'en donner une définition courte ([article wikipedia](https://en.wikipedia.org/wiki/Web_service)). 
+> Dans le cadre du projet un webservice désigne une application accessible via le protocole HTTP (**H**yper**T**ext **T**ransfer **P**rotocol) qui respecte généralement l'architecture REST (* **RE**presentational **S**tate **T**ransfer). 
+> Mais il en existe d'autre comme SOAP (**S**imple **O**bjet* **A**ccess **P**rotocol) ou RPC (**R**emote **P**rocedure **C**all)
 
 En d'autres termes, un webservice est une application accessible via le web que l'on va pouvoir **requêter** soit pour obtenir des **ressources**, soit pour **modifier** les ressources accessibles. Un webservice peut seulement avoir pour but d'être une **point d'accès unique et normalisé** à des données (comme une interface à une base de données), mais il peut également être une **manière de contrôler un système d'information** (lancer des travaux, les mettre en attente, récupérer des résultats, etc)
 
 Les webservices utilisent le protocole HTTP qui est le protocole du web (et pas d'internet). C'est celui que vous utilisez sans le savoir avec votre navigateur web. Requêter un webservice se fait presque comme requêter une page web. Pour cela il vous faut l'adresse de la ressource, son *Uniforme Resource Identifier*, ou URI (c'est une notion plus générale que les *Uniforme Resource Locator*, ou URL), une méthode (GET, POST, PUT, DELETE, [liste des méthodes](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods)), et potentiellement des données.
 
-### :writing_hand:Hands on 1 : découverte d'Insomnia et premières requêtes `GET`
+### :small_orange_diamond: Découverte d'Insomnia et premières requêtes `GET`
 
-- Sur votre machine virtuelle lancez le programme Insomnia (faites une recherche dans le menu démarrer)
+**:writing_hand:Hands on 1**
 
-- Créez une collection de requête (bouton `create` à droite) puis cliquez sur votre collection
+* [ ] Lancez le programme **Insomnia** (recherchez dans le menu démarrer)
+* [ ] Créez une collection de requête 
+    * bouton **Create** à droite
+    * puis cliquez sur votre collection
+* [ ] Créez une nouvelle requête 
+    * en appuyant sur **CTRL+N**
+    * donnez lui un nom 
+    * vérifiez que c'est bien une requête de type **GET**
+* [ ] Dans la barre d'adresse, testez les requêtes ci-dessous 
+    * Regardez la réponse dans la partie droite de votre écran. 
+    * Quelles sont les similarités entre les réponses ?
 
-- Créez une nouvelle requête en appuyant sur `crtl+N`, donnez lui le nom que vous voulez, et vérifiez que c'est bien une requête de type `GET` 
+Requêtes à tester :
 
-  <img src="../aides/insomnia requête type.png" style="zoom:67%;" />
+* [Webservice](https://carbon-intensity.github.io/api-definitions/#carbon-intensity-api-v2-0-0) sur les émissions carbone du Royaume-Uni :
+  * `api.carbonintensity.org.uk/intensity`
+  * `api.carbonintensity.org.uk/intensity/date/{date}` 
+    * en remplaçant {date} par la date de votre choix au format YYYY-MM-DD
+* [Webservice](https://data.rennesmetropole.fr/explore/?sort=modified) pour obtenir différents jeux de données ouverts de la ville de Rennes
+  * `data.rennesmetropole.fr/api/records/1.0/search?dataset=menus-cantines`
+  * Testez différentes valeurs pour dataset :`eco-counter-data`, `rva-bal`, `resultats-des-elections-municipales-2020-a-acigne`
+  * Ajouter à la fin de l'URI le paramètre `rows` 
+      * pour faire varier le nombre de lignes que vous recevez 
+      * ajouter simplement `&rows=X` avec X le nombre de lignes
+* Quelques méthodes du webservice utiles pour votre projet informatique (voyez cela avec votre tuteur)
 
-- Dans la zone de requête testez les requêtes suivantes (l'ordre importe peu) et regardez la réponse dans la partie droite de votre écran. Quelles sont les similarités entre les réponses ?
+---
 
-  <img src="../aides/insomnia requête.png" style="zoom:67%;" />
+### :small_orange_diamond: Requêtes avancées
 
-  - [Webservice](https://carbon-intensity.github.io/api-definitions/#carbon-intensity-api-v2-0-0) sur les émissions carbone du Royaume Uni :
-    - `api.carbonintensity.org.uk/intensity`
-    - `api.carbonintensity.org.uk/intensity/date/{date}` en remplaçant {data} par la date de votre choix au format YYYY-MM-DD
-  - [Webservice](https://data.rennesmetropole.fr/explore/?sort=modified) pour obtenir différents jeux de données ouverts de la ville de Rennes
-    - `data.rennesmetropole.fr/api/records/1.0/search?dataset=menus-cantines`
-    - Testez différentes valeurs pour dataset :`eco-counter-data`, `rva-bal`, `resultats-des-elections-municipales-2020-a-acigne`
-    - Ajouter à la fin de l'URI le paramètre `rows` et faites varier le nombre de lignes que vous recevez (ajouter simplement `&rows=X` à la requêter avec X le nombre de lignes)
-  - Quelques méthodes du webservice utile pour votre projet informatique si vous en avez un. Voyez cela avec votre tuteur.
+**:writing_hand:Hands on 2** (toujours avec **Insomnia**)
 
-### :writing_hand:Hands on 2 : requêtes avancées
-
-- Avec Insomnia faites une requête avec la méthode `GET` sur la ressource suivante : `web-services.domensai.ecole/attack`. Qu'obtenez-vous ?
-
-- Avec Insomnia faites une requête avec la méthode `GET` sur la ressource suivante : `web-services.domensai.ecole/attack/{identifier}`en remplaçant `{identifier}` par le nom ou l'id d'une attaque que vous venez de récupérer. Qu'obtenez-vous ?
-
-- Avec Insomnia faites une requête avec la méthode `GET` sur la ressource suivante : `web-services.domensai.ecole/attack?type_attack_id={id_type}`en remplaçant `{id_type}` par un entier entre 1 et 4. Qu'obtenez-vous ?
-
-- Avec Insomnia faites une requête avec la méthode `GET` sur la ressource suivante : `web-services.domensai.ecole/attack?type_attack_name={type attack}`en remplaçant `{type attack}` par  `special attack` ou `physical attack` ou `fixed damage` ou `status attack`
-
-- Faites une requête de type `POST` sur la ressource suivante `web-services.domensai.ecole/attack` avec comme base pour le corps le json ci-dessous. Remplacer toutes les valeurs par ce que vous souhaitez.
-
+* Faites une requête avec la méthode `GET` sur la ressource suivante. Qu'obtenez-vous ? 
+    * `web-services.domensai.ecole/attack`
+* Faites une requête avec la méthode `GET` sur la ressource suivante. Qu'obtenez-vous ? 
+    * `web-services.domensai.ecole/attack/{identifier}`
+    * en remplaçant `{identifier}` par le nom ou l'id d'une attaque que vous venez de récupérer
+* Faites une requête avec la méthode `GET` sur la ressource suivante. Qu'obtenez-vous ?
+    * `web-services.domensai.ecole/attack?type_attack_id={id_type}`
+    * en remplaçant `{id_type}` par un entier entre 1 et 4. 
+* Faites une requête avec la méthode `GET` sur la ressource suivante
+    *  `web-services.domensai.ecole/attack?type_attack_name={type attack}`
+    *  en remplaçant `{type attack}` par  `special attack` ou `physical attack` ou `fixed damage` ou `status attack`
+* Faites une requête de type `POST` sur la ressource suivante 
+    * `web-services.domensai.ecole/attack` 
+    * Cliquer sur **Body**, puis **JSON**, coller le texte ci-dessous, puis remplacez les valeurs des attributs pour créer votre propre attaque
   ````json
   {
     "name": "An awesome name",
@@ -79,67 +96,89 @@ Les webservices utilisent le protocole HTTP qui est le protocole du web (et pas 
     "description": "An awesome description"
   }
   ````
-  
-- Avec Insomnia faites une requête avec la méthode `GET` sur la ressource suivante : `web-services.domensai.ecole/attack/{identifier}`en remplaçant `{identifier}` par le nom ou l'id par celui de l'attaque que vous venez de créer.
+* Faites une requête avec la méthode `GET` sur la ressource suivante
+    * `web-services.domensai.ecole/attack/{identifier}`
+    * en remplaçant `{identifier}` par le nom ou l'id de l'attaque que vous venez de créer
 
-Dans votre navigateur web aller sur la page `web-services.domensai.ecole/docs`. Cela vous amène sur la page swagger du webservice. Cette page recense tous les endpoints du webservice, et comment les utiliser. Essayez via l'interface :
+---
 
-- De modifier une attaque
-- De supprimer une attaque
-- D'afficher une liste de pokémon
-- D'ajouter un pokémon.
+### :small_orange_diamond: Swagger
 
-## 2 Appeler un webservice en python
+Dans votre navigateur web allez sur la page http://web-services.domensai.ecole/docs. 
+Cela vous amène sur la page swagger du webservice. Cette page recense tous les endpoints du webservice, et comment les utiliser. Essayez via l'interface de :
 
-### La base du requêtage avec la bibliothèque `requests`
+* modifier une attaque
+* supprimer une attaque
+* afficher une liste de pokémon
+* ajouter un pokémon
+
+## :arrow_forward: 2. Appeler un webservice en python
+
 
 Aujourd'hui, les plus grands consommateurs de webservices sont les machines. Et donc maintenant nous allons voir comment automatiser des appels à un webservice en python.
 
-> :mag: Aujourd'hui beaucoup d'application web (par exemple Facebook, Netflix, Dailymotion, Uber) utilisent ce que l'on appelle des architectures "micro services". Les échanges entre leurs composants applicatifs (par exemple entre leurs interface homme machine (IHM) et leurs services internes) se font via des webservices à but unique. Cela permet d'avoir des modules découplés les uns des autres car ils communiquent uniquement via requête HTTP, ou avec des systèmes de gestion d'évènements. Ils ont seulement à savoir comment ils doivent communiquer les uns avec les autres et pas le fonctionnement interne des autres modules. Le côté négatif c'est que cela demande de bien documenter ses webservices et de gérer ENORMEMENT d'applications en parallèle. Amazon, Google, Facebook peuvent se le permettre, par contre une petite entreprise de 10 employés non.
+> :mag: Aujourd'hui beaucoup d'applications web (par exemple Facebook, Netflix, Dailymotion, Uber) utilisent ce que l'on appelle des architectures "micro services". 
+> 
+> Les échanges entre leurs composants applicatifs (par exemple entre leurs interface homme machine (IHM) et leurs services internes) se font via des webservices à but unique. Cela permet d'avoir des modules découplés les uns des autres car ils communiquent uniquement via requête HTTP, ou avec des systèmes de gestion d'évènements. Ils ont seulement à savoir comment ils doivent communiquer les uns avec les autres et pas le fonctionnement interne des autres modules. 
+> 
+> Le côté négatif c'est que cela demande de bien documenter ses webservices et de gérer ÉNORMÉMENT d'applications en parallèle. Amazon, Google, Facebook peuvent se le permettre, par contre une petite entreprise de 10 employés non.
 
-Le principe va rester le même que faire une requête à la main, et on va utiliser la bibliothèque `requests` (voir [documentation](https://requests.readthedocs.io/en/master/) pour plus d'info) pour avoir seulement à remplir les parties intéressantes de nos requêtes.
+---
+
+### :small_orange_diamond: La bibliothèque `requests` - Comment ça fonctionne
+
+Le principe va rester le même que faire une requête à la main, et on va utiliser la bibliothèque [**requests**](https://requests.readthedocs.io/en/master/) pour avoir seulement à remplir les parties intéressantes de nos requêtes.
 
 Pour faire une requête `GET` vous allez seulement devoir faire : 
 
 ````python
-response = requests.get("http://example.org") # remplacez http://example.org par un des exemples précédents
+import requests
+
+response = requests.get("http://mon-webservice.com") 
 ````
 
 Exécuter cette ligne de code va :
 
 1. Envoyer la requête au serveur que vous contactez
-2. Récupérer la réponse (ie le volet de droite d'Insomnia)
+2. Stockez le résultat dans la variables `response`
 
-Cette réponse est contenue dans l'objet retourné par la fonction. Comme tout objet python il dispose d'attributs et de méthodes, et il va falloir appeler les bons pour lire le résultat.
+Cette variables `response` est un objet, et comme tout objet elle a des attributs et des méthodes, par exemple : 
 
-Vous pouvez faire
+* `response.text` : le corps du résultat sous forme de string en laissant `requests` inférer l'encodage (cela fonctionne souvent). Problème vous avez seulement un string, et ce n'est pas le meilleur format de données à manipuler
+* **`response.json()`** : le corps du résultat comme un `dict`. C'est ce que vous allez faire le plus souvent car le format json est un format simple à manipuler
+* `response.encoding` : l'encoding de votre requête (utile en cas de problème d'encoding)
+* **`response.status_code`** : le statut de la requête. les principaux sont :
+  * 200 : retour général pour dire que tout c'est bien passé
+  * 201 : ressource créée avec succès
+  * 202 : requête acceptée, sans garantie du résultat (par exemple dans un système asynchrone)
+  * 400 : erreur de syntaxe dans la requête
+  * 401 : erreur, une authentification est nécessaire
+  * 403 : la ressource est interdite (droits insuffisants)
+  * 404 : ressource non trouvée
+  * 405 : une mauvaise méthode http a été utilisée
+  * 500 : erreur côté serveur
+  * 503 : service temporairement indisponible
 
-- `response.text` pour obtenir le corps du résultat tout forme de string en laissant `requests` inférer l'encodage (cela fonctionne souvent). Problème vous avez seulement un string, et ce n'est pas le meilleur format de données à manipuler
+Pour résumer, les résultats 2xx indiquent un succès, un résultat 4xx ou 5xx un problème. 
 
-- `response.content` pour obtenir le corps du résultat comme des octets. Si vous faites un `print` vous allez bien avoir du texte (préfixé par `b'`) mais vos données ne seront pas sous forme de string. À moins d'avoir un cas d'utilisation très particulier (récupération d'image), cela ne vous servira pas
+Exemple simple d'utilisation : 
+```python
+import requests
+import json
 
-- `response.json()` pour obtenir le corps du résultat comme un `dict`. C'est ce que vous allez faire le plus souvent car le format json est un format simple à manipuler
+response = requests.get("http://mon-webservice.com")
 
-- `response.status_code` pour obtenir le statut de la requête. Voici différents statuts que vous pouvez rencontrer:
+if response.status_code != 200:
+    raise Exception(
+        "Cannot reach (HTTP {}): {}".format(response.status_code, response.text)
+    )
+else:    
+    print(json.dumps(response.json(), indent=2))       # JSON Pretty print
+```
 
-  - 200 : retour général pour dire que tout c'est bien passé
-  - 201 : ressource créée avec succès
-  - 202 : requête acceptée, sans garantie du résultat (par exemple dans un système asynchrone)
-  - 400 : erreur de syntaxe dans la requête
-  - 401 : erreur, une authentification est nécessaire
-  - 403 : la ressource est interdite (droits insuffisants)
-  - 404 : ressource non trouvée
-  - 405 : une mauvaise méthode http a été utilisée
-  - 500 : erreur côté serveur
-  - 503 : service temporairement indisponible
+### :small_orange_diamond: Mes premières requêtes en Python
 
-  Pour résumer, les résultats 2xx indiquent un succès, un résultat 4xx ou 5xx un problème. 
-
-- `response.encoding` pour obtenir l'encoding de votre requête (utile en cas de problème d'encoding)
-
-En général la méthode qui vous intéresse est la méthode `response.json()` pour obtenir un résultat facilement manipulable. Mais tester le statut de la requête avec `response.status_code` peut être un moyen de détecter des erreurs et les traiter pour éviter que votre application ne retrouve en échec.
-
-#### :writing_hand: Hands on 3 : Mes premières requêtes en Python
+:writing_hand: Hands on 3
 
 - Récupérez le code du TP2. Ouvrez visual studio code et ouvrez le dossier de votre application avec l'option "Ouvrir le dossier". Puis dans le terminal faites : 
 
@@ -161,7 +200,7 @@ En général la méthode qui vous intéresse est la méthode `response.json()` p
   - L'id de l'attaque récupérée et bien celui demandé ?
   - La liste d'attaque est-elle non vide ? De la taille annoncée ?
 
-### Les requêtes plus complexes
+### :small_orange_diamond: Les requêtes plus complexes
 
 Pour le moment nous nous sommes concentrés sur les requêtes `GET` mais il est bien sûr possible d'en faire d'autre. Par exemple pour les requêtes `POST`, `PUT `ou `DELETE` voici la syntaxe :
 
@@ -191,15 +230,15 @@ put = requests.put("http://example.org", json = {'key':'value'},headers=headers)
 delete = requests.delete("http://example.org",headers=headers)
 ````
 
-### :writing_hand: Hands on 4 : Requêtes avancées en python
+### :small_orange_diamond: Requêtes avancées en python
 
-- Dans le module `attack_client.py` implémentez les méthodes suivantes : 
+:writing_hand: Hands on 4
 
-  - `create_attack(AbstractAttack)` prend une `AbstractAttack` en paramètre et va créer une nouvelle ressource dans notre webservice
-  - `update_attack(AbstractAttack)` prend une `AbstractAttack` en paramètre et va modifier la ressource associée dans notre webservice
-  - `delete_attack(AbstractAttack)` prend une `AbstractAttack` en paramètre et va supprimer la ressource associée dans notre webservice
-
-- Testez vos méthodes.
+* Dans le module `attack_client.py` implémentez les méthodes suivantes : 
+  * `create_attack(AbstractAttack)` prend une `AbstractAttack` en paramètre et va créer une nouvelle ressource dans notre webservice
+  * `update_attack(AbstractAttack)` prend une `AbstractAttack` en paramètre et va modifier la ressource associée dans notre webservice
+  * `delete_attack(AbstractAttack)` prend une `AbstractAttack` en paramètre et va supprimer la ressource associée dans notre webservice
+* Testez vos méthodes
 
 ## 🤖 Coder un webservice en python
 
