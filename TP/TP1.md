@@ -32,7 +32,7 @@ Ce TP sera réalisé avec l'IDE (**I**ntegred **D**evelopment **E**nvironment) `
     * cliquer sur  `ENSAI-2A-complement-info-TP`, puis sur le bouton **Sélectionner un dossier**
 
 Lisez le fichier `README.md` et suivez les instructions.
-Puis lancez le programme **main.py** pour vous assurer que tout fonctionne correctement.
+Puis lancez le programme **__main__.py** pour vous assurer que tout fonctionne correctement.
 
 * Ouvrez un terminal dans VSCode (CTRL + ù)
   * c'est le même terminal **Git Bash** que vous avez ouvert au début
@@ -215,7 +215,7 @@ Pour cela vous allez utiliser le package `unittest` de python.
 
 Ce package permet de réaliser des tests unitaires dans des classes séparées. L'avantage par rapport à `doctest`, c'est que les tests ne "polluent" pas vos classes, et qu'il est possible de *patcher* certains comportements des classes.  
 
-Un exemple de test est donnée dans la classe `testDefenderPokemon`. Pour rappel, un test se décompose en 3 parties :
+Un exemple de test est donné dans la classe `testDefenderPokemon`. Pour rappel, un test se décompose en 3 parties :
 
 * **GIVEN** : création des objets nécessaires à la réalisation du test
 * **WHEN** : appel de la méthode à tester
