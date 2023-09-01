@@ -1,31 +1,30 @@
----
-title: TP 2 : Webservices et formats de données
-author: Rémi Pépin
-subject: Complément informatique
-keywords: [webservices]
-header:  ${title} - ${author}
-footer: Page ${pageNo} / ${totalPages}
----
-
 # TP 2 : Webservices et formats de données
 
-> :scream: Comme vous pouvez le constater le sujet de ce TP est lui aussi long. Cela ne doit pas vous effrayer. Il mélange explications complètes et manipulations pour être au maximum autosuffisant. **Vous n'allez surement pas terminer le sujet, ce n'est pas grave. Il est là pour vous aider lors du projet informatique.**
->
-> :exclamation: Il est possible que les copiés/collés fonctionnent étrangement (caractère de fin de ligne qui disparaissent, indentation qui change). Faites-y attention !
->
-> Ce TP mêle explications pour vous faire comprendre ce qui est fait, et phase de manipulation ou code. Ces phases sont appelées "**:writing_hand:Hands on**". C'est à ce moment là que vous devez faire ce qui est écrit dans le TP. Les explications de ce TP ne doivent pas prendre le pas sur celles de votre intervenant. Prenez les comme une base de connaissance pour plus tard, mais préférez toujours les explications orales, surtout pour poser des questions.
+## :arrow_forward: 0. Avant de commencer
 
-La première partie de ce TP ne nécessite pas d'écrire du code, mais seulement de faire des requêtes à un webservice en utilisant Insomnia.
+> :scream: Comme vous pouvez le constater, le sujet de ce TP est lui aussi long. Cela ne doit pas vous effrayer. 
+> Il mélange explications complètes et manipulations pour être au maximum autosuffisant. 
+> **Vous n'allez surement pas terminer le sujet, ce n'est pas grave. Il est là pour vous aider lors du projet informatique.**
+>
+> :exclamation: Il est possible que les copier-coller fonctionnent étrangement (caractère de fin de ligne qui disparaissent, indentation qui change). Faites-y attention !
+>
+> Ce TP mêle explications pour vous faire comprendre ce qui est fait, et phases de manipulation ou code. 
+> Ces phases sont appelées "**:writing_hand:Hands on**". C'est à ce moment là que vous devez faire ce qui est écrit dans le TP.
+> Les explications de ce TP ne doivent pas prendre le pas sur celles de votre intervenant. Prenez les comme une base de connaissances pour plus tard, mais préférez toujours les explications orales, surtout pour poser des questions.
+
 
 Dans ce TP vous allez : 
 
-- Faire des appels à un webservices à la main avec Insomnia
-- Faire des appels à un webservice avec la bibliothèque python `requests`
+- Faire des appels à un webservice à la main avec Insomnia
+- Faire des appels à un webservice avec la bibliothèque python **requests**
 - Découvrir la page swagger d'un webservice
 - Manipuler différents formats de données
-- Faire un webservice avec le framework python `fastapi`
+- Créer un webservice avec le framework python **fastAPI**
 
-## 1 Appeler un webservice à la main
+## :arrow_forward: 1. Appeler un webservice à la main
+
+La première partie de ce TP ne nécessite pas d'écrire du code, mais seulement de faire des requêtes à un webservice en utilisant **Insomnia**.
+
 
 ### Webservices
 

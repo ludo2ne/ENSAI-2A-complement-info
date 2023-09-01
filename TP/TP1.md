@@ -30,6 +30,7 @@ Ce TP sera réalisé avec l'IDE (**I**ntegred **D**evelopment **E**nvironment) `
   * File > Open Folder
     * Aller dans `/p/Cours2A/UE3_Complements_informatique/TP/TP1/` (ou dans le dossier où se situe le dépôt que vous venez de cloner)
     * cliquer sur  `ENSAI-2A-complement-info-TP`, puis sur le bouton **Sélectionner un dossier**
+	* :warning: c'est très important de suivre très précisément ces consignes, sinon vous risquez d'avoir des soucis d'import !
 
 Lisez le fichier `README.md` et suivez les instructions.
 Puis lancez le programme **__main__.py** pour vous assurer que tout fonctionne correctement.
@@ -242,6 +243,24 @@ Les classes de test seront organisées de la manière suivante, en reproduisant 
         ┣ 📜test_defender_pokemon.py
         ┗ 📜test_all_rounder_pokemon.py
 ```
+
+:bulb: Problèmes d'imports
+
+* Vérifiez que le dossier parent dans l'explorer est : **ENSAI-2A-complement-info-TP**
+  * Si c'est TP1 ou TP ou autre chose ce n'est pas bon !
+  * Sinon refaites : File > open Folder
+  * Cliquez une fois sur ENSAI-2A-complement-info-TP
+  * Cliquez sur le bouton `Sélectionner un dossier`
+  * Si ça vous le demande, vous pouvez enregistrer vos modifications
+* Préférez utiliser des chemins complets d'import plutôt que des chemins relatifs
+  * la racine des chemins est paramétrée au niveau du dossier `src`
+  * donc cela donne par exemple : 
+    *`from business_object.pokemon.abstract_pokemon import AbstractPokemon`
+	* car le dossier `business_object` est bien dans le dossier `src`
+* Créez des fichiers `__init__.py` (vide)
+  * dans TOUS les dossiers que vous créez
+  * c'est un peu pénible mais ça peut débloquer la situation
+
 
 > * [ ] **Question 4** : Pouvez-vous tester la méthode `level_up()` directement sur un `AbstractPokemon` ? Avez vous une idée comment faire ? (ne pas coder cette question)
 
