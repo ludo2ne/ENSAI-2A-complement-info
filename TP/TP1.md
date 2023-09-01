@@ -246,7 +246,7 @@ Les classes de test seront organisées de la manière suivante, en reproduisant 
 
 :bulb: Problèmes d'imports
 
-* Vérifiez que le dossier parent dans l'explorer est : **ENSAI-2A-complement-info-TP**
+* Vérifiez que le dossier parent dans l'explorer de VSCode (à gauche) est : **ENSAI-2A-complement-info-TP**
   * Si c'est TP1 ou TP ou autre chose ce n'est pas bon !
   * Sinon refaites : File > open Folder
   * Cliquez une fois sur ENSAI-2A-complement-info-TP
