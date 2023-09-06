@@ -176,98 +176,153 @@ else:
     print(json.dumps(response.json(), indent=2))       # JSON Pretty print
 ```
 
+### :small_orange_diamond: Mise à jour de votre dépôt git
+
+2 possibilités **au choix**
+
+#### :arrow_right: Si vous voulez repartir du code du TP1 
+
+* Ouvrez **Visual Studio Code**
+    * File > Open Folder
+        * Allez dans `/p/Cours2A/UE3_Complements_informatique/TP/TP1`
+        * cliquez une fois sur **ENSAI-2A-complement-info-TP**
+        * puis sur le bouton **Sélectionner un dossier**
+    * Ouvrez un Terminal Git Bash dans VSCode (Terminal > New terminal)
+    * Créez un point de sauvegarde de vos travaux de la semaine dernière
+        * `git add .`
+        * `git commit -m "Mon super code du TP1"`
+    * Mettez à jour votre dépôt local
+        * `git pull`
+    * Passez sur la branche du TP2
+        * `git checkout tp2_base`
+
+#### :arrow_right: Si vous n'avez pas le code du TP1 sur votre machine
+
+* Ouvrez le logiciel **Git Bash**
+    * Créez un dossier pour stocker le code du TP
+        * par exemple, copiez la ligne ci-dessous, et collez là dans Git Bash (clic droit > Paste)
+        * `mkdir -p /p/Cours2A/UE3_Complements_informatique/TP/TP2 && cd $_`
+    * Clonez le dépôt
+        * `git clone https://github.com/ludo2ne/ENSAI-2A-complement-info-TP.git`
+    * Fermez **Git Bash**
+* Ouvrez **Visual Studio Code**
+    * File > Open Folder
+        * Allez dans `/p/Cours2A/UE3_Complements_informatique/TP/TP2`
+        * cliquez une fois sur **ENSAI-2A-complement-info-TP**
+        * puis sur le bouton **Sélectionner un dossier**
+    * Ouvrez un Terminal Git Bash dans VSCode (Terminal > New terminal)
+    * Passez sur la branche du TP2
+        * `git checkout tp2_base`
+
+#### :warning: Attention quand vous faites Open Folder dans VSCode
+
+Le dossier parent de l'explorer de VSCode (à gauche) doit être : **ENSAI-2A-complement-info-TP**. 
+Si c'est TP1, TP2, TP ou autre chose ce n'est pas bon ! Vous allez avoir des soucis d'imports par la suite.
+
+---
+
+Pour pour vérifier que tout fonctionne :
+* lancez le fichier `__main__.py`
+* lancez les tests unitaires du package business_object
+    * dans terminal : `python -m unittest -k test_business_object`
+
+---
+
 ### :small_orange_diamond: Mes premières requêtes en Python
 
-:writing_hand: Hands on 3
+:writing_hand: **Hands on 3**
 
-- Récupérez le code du TP2. Ouvrez visual studio code et ouvrez le dossier de votre application avec l'option "Ouvrir le dossier". Puis dans le terminal faites : 
+* Ouvrez le fichier `/src/client/attack_client.py` 
+* [ ] Complétez la méthode `get_attack(int)`
+  * prend en paramètre un id d'attaque 
+  * va chercher toutes les informations disponibles sur cette attaque
+  * retourne un objet de type `AbstractAttack`
+    * Pour vous aider, observez la méthode `instantiate_attack()` de la classe `AttackFactory`
+    * Regardez le fonctionnement de cette méthode et utilisez la
+* [ ] créez la méthode `get_all_attacks()` 
+  * retourne la liste de tous les attaques disponibles sous la forme d'une liste d'objets `AbstractAttack`
+* [ ] Vérifiez que vos 2 méthodes fonctionnement
+    * Lancez les tests unitaitres du package test_client
 
-  ```` shell
-  git add . #pour que git puisse voir les fichiers que vous avez crée la dernière fois
-  git commit -m "Code du TP1" #pour sauvegarder le travail que vous avez fait lors du TP1
-  git checkout tp1_q7_correction -b tp2 #pour récupérer le code de base du TP2 et faire une nouvelle branche pour le TP2
-  ````
-  
-- Créez un package `client` et un fichier `attack_client.py` qui va appeler le webservice. Implémentez les méthodes suivantes : 
-
-  - `get_attack(int)` prend en paramètre un id d'attaque et va chercher toutes les informations disponible sur cette attaque et retourne un objet de type `AbstractAttack` (il faudra gérer la détection du type d'attaque, vous avec des classes `Factory` pour vous aider)
-  - `get_all_attacks()` retourne la liste de tous les attaques disponibles sous la forme d'une liste d'objet `AbstractAttack`
-  - `get_pokemon(str)` prend en paramètre un nom de Pokémon et retourne un objet de type `AbstractPokemon`
-
-- Testez vos méthodes dans une classe de tests dédiée. Vous pourrez utilisez les critères de validation suivants :
-
-  - Le code statut obtenu est-il 200 ?
-  - L'id de l'attaque récupérée et bien celui demandé ?
-  - La liste d'attaque est-elle non vide ? De la taille annoncée ?
+---
 
 ### :small_orange_diamond: Les requêtes plus complexes
 
 Pour le moment nous nous sommes concentrés sur les requêtes `GET` mais il est bien sûr possible d'en faire d'autre. Par exemple pour les requêtes `POST`, `PUT `ou `DELETE` voici la syntaxe :
 
-````python
+```python
 post = requests.post("http://example.org", json = {'key':'value'})
 put = requests.put("http://example.org", json = {'key':'value'})
 delete = requests.delete("http://example.org")
-````
+```
 
-Comme vous le voyez, les syntaxes sont très proches de la syntaxe de la méthode `GET`. On a seulement ajouté pour certaines requêtes des données. C'est ce que vous avez fait plus tôt avec Insomnia. Pour passez des paramètres à votre requête je vous conseille néanmoins de préférer ce genre de syntaxe :
+Comme vous le voyez, les syntaxes sont très proches de la syntaxe de la méthode `GET`. On a seulement ajouté pour certaines requêtes des données. C'est ce que vous avez fait plus tôt avec Insomnia. Pour passer des paramètres à votre requête je vous conseille néanmoins de préférer ce genre de syntaxe :
 
-````python
+```python
 url = "http://example.org"
 data = {'key':'value'}
 post = requests.post(url, json = data)
-````
+```
 
-(c'est la même chose fonctionnellement, mais il vaut mieux définir les éléments hors de la requête pour ne pas se perdre)
+C'est la même chose fonctionnellement, mais il vaut mieux définir les éléments hors de la requête pour ne pas se perdre.
 
 Il est également possible de passer des entêtes http en ajoutant l'attribut `headers` à la fonction utilisée.
 
-```` python
+```python
 headers = {'accept': 'application/xml'}
 requests.get('http://example.org', headers=headers)
-post = requests.post("http://example.org", json = {'key':'value'},headers=headers)
-put = requests.put("http://example.org", json = {'key':'value'},headers=headers)
-delete = requests.delete("http://example.org",headers=headers)
-````
+```
 
 ### :small_orange_diamond: Requêtes avancées en python
 
-:writing_hand: Hands on 4
+:writing_hand: **Hands on 4**
 
 * Dans le module `attack_client.py` implémentez les méthodes suivantes : 
-  * `create_attack(AbstractAttack)` prend une `AbstractAttack` en paramètre et va créer une nouvelle ressource dans notre webservice
-  * `update_attack(AbstractAttack)` prend une `AbstractAttack` en paramètre et va modifier la ressource associée dans notre webservice
-  * `delete_attack(AbstractAttack)` prend une `AbstractAttack` en paramètre et va supprimer la ressource associée dans notre webservice
-* Testez vos méthodes
+  * [ ] `create_attack(AbstractAttack)` 
+      * prend une `AbstractAttack` en paramètre
+      * crée une nouvelle ressource dans notre webservice
+  * [ ] `update_attack(AbstractAttack)` 
+      * prend une `AbstractAttack` en paramètre
+      * modifie la ressource associée dans notre webservice
+  * [ ] `delete_attack(AbstractAttack)` 
+      * prend une `AbstractAttack` en paramètre
+      * supprime la ressource associée dans notre webservice
+* [ ] Testez vos méthodes
 
 ## 🤖 Coder un webservice en python
 
-Avec les outils à disposition aujourd'hui il est facile de faire un webservice soit même. Il y a trois leaders sur le marché actuellement pour faire un webservice REST en python: [Django REST](https://www.django-rest-framework.org/), [FlaskRESTful](https://flask-restful.readthedocs.io/en/latest/) et [FastAPI](https://fastapi.tiangolo.com/). Chacun à ses avantages et inconvénients. Django est sûrement le plus complet mais le plus lourd, Flask et FastApi sont plus légers et rapides à mettre en place. Le gros avantage de FastApi est la simplicité pour créer une page swagger de documentation.
+Avec les outils à disposition aujourd'hui il est facile de faire un webservice soit même. 
 
-> Pour plus d'info 👉 https://www.section.io/engineering-education/choosing-between-django-flask-and-fastapi/
+Il y a trois leaders sur le marché actuellement pour faire un webservice REST en python: 
+* [Django REST](https://www.django-rest-framework.org/), 
+* [FlaskRESTful](https://flask-restful.readthedocs.io/en/latest/)
+* [FastAPI](https://fastapi.tiangolo.com/)
+
+Chacun à ses [avantages et inconvénients](https://www.section.io/engineering-education/choosing-between-django-flask-and-fastapi/). Django est sûrement le plus complet mais le plus lourd, Flask et FastApi sont plus légers et rapides à mettre en place. Le gros avantage de **FastApi** est la simplicité pour créer une page swagger de documentation.
 
 Voici le code minimal d'un webservice REST avec FastAPI ([documentation officielle](https://fastapi.tiangolo.com/tutorial/first-steps/))
 
 ```python
-# Import classique
 from fastapi import FastAPI
+
 # On instancie le webservice
 app = FastAPI()
+
 # Création d'un enpoint qui répond à la méthode GET à l'adresse "/" qui va retourne le message "Hello World"
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
+
 # Lancement de l'application sur le le port 80
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=80)
 ```
 
-Appeler la ressource "/" du webservice va retourner le json `{"message": "Hello World"}`
+Appeler la ressource "/" du webservice va retourner le json : `{"message": "Hello World"}`
 
-Voici un exemple plus complet inspiré de la [documentation officielle](https://flask-restful.readthedocs.io/en/latest/quickstart.html#resourceful-routing)
+Voici un exemple plus complet inspiré de la [documentation officielle](https://flask-restful.readthedocs.io/en/latest/quickstart.html#resourceful-routing) (vous voulez créer un webservice pour exposer vos **todos**)
 
 ````python
-# Import classique
 from fastapi import FastAPI
 from pydantic import BaseModel
 from starlette import status
@@ -280,7 +335,7 @@ class Todo(BaseModel):
     id : int
     content : str
 
-todos = {1 : Todo(1,"Step 1 : Learn python"),
+todos = {1 : Todo(1,"Step 1 : Learn python")
         , 2 : Todo(2,"Step 2 : Work on the IT project")
         , 3 : Todo(3,"Step 3 : ???")
         , 4 : Todo(4,"Step 4 : Profit")}
@@ -314,10 +369,9 @@ if __name__ == "__main__":
 
 Ce code va créer un web service qui va répondre aux requêtes suivantes :
 
-- `GET host/todo` : retourne toues les tâche à faire
-
-- `GET host/todo/{todo_id}` : retourne la tâche derrière l'id en paramètre
-- `POST host/todo/` : ajoute la tâche passée en corps de la rêquete
+* `GET host/todo` : retourne toutes les tâches à faire
+* `GET host/todo/{todo_id}` : retourne la tâche derrière l'id en paramètre
+* `POST host/todo/` : ajoute la tâche passée en corps de la rêquete
 
 FastAPI sérialise pour vous les objets que vous retournez. Donc pas besoin de mettre en forme vos données. Néanmoins, pour plus de clarté, vous pouvez utiliser des classes `BaseModel`. Ce sont des classes qui ne vont contenir que des attributs que vous pouvez déclarer sans constructeur:
 
@@ -329,9 +383,9 @@ class Todo(BaseModel):
 
 Ces classes peuvent être utilisées en sortie de votre webservice, comme en entrée (ligne 33). FastApi va faire pour vous tout une série de contrôle sur les types des variables et renvoyer une erreur au client si sa requête n'est pas bien formatée.
 
-Fondamentalement un webservice est une application comme les autres, mais au lieu d'avoir une interface graphique comme on en a l'habitude en tant qu'humain, l'interface est une interface HTTP qui va accepter des requêtes et envoyer des résultats. Ainsi le diagramme de séquence des différentes couche qui vont être impliquées dans une requête `GET` pour récupérer une ressource va ressembler à cela si je reprend le modèle 3 couches vu en cours.
+Fondamentalement un webservice est une application comme les autres, mais au lieu d'avoir une interface graphique comme on en a l'habitude en tant qu'humain, l'interface est une interface HTTP qui va accepter des requêtes et envoyer des résultats. Ainsi le diagramme de séquence des différentes couches qui vont être impliquées dans une requête `GET` pour récupérer une ressource va ressembler à cela si je reprends le modèle 3 couches vu en cours.
 
-````mermaid
+```mermaid
 sequenceDiagram
     participant U as User
     participant R as Webservice
@@ -347,69 +401,33 @@ sequenceDiagram
     S ->> R : instance objet metier
     Note over S,R: l'objet est potentiellement altéré
     R ->> U : Réponse HTTP
-````
+```
 
-### :writing_hand: Hands on 5 :  mon premier webservice
+### :small_orange_diamond: Mon premier webservice 
 
-- Installez le module `fastAPI` avec `pip install "fastapi[all]"`
+* Vérifiez que le module `fastapi` est installé (`pip list`)
+    * Si ce n'est pas le cas : `pip install "fastapi[all]"`
+* Ouvrez le fichier `app.py`
+* Lancez ce fichier
+    * testez les requêtes suivantes : 
+        * `GET http://localhost/hello`
+        * `GET http://localhost/hello/everybody`
+* Arrétez le webservice
+    * Cliquez dans le terminal de VSCode puis CTRL + C
 
-- En vous basant sur l'exemple précédant, créez un fichier `app.py` à la racine de votre projet qui :
 
-  - Importera `fastapi` et `uvicorn`
+:writing_hand: **Hands on 5**
 
-  - Instanciera votre webservice
+En utilsant la liste de personnages définie dans le fichier `app.py`, ajoutez les endpoints suivants : 
+* [ ] `GET localhost:80/character` : retournera un json contenant une liste des personnages
+* [ ] `PUT localhost:80/character/{id}` qui modifiera le nom du personnage à l'index `{id}` à partir d'un body
+* [ ] `DELETE localhost:80/character/{id}` qui supprimera l'élément à l'index `{id}`
 
-  - Aura une variable `characters` avec pour valeur `["Louis", "Dewey", "Huey", "Scrouge", "Donald", "Webby", "Della"]`
+Pour tester les endpoints nécessitant un body json, vous pouvez utiliser :-1: 
 
-  - Lancera un serveur quand on l'exécutera avec :
-
-    ```` python
-    # Lancement de l'application sur le le port 80
-    if __name__ == "__main__":
-        uvicorn.run(app, host="0.0.0.0", port=80)
-    ````
-
-  - Répondra aux URL suivantes (répondez au question une par une et testez votre webservice à chaque fois):
-
-    - `GET localhost:80/hello` : retournera le json
-
-      ```json
-      {"message":"Hello world"}
-      ```
-
-    - `GET localhost:80/hello/{name}` : retournera le json
-
-      ```json
-      {"message":"Hello {name}"}
-      ```
-
-    - `GET localhost:80/character` : retournera un json contenant une liste des characters
-
-    - `POST localhost:80/character` qui prendra en plus un json comme corps de requête de la forme 
-
-      ```json
-      {"name":"UN SUPER NOM"}
-      ```
-
-      et ajoutera se nom à la liste des personnages
-
-    - `PUT localhost:80/character/{id}` qui prendra en plus un json comme corps de requête de la forme 
-
-      ```json
-      {"name":"UN SUPER NOM"}
-      ```
-
-      et modifiera le nom du personnage à l'index `{id}`
-
-    - `DELETE localhost:80/character/{id}` qui supprimera l'élément à l'index `{id}`
-
-- Lancez votre classe ;
-
-- Requêtez votre web service avec insomnia ou un navigateur web.
-
-### :writing_hand: Hands on 6 :  Un webservice plus poussé (bonus)
-
-Ajoutez à votre webservice les 2 endpoints suivant :
-
-- `localhost:80/pokemon`. Il renverra une liste de 100 *pokémons*. Pour récupérer les données pour répondre à ces questions, vous allez devoir requêter le webservice du TP (`http://web-services.domensai.ecole/`) et appeler l'endpoint `/pokemon/`pour récupérer les *pokémons*. Vous devez ensuite itérer sur la liste obtenue et appeler la méthode `instantiate_pokemon()` de la classe `PokemonFactory` pour créer un Pokémon et l'ajouter à la liste avant de le renvoyer.
-- `localhost:80/pokemon/{nom}`. Il renverra un json représentant un *pokémon*. Pour récupérer les données pour répondre à ces questions, vous allez devoir requêter le webservice du TP (`http://web-services.domensai.ecole/`) et appeler l'endpoint `/pokemon/nom_pokemon` pour récupérer le *pokémons*. Vous devez ensuite appeler la méthode `instantiate_pokemon()` de la classe `PokemonFactory` pour créer un Pokémon avant de le renvoyer.
+```json
+{
+  "nom":"Agneta",
+  "age": 30
+}
+```
