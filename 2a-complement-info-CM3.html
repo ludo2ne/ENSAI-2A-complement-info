@@ -99,6 +99,12 @@
 
                     <iframe src="https://giphy.com/embed/dIBLtolI6axTGIGopo" width="960" height="540" frameBorder="0"
                         class="giphy-embed no-print" allowFullScreen></iframe>
+                        
+                    <aside class="notes">
+                        Quels sont les éléments d'un ordinateur <br>
+                        RAM (Random Access Memory)<br>
+                        ROM (Read Only Memory)
+                    </aside>    
                 </section>
 
 
@@ -111,13 +117,15 @@
                         <li>Carte graphique : unité de calcul spécialisée</li>
                     </ul>
 
-                    <aside class="notes">Bien insister sur CPU, RAM, disque ! Rendent 3 services différents <br>
+                    <aside class="notes">
+                        Bien insister sur CPU, RAM, disque ! <br>
+                        Rendent 3 services différents <br>
                         <b>Faire un dessin</b>
-						<ul>
-							<li>CPU : processeur</li>
-							<li>DD : disque</li>
-							<li>RAM : barettes</li>
-						
+                        <ul>
+                            <li>CPU : processeur</li>
+                            <li>DD : disque</li>
+                            <li>RAM : barettes</li>
+                        
                     </aside>
                 </section>
 
@@ -128,9 +136,10 @@
                         class="plain w80 no-print" alt="Batman pensif">
 
                     <aside class="notes">
-						Conserver les données une fois le programme terminé
-					</aside>						
-						
+                        Quel problème ??? <br>
+                        Conserver les données une fois le programme python terminé
+                    </aside>                        
+                        
                 </section>
 
                 <section>
@@ -162,16 +171,17 @@
                     <h3>Pour résumer</h3>
                     <p>
                         On veut sauvegarder des couples clef-valeur<br>
-						Avec des valeurs qui peuvent être elles-mêmes constituées de couples clef-valeur
+                        Avec des valeurs qui peuvent être elles-mêmes constituées de couples clef-valeur
                     </p>
 
                     <p class="fragment important">On veut sauvegarder un arbre 🌳
                     </p>
 
                     <aside class="notes">
-						Besoin d'un dessin <br>
-						Parallèle avec les dict python / json
-					</aside>
+                        Besoin d'un dessin <br>
+                        Parallèle avec les dict python / json <br>
+                        Arbre car les attributs d'objets sont parfois eux-même des objets
+                    </aside>
 
                 </section>
 
@@ -181,22 +191,22 @@
 
                     <ul>
                         <li class="fragment">
-							Écrire nos données sur le disque dur dans un fichier 
-							(csv, json, xml ...) <img class="plain icon no-print" src=https://img.icons8.com/dusk/48/000000/hdd.png>
+                            Écrire nos données sur le disque dur dans un fichier 
+                            (csv, json, xml ...) <img class="plain icon no-print" src=https://img.icons8.com/dusk/48/000000/hdd.png>
                         </li>
                         <li class="fragment">
-							Utiliser une base de données (SQL tables + relations; No-SQL) <img
+                            Utiliser une base de données (SQL tables + relations; No-SQL) <img
                                 class="plain icon no-print" src="https://img.icons8.com/clouds/100/000000/favorite-database.png">
                         </li>
                     </ul>
 
                     <aside class="notes">
-						Pour les notions seront expliquées la semaine prochaine<br>
-						Question : Comment fait une BDD ? 
+                        Pour les notions seront expliquées la semaine prochaine<br>
+                        Question : Comment fait une BDD ? 
                         <ul>
                             <li>Elle gère dans des fichiers</li>
                             <li>on peut faire le parallèle avec les couches</li>
-							<li>La bdd rend un service, j'ignore comment elle fait</li>
+                            <li>La bdd rend un service, j'ignore comment elle fait</li>
                             <li>je sais ce qu'elle attend en entrée et ce qu'elle me donne en sortie !</li>                            
                         </ul>
                     </aside>
@@ -205,10 +215,9 @@
                 <section>
                     <h3>Lien persistance / application</h3>
                     <ul>
-                        <li class="fragment">Python : Variables volatiles en RAM</li>
-                        <li class="fragment">Système de persistance : Données stockées sur disque </li>
-                        <li class="fragment"> Data Access Objects (DAO) en guise de lien</span>
-                        </li>
+                        <li>Python : Variables volatiles en RAM</li>
+                        <li>Système de persistance : Données stockées sur disque </li>
+                        <li>Data Access Objects (DAO) en guise de lien</li>                        
                     </ul>
 
                     <aside class="notes">Petite pose recap pour essayer de récupérer tout le monde avant la DAO</aside>
@@ -225,21 +234,21 @@
                     <h3>C'est quoi une DAO ?</h3>
 
                     <ul>
-                        <li class="fragment">Classe technique <img class="plain icon"
+                        <li>Classe technique <img class="plain icon"
                                 src="https://img.icons8.com/color/48/000000/sonic-screwdriver.png">
                         </li>
-                        <li class="fragment">Une classe DAO / objet métier <img class="plain icon"
+                        <li>Une classe DAO / objet métier <img class="plain icon"
                                 src="https://img.icons8.com/officel/48/000000/one-to-one.png">
                         </li>
-                        <li class="fragment">Expose des méthodes pour communiquer avec la couche de persistance <img
+                        <li>Expose des méthodes pour communiquer avec la couche de persistance <img
                                 class="plain icon" src=https://img.icons8.com/dusk/48/000000/hdd.png>
                         </li>
                     </ul>
                     <aside class="notes">
-                        Placer le mot API <br>
-						Rend un service à des clients. Comment elle fait ?<br>
-                        Pas le problème du client. <br>
-						Comme vous au restaurant. Vous voulez manger, comment c'est fait vous
+                        C'est une API <br>
+                        Rend un service à des clients<br>
+                        Comment elle fait ? -> Pas le problème du client. <br>
+                        Comme vous au restaurant. Vous voulez manger, comment c'est fait vous
                         importe peu tant que le service est rendu (avec un niveau d'exigence)
                     </aside>
                 </section>
@@ -257,9 +266,11 @@
                     </div>
 
                     <aside class="notes">Faire participer<br>
-						Essayer de montrer que ces 4 là suffisent.
+                        Essayer de montrer que ces 4 là suffisent.
                         Après on peut avoir des raffinements en faisant des choses en masses, ou filtrer etc ...<br><br>
-                        Quid de la copie ? Une copie c'est une lecture + creation donc on sait faire
+                        Quid de la copie ? <br>
+                        Une copie c'est une lecture + creation donc on sait faire<br><br>
+                        Exemple dessin : classe Personne - table personne - dao personneDAO
                     </aside>
                 </section>
 
@@ -279,17 +290,18 @@
                     </div>
 
                     <aside class="notes">
-						On remet une couche, ça fait pas de mal<br>
-						Dans la vraie vie, si changement de système, plus facile de migrer
-					</aside>
+                        On remet une couche, ça fait pas de mal<br>
+                        Dans la vraie vie, si changement de système, plus facile de migrer
+                    </aside>
                 </section>
 
                 <section>
                     <h3>Petit recap</h3>
                     <img src="img/Zoom metier.png" class="w90" alt="">
-                    <aside class="notes">Petit exemple pour illustrer. A partir de l'exemple montrer la vie d'un objet
-                        avenger (de la représentation python, puis dao, puis base). On commence avec notre objet métier d'un
-                        côté et la base de l'autre. Puis à chaque slide suivant on montre ce qu'il se passe.
+                    
+                    <aside class="notes">
+                        Petit exemple pour illustrer. <br>
+                        Exemple : lister toutes les personnes fans de Pokemon
                     </aside>
                 </section>
 
@@ -302,6 +314,12 @@
                         <li>Oracle : cx_Oracle</li>
                         <li>MongoDB : pymongo </li>
                     </ul>
+                    
+                    <aside class="notes">
+                        Vous lirez en entier la doc : https://www.psycopg.org/docs/<br>
+                        Il y aura des questions à l'exam !
+                    </aside>
+                    
                 </section>
 
                 <section>
@@ -312,50 +330,68 @@
                             pip install psycopg2-binary
                         </code></pre>
                     </li>
-                        <li>connection : permet d'établir la connection avec la base
+                        <li>connection : permet d'établir la connexion avec la base
                             <br/> Pas super intéressant à faire le code est donné
                         </li>
                         <li>cursor : encapsule la requête
                             <pre><code data-trim data-noescape >
-with getConnexion() as conn :
-    with  conn.cursor() as curseur :
+                                with getConnexion() as conn :
+                                    with  conn.cursor() as curseur :
                             </code></pre>
                         </li>
                         <li> cursor.execute() : permet de faire une requête</li>
                         <li> cursor.fetchone()/fetchall()/fetchmany() : Récupération des résultats</li>
                     </ul>
+                    
+                    <aside class="notes">
+                        Classe Connection: <br>
+                        def __init__(self):                             <br>
+                            dotenv.load_dotenv(override=True)           <br>
+                            # Open the connection.                      <br>
+                            self.__connection = psycopg2.connect(       <br>
+                                host=os.environ["HOST"],                <br>
+                                port=os.environ["PORT"],                <br>
+                                database=os.environ["DATABASE"],        <br>
+                                user=os.environ["USER"],                <br>
+                                password=os.environ["PASSWORD"],        <br>
+                                cursor_factory=RealDictCursor)
+                    </aside>
+
+                    
+                    
+                    
                 </section>
 
                 <section>
                     <h3>Forme de base</h3>
 
                     <pre><code data-trim data-noescape class="python">
-                    def dao_function(arg1,arg2...):
-                        # Récupération de la connexion à la base
-                        with getConnexion() as conn :
-                        # Création d'un curseur pour faire une requête
-                        # (le curseur stocke les résultats de la requête)
-                            with  conn.cursor() as curseur :
-                                # On envoie au serveur la requête SQL
-                                curseur.execute(
-                                    une_requete_sql_à_trous
-                                    , remplisage_des_trous)
-                
-                            # On récupère l'id généré
-                            res = curseur.fetchone()  # ou /fetchall()/fetchmany()
-							
-                        return something
-                
-                </code></pre>
+def dao_function(self, arg1, arg2...):
+    # Récupération de la connexion à la base
+    with getConnexion() as conn :
+    # Création d'un curseur pour faire une requête
+    # (le curseur stocke les résultats de la requête)
+        with conn.cursor() as curseur :
+            # On envoie au serveur la requête SQL
+            curseur.execute(
+                une_requete_sql_à_trous,
+                remplisage_des_trous)
+
+            # On récupère l'id généré
+            res = curseur.fetchone()  # ou /fetchall()/fetchmany()
+        
+    return something                
+                    </code></pre>
                 </section>
+                
                 <section>
                     <h3>Un petit exemple : LivreDao</h3>
                     <img src="img/uml/class_diagramm_DAO.png" alt="">
-					
+                    
                     <aside class="notes">
-						ISBN : International Standard Book Number 						
-					</aside>					
-					
+                        ISBN : International Standard Book Number                         
+                    </aside>                    
+                    
                 </section>
 
 
@@ -368,18 +404,21 @@ def create(self, livre) -> Livre:
     with DBConnection().connection as conn:
         with conn.cursor() as cursor:
             cursor.execute(
-                "INSERT INTO livre (isbm, titre, auteur)"
-                " VALUES (%(isbm)s, %(titre)s, %(auteur)s) RETURNING id_livre;",
-                {"isbm": livre.isbm, "titre": livre.titre, "auteur": livre.auteur},
+                "INSERT INTO livre (isbm, titre, auteur)         "
+                "     VALUES (%(isbm)s, %(titre)s, %(auteur)s)   "
+                "  RETURNING id_livre;                           ",
+                {"isbm": livre.isbm, 
+                 "titre": livre.titre, 
+                 "auteur": livre.auteur},
             )
             livre.id = cursor.fetchone()["id_livre"]
     return livre                
                 </code></pre>
 
                     <aside class="notes">
-						Exemple avec une base<br>
-						Décrire le SQL, le reste c'est du technique<br>
-						TP 3
+                        Exemple avec une base<br>
+                        Décrire le SQL, le reste c'est du technique<br>
+                        TP 3
                     </aside>
                 </section>
 
@@ -399,16 +438,20 @@ def find_all(self) -> list[Livre]:
                 "  FROM livre ;                    "
             )
             livre_bdd = cursor.fetchall()
-            liste_livres = []
-            for livre in livre_bdd:
-                liste_livres.append(
-                    Livre(
-                        id=livre["id_livre"],
-                        isbm=livre["isbm"],
-                        titre=livre["titre"],
-                        auteur=livre["auteur"],
-                    )
+            
+    liste_livres = []
+
+    if livre_bdd:
+        for livre in livre_bdd:
+            liste_livres.append(
+                Livre(
+                    id=livre["id_livre"],
+                    isbm=livre["isbm"],
+                    titre=livre["titre"],
+                    auteur=livre["auteur"],
                 )
+            )
+            
     return liste_livres
                 </code></pre>
 
@@ -428,7 +471,7 @@ def find_all(self) -> list[Livre]:
                         <li class="fragment">DAO : centralise les méthodes pour lire/écrire nos données <img
                                 class="plain icon" src="https://img.icons8.com/color/48/000000/edit-property.png">
                         </li>
-                        <li class="fragment">Le couche métier appele la DAO sans se préoccuper du système de persistance
+                        <li class="fragment">Le couche métier appelle la DAO sans se préoccuper du système de persistance
                             <img class="plain icon" src="https://img.icons8.com/color/48/000000/invisible.png">
                         </li>
                         <li class="fragment">Permet un travail d'équipe efficace 🦸‍♀️🧙‍♂️👨‍💼👩‍🔬
@@ -465,10 +508,12 @@ def find_all(self) -> list[Livre]:
                         <li><span class="important">D</span>isponibilité</li>
                     </ul>
                     <aside class="notes">
-
+                        On utilise aussi parfois DICP ou DICPA <br>
+                        Disponibilité, Intégrité, Confidentialité, Preuve
 
                     </aside>
                 </section>
+                
                 <section>
                     <h3>Deux bonus</h3>
                     <ul>
@@ -483,7 +528,11 @@ def find_all(self) -> list[Livre]:
                     (notions de droits ou permissions).
                     Tout accès indésirable doit être empêché.
                     <p class="fragment important">Mécanismes associés : gestion des droits (annuaires, rôles ...), cryptographie</p>
+                    <aside class="notes">
+                        On parle plutôt de chiffrement
+                    </aside>
                 </section>
+                
                 <section>
                     <h3>Authentification</h3>
                     Les utilisateurs doivent prouver leur identité en répondant à un "challenge".
@@ -493,6 +542,7 @@ def find_all(self) -> list[Livre]:
                         biométriques, multi facteurs)</p>
 
                 </section>
+                
                 <section>
                     <h3>Intégrité</h3>
                     Les données doivent être celles que l'on attend, et ne doivent pas être altérées de façons fortuites,
@@ -500,14 +550,20 @@ def find_all(self) -> list[Livre]:
                     <p class="fragment important">Mécanismes associés : signature électronique, checksum</p>
 
                 </section>
+                
                 <section>
                     <h3>Disponibilité</h3>
                     L'accès aux ressources du système d'information doit être permanent et sans faille durant les plages
                     d'utilisation prévues.
                     <p class="fragment important">Mécanismes associés : redondance des serveurs, virtualisation,
                         conteneurisation</p>
+                        
+                    <aside class="notes">
+                        Backup
+                    </aside>
 
                 </section>
+                
                 <section>
                     <h3>Traçabilité</h3>
                     Garantit que les accès et tentatives d'accès aux éléments considérés sont tracés et que ces traces
@@ -515,6 +571,7 @@ def find_all(self) -> list[Livre]:
                     <p class="fragment important">Mécanisme associé : journalisation</p>
 
                 </section>
+                
                 <section>
                     <h3>La non-répudiation</h3>
                     Aucun utilisateur ne doit pouvoir contester les opérations qu'il a réalisé dans le cadre de ses
@@ -645,10 +702,16 @@ def find_all(self) -> list[Livre]:
                         de caractères spéciaux 😨
 
                     </p>
-                    <aside class="notes">La seconde solution est mieux que la première mais psycopg2 ne semble pas la
-                        proposer
-                        simplement. Donc il faut la connaître, mais savoir que c'est la première solution qui va être
-                        faite.
+                    <aside class="notes">
+                        La seconde solution est mieux que la première mais psycopg2 ne semble pas la proposer simplement. <br>
+                        Donc il faut la connaître, mais savoir que c'est la première solution qui va être faite.<br><br>
+                        
+                        Echapper les caractères spéciaux : par exemple, « ' » sera remplacé par « \' » <br>
+                        l'apostrophe ne sera donc pas interprété comme une fin de chaîne par le SGBD<br><br>
+                        
+                        instruction "prepare" : <br>
+                        1. envoie la requête à trous à la BDD<br>
+                        2. envoie pour remplir les trous
                     </aside>
                 </section>
                 <section>
@@ -671,7 +734,7 @@ def find_all(self) -> list[Livre]:
                     <ul>
                         <li class="fragment">Site de micro blogging</li>
                         <li class="fragment">Les utilisateurs peuvent rentrer du texte
-                            qui sera ensuite mis dynamiquement dan la page web
+                            qui sera ensuite mis dynamiquement dans la page web
                         </li>
                             <pre class="fragment"><code data-trim data-noescape>
                                 &lt;script> while(1==1){alert('bonjour')}&lt;/script>
@@ -743,13 +806,16 @@ def find_all(self) -> list[Livre]:
                     </ul>
                     <div class="important-bloc fragment">Authentification sans persister les mots de passe !!!!</div>
                     <aside class="notes">
-                        C'est tellement simple et sécurisé ! Mais pas tous le site le font ... Un site qui vous renvoi
-                        votre mdp le garde en mémoire
-                        (ou du moins le moyen de le déchiffrer) <br> Dans la vraie vie on rajoute
-                        un "sel" au mdp avec de le hacher. C'est une valeur aléatoire calculées pour chaque utilisateur
-                        que l'on va rajouter au mdp avant de le hacher. Cela rend une attaque en force brute plus coûteuse.
+                        C'est tellement simple et sécurisé ! <br>
+                        Mais pas tous le site le font ... <br>
+                        Un site qui vous renvoi votre mdp le garde en mémoire (ou du moins le moyen de le déchiffrer) <br><br>
+                        
+                        Dans la vraie vie on rajoute un "sel" au mdp avec de le hacher. <br>
+                        C'est une valeur aléatoire calculées pour chaque utilisateur que l'on va rajouter au mdp avant de le hacher<br>                        
+                        Cela rend une attaque en force brute plus coûteuse.
                     </aside>
                 </section>
+                
                 <section>
                     <img src="https://media.giphy.com/media/Pk4ldVR0sCHgA/source.gif" class="w80 plain no-print"alt="">
                 </section>
@@ -765,8 +831,14 @@ def find_all(self) -> list[Livre]:
                         <li>Votre base mail/mdp fuite mais les mdp sont hachés</li>
                         <li>Les attaquants doivent <em>bruteforce</em> les mdp</li>
                         <li>Ils commencent par les mdp les plus courants, et les hachent avec les algo de hash courants</li>
-                        <li>Puis ils comparent avec la base. Forte chance d'avoir plusieurs match</li>
+                        <li>Puis ils comparent avec la base</li>
+                        <li>Forte chance d'avoir plusieurs correspondances</li>
                     </ul>
+
+                    <aside class="notes">
+                        bruteforce : tester toutes les combinaisons possibles
+                    </aside>                    
+                    
                 </section>
 
                 <section>
