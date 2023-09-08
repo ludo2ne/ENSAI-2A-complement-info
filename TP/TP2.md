@@ -140,9 +140,9 @@ response = requests.get("http://mon-webservice.com")
 Exécuter cette ligne de code va :
 
 1. Envoyer la requête au serveur que vous contactez
-2. Stockez le résultat dans la variables `response`
+2. Stockez le résultat dans la variable `response`
 
-Cette variables `response` est un objet, et comme tout objet elle a des attributs et des méthodes, par exemple : 
+Cette variable `response` est un objet, et comme tout objet elle a des attributs et des méthodes, par exemple : 
 
 * `response.text` : le corps du résultat sous forme de string en laissant `requests` inférer l'encodage (cela fonctionne souvent). Problème vous avez seulement un string, et ce n'est pas le meilleur format de données à manipuler
 * **`response.json()`** : le corps du résultat comme un `dict`. C'est ce que vous allez faire le plus souvent car le format json est un format simple à manipuler
