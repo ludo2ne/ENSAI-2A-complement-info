@@ -49,8 +49,8 @@
                 <section>
                     <h1>Compléments info,  CM4</h1>
                     <h3>Git et test</h3>
-                    <p>Pépin Rémi, Ensai, 2022</p>
-                    <p>remi.pepin@ensai.fr</p>
+                    <p>DENEUVILLE Ludovic (sur la base des cours de Rémi Pépin)</p>
+                    <p>ludovic.deneuville@ensai.fr</p>
                 </section>
 
                 <section>
@@ -69,7 +69,7 @@
                                 <li>Pourquoi tester ?</li>
                                 <li>Les différents types de tests</li>
                                 <li>Les tests unitaires</li>
-                                <li>Test driven developpement</li>
+                                <li>Test Driven Development</li>
                             </ol>
                         </li>
                     </ol>
@@ -162,6 +162,10 @@
                         <li class="fragment">Et se passe mal ...</li>
                     </ul>
 
+                    <aside class="notes">
+                        Pour voir si ils suivent : c'est pas Amy mais Emy !
+                    </aside>                    
+
                 </section>
 
                 <section>
@@ -201,17 +205,22 @@
                         <li>Développé par Linus Torvalds pour dev noyau Linux</li>
                         <li>Open source</li>
                         <li><span class="important">Décentralisé</span></li>
-                        <li>Plusieurs hébergements gratuit en ligne</li>
+                        <li>Plusieurs hébergements gratuits en ligne</li>
                     </ul>
                 </section>
+                
                 <section>
                     <h3>Des hébergeurs pour git</h3>
                     <ul>
                         <li>Github, propriétaire, acheté par microsoft en 2018 pour 7.5 milliards $</li>
-                        <li>Gitlab, opensource</li>
-                        <li>Framagit (se base sur gitlab), opensource</li>
+                        <li>Gitlab, open source (utilisé en interne à l'INSEE)</li>
+                        <li>Framagit (se base sur gitlab), open source</li>
                         <li>Bitbucket, propriétaire</li>
                     </ul>
+                    
+                    <aside class="notes">
+                        des dépôt distants (remote)
+                    </aside>
                 </section>
 
                 <section>
@@ -238,7 +247,7 @@
                         <li>Clone du dépôt central (+historique)
                         </li>
                         <li>Modification du code de la workspace</li>
-                        <li>Envoi du code dans le dépôt local (via zone de transite)</li>
+                        <li>Envoi du code dans le dépôt local (via zone de transit)</li>
                         <li>Envoi du différentiel du dépôt local dans le dépôt distant</li>
                         <li>Seulement si on est à jour sur la remote</li>
                     </ul>
@@ -252,7 +261,7 @@
                         <li class="fragment">Il faut être à jour avant de pousser une version</li>
                         <li class="fragment">Plusieurs versions et historiques à un moment T </li>
                         <li class="fragment">Remote fait foi</li>
-                        <li class="fragment">Possibilité de conflit de versions</li>
+                        <li class="fragment">Possibilité de conflits de versions</li>
                         <li class="fragment">Mais seulement en local</li>
                     </ul>
                 </section>
@@ -269,8 +278,13 @@
                     </code></pre>
                     <p>Cloner un dépôt</p>
                     <pre><code data-trim data-noescape class="console">
-                        git clone url.du.depot outputFolder
+                        git clone https://github.com/ludo2ne/R-tuto.git
+                        git clone git@github.com:ludo2ne/R-tuto.git
                     </code></pre>
+                    
+                    <aside class="notes">
+                        https ou ssh
+                    </aside>
                 </section>
 
                 <section>
@@ -328,7 +342,17 @@
                     <p>Voir l'historique "joliment"
                         <pre><code data-trim data-noescape class="console">
                                 git log --all --decorate --oneline --graph
+                                git log --pretty=format:'%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s' --date=relative
                             </code></pre>
+                            
+                    <aside class="notes">
+                        https://github.com/ludo2ne/ENSAI-2A-remise-a-niveau/tree/main/Outils/Git <br>
+                        Créer des alias <br>
+                        git config --global alias.bb "log --pretty=format:'%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s' --date=relative"<br>
+                        git config --global alias.cc "log --all --decorate --oneline --graph"
+                    </aside>
+                            
+                            
                 </section>
 
                 <section>
@@ -341,6 +365,10 @@
                     <p><a href="https://leanpub.com/git-flow/read"><img src="https://leanpub.com/site_images/git-flow/git-workflow-release-cycle-4maintenance.png"
                                 alt="un git workflow" class="w60"></a><br>Source : <a href="https://leanpub.com/git-flow/read">lien</a>
 
+                    <aside class="notes">
+                        branches <br>
+                        tags
+                    </aside>
                 </section>
 
                 <section>
@@ -353,6 +381,10 @@
                         <li>Des branches pour les ajouts de fonctionnalité</li>
                     </ul>
 
+                    <aside class="notes">
+                        branches "propres" et autres <br>
+                        tags
+                    </aside>
                 </section>
 
 
@@ -380,9 +412,6 @@
 
                 </section>
 
-                <section>
-                    <h2>Démo</h2>
-                </section>
                 <section>
                     <h3>Question</h3>
                     <iframe src="https://giphy.com/embed/3otPot3HqxcKRbGkXC" width="800" height="600" frameBorder="0" class="no-print giphy-embed" allowFullScreen></iframe>
@@ -469,7 +498,7 @@
                         <li>Les modules entre eux</li>
                         <li>Les use case en entier</li>
                         <li>La navigation dans l'ihm</li>
-                        <li>La résistance au nombre d'utilisateur</li>
+                        <li>La résistance au nombre d'utilisateurs</li>
                         <li>La résistance aux intrusions</li>
                         <li>...</li>
                     </ul>
@@ -487,11 +516,14 @@
                     </ul>
                 </section>
 
-
                 <section>
                     <h3>Quand tester ?</h3>
 
                     <iframe src="https://giphy.com/embed/2xF8ihOYNJCG0iAXNU" width="1500" height="570" frameBorder="0" class="no-print giphy-embed" allowFullScreen></iframe>
+
+                    <aside class="notes">
+                        à votre avis ?
+                    </aside>
                 </section>
 
                 <section>
@@ -501,15 +533,15 @@
                 </section>
 
                 <section>
-                    <h3>Le Test Driven Developpement (TDD)</h3>
+                    <h3>Le Test Driven Developpment (TDD)</h3>
                     <p class="fragment">Pratique qui consiste à écrire les tests <span class="important">AVANT</span> de
                         coder</p>
                     <ul>
-                        <li class="fragment">On commence par écrire un test (inputs, objet à tester,outputs)</li>
+                        <li class="fragment">On commence par écrire un test (inputs, objet à tester, outputs)</li>
                         <li class="fragment">Puis on définit les fonctions nécessaires pour lancer le test</li>
                         <li class="fragment">On lance le test -> <span class="red">echec</span></li>
-                        <li class="fragment">On code la fonction pour une réussite minimal -> <span class="green">réussite</span></li>
-                        <li class="fragment">On met à jour la fonctions -> <span class="purple">refactor</span></li>
+                        <li class="fragment">On code la fonction pour une réussite minimale -> <span class="green">réussite</span></li>
+                        <li class="fragment">On met à jour la fonction -> <span class="purple">refactor</span></li>
                     </ul>
                 </section>
 
@@ -550,11 +582,11 @@
                 <section>
                     <h3>Les tests unitaires</h3>
                     <ul>
-                        <li class="fragment">Vérifie qu'une méthode fait bien ce qu'elle doit faire</li>
-                        <li class="fragment">Cas nominaux (doivent fonctionner)</li>
-                        <li class="fragment">Cas d'erreur (doivent lever une erreur)</li>
-                        <li class="fragment">Cas à la marge (ça dépend)</li>
-                        <li class="fragment">Tests à la charge des développeurs</li>
+                        <li>Vérifie qu'une méthode fait bien ce qu'elle doit faire</li>
+                        <li>Cas nominaux (doivent fonctionner)</li>
+                        <li>Cas d'erreur (doivent lever une erreur)</li>
+                        <li>Cas à la marge (ça dépend)</li>
+                        <li>Tests à la charge des développeurs</li>
                     </ul>
                 </section>
 
@@ -562,14 +594,15 @@
                     <h3>Architecture d'un test unitaire</h3>
                     <pre><code data-trim data-noescape class="python">
                             def test_ma_fonction():
-                                # GIVEN
-                                # Inputs
+                                # GIVEN -> Inputs
+                                expected_result = 
+                                mes_parametres = 
 
-                                # WHEN
-                                # Le traitement à tester
+                                # WHEN -> Le traitement à tester
+                                actual_result = ma_fonction(mes_parametres)
 
                                 # THEN
-                                #Des petits traitements supplémentaire comme nettoyer la base
+                                #Des petits traitements supplémentaires comme nettoyer la base
 
                                 self.assertEqual(actual_result, expected_result)
                             </code></pre>
@@ -629,9 +662,12 @@
                     
                             # THEN
                             self.assertEqual(pikachu, first)
-                            self.assertEqual(charizard, second)
-                
+                            self.assertEqual(charizard, second)                
                         </code></pre>
+                        
+                    <aside class="notes">
+                        c'est du bonus
+                    </aside>
                 </section>
 
                 <section>
@@ -643,7 +679,12 @@
                         <li class="fragment">Commenté</li>
                         <li class="fragment">Maintenable</li>
                     </ul>
-                    <div class="important-bloc fragment">Fait partie du code et est de la documentation </div>
+                    <div class="important-bloc fragment">Fait partie du code et de la documentation </div>
+                    
+                    <aside class="notes">
+                        faire plusieurs TU pour tester le cas nominal et les cas d'erreurs<br>
+                        test "UNITAIRE"
+                    </aside>
                 </section>
 
                 <section>
@@ -660,7 +701,7 @@
                         <li class="fragment">Indicateur simple à calculer</li>
                         <li class="fragment">Mais pas très fiable</li>
                         <li class="fragment">Facile de faire des "faux tests"</li>
-                        <li class="fragment">Préférer faire peu de tests utiles que beaucoup inutiles</li>
+                        <li class="fragment">Préférer faire peu de tests utiles que beaucoup de tests inutiles</li>
                         <li class="fragment"><span class="important">80% des problèmes viennent de 20% du code</span></li>
                     </ul>
                 </section>
@@ -680,7 +721,7 @@
                 <section>
                     <h3>Résumé des tests</h3>
                     <ul>
-                        <li class="fragment">Tester dés le début</li>
+                        <li class="fragment">Tester dès le début</li>
                         <li class="fragment">Les tests ne sont jamais parfaits</li>
                         <li class="fragment">Mais c'est mieux que rien</li>
                         <li class="fragment">Informe sur la qualité de l'application</li>

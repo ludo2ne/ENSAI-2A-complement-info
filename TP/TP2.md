@@ -232,6 +232,8 @@ Pour pour vérifier que tout fonctionne :
 
 :writing_hand: **Hands on 3**
 
+* Si ce n'est pas déjà fait (voir README.md), installez **dotenv**
+    * `pip install python-dotenv`
 * Ouvrez le fichier `/src/client/attack_client.py` 
 * [ ] Complétez la méthode `get_attack(int)`
   * prend en paramètre un id d'attaque 
@@ -241,7 +243,7 @@ Pour pour vérifier que tout fonctionne :
     * Regardez le fonctionnement de cette méthode et utilisez la
 * [ ] créez la méthode `get_all_attacks()` 
   * retourne la liste de tous les attaques disponibles sous la forme d'une liste d'objets `AbstractAttack`
-* [ ] Vérifiez que vos 2 méthodes fonctionnement
+* [ ] Vérifiez que vos 2 méthodes fonctionnent
     * Lancez les tests unitaitres du package test_client
 
 ---
