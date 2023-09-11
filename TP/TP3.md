@@ -1,87 +1,82 @@
----
-title: TP 3: Data Access Objet (DAO)
-author: Rémi Pépin
-subject: Complément informatique
-keywords: [webservices, DAO]
-header:  ${title} - ${author} - Page ${pageNo} / ${totalPages}
-
-
----
-
 # TP 3: Data Access Objet (DAO)
+
+## :arrow_forward: 0. Avant de commencer
 
 > :scream: Comme vous pouvez le constater le sujet de ce TP est lui aussi long. Cela ne doit pas vous effrayer. Il mélange explications complètes et manipulations pour être au maximum autosuffisant. **Vous n'allez surement pas terminer le sujet, ce n'est pas grave. Il est là pour vous aider lors du projet informatique.**
 >
-> :exclamation: Il est possible que les copiés/collés fonctionnent étrangement (caractère de fin de ligne qui disparaissent, indentation qui change). Faites-y attention !
->
-> Ce TP mêle explications pour vous faire comprendre ce qui est fait, et phase de manipulation ou code. Ces phases sont appelées "**:writing_hand:Hands on**". C'est à ce moment-là que vous devez faire ce qui est écrit dans le TP. Les explications de ce TP ne doivent pas prendre le pas sur celles de votre intervenant. Prenez-les comme une base de connaissance pour plus tard, mais préférez toujours les explications orales, surtout pour poser des questions.
+> Ce TP mêle explications pour vous faire comprendre ce qui est fait, et phases de manipulation ou code. Ces phases sont appelées "**:writing_hand:Hands on**". C'est à ce moment-là que vous devez faire ce qui est écrit dans le TP. Les explications de ce TP ne doivent pas prendre le pas sur celles de votre intervenant. Prenez-les comme une base de connaissances pour plus tard, mais préférez toujours les explications orales.
 
 Dans ce TP vous allez :
 
-- Revoir des notions de base de données relationnelles ;
-
-- Implémenter le patron de conception DAO ;
-- Voir si votre programme fonctionne avec des tests unitaires reproductibles.
-
-## 1 Mise en place
-
-- Récupérez le code de base pour le TP3
-
-  ````shell
-  git pull
-  git add .
-  git commit -m "TP 2"
-  git checkout Tp3_base
-  
-  # si vous n'avez pas le code du TP
-  git clone https://gitlab.com/remi2J/complement_info_ensai_2021_2022.git
-  cd complement_info_ensai_2021_2022
-  git checkout Tp3_base
-  ````
-  
-- Ou prenez l'archive sur Moodle
-
-- Installez toutes les dépendances nécessaires au TP
-
-  ```shell
-pip install -r requirements.txt 
-  ```
-  
-  (potentiellement il faut mettre pip3 en fonction de votre installation)
-
-- Dans le fichier `.env` à la racine du projet fixez les valeurs suivantes :
-
-  - host = sgbd-eleves.domensai.ecole
-  - port = 5432
-  - database = votre idep
-  - user = votre idep
-  - password = votre idep
-
-- Dans le fichier `script_bdd.sql` dans le dossier ressources vous trouverez un script sql à exécuter pour initialisez votre base. Ce script est à lancer sur votre base de postgres de l'Ensai (accessible uniquement depuis votre VM ou le wifi Ensai) disponible sur l'ENT ou le lien suivant [postgresEnsai](http://sgbd-eleves.domensai.ecole/phppgadmin) ou via DBeaver. Pour rappel votre nom d'utilisateur et votre mot de passe pour accéder au service sont tous deux votre IDEP Ensai.
-
-  - Pour utiliser DBeaver (client de base de données), dans la barre de recherche de votre VM tapez DBeaver. Si un fenêtre vous demande d'installer des maj, fermez-la. Ensuite cliquez sur `Base de données` (dans le bandeau du haut), puis `nouvelle connexion`. Choisissez PostgreSQL, installer les drivers, puis dans la fenêtre Connection Settings rentrez :
-    - Host : sgbd-eleves.domensai.ecole
-
-    - Database : votre idep
-
-    - Nom d'utilisateur :votre idep
-
-    - Mot de passe : votre idep
-
-  - Pour avoir accès à une fenêtre de code SQL, appuyer sur F3. Pour lancer une requête appuyer sur le bouton play ou `ctrl+entrée`
-
-- Vérifiez que l'interpréteur est bien configuré et lancez les tests du projet en tapant dans le terminal de VS code
-
-  ```shell
-  python -m unittest
-  ```
+* Revoir des notions de base de données relationnelles ;
+* Implémenter le patron de conception DAO ;
+* Voir si votre programme fonctionne avec des tests unitaires reproductibles.
 
 
-## 2 Data Access Objet (DAO)
+## :arrow_forward: 1. Mise à jour de votre dépôt local
 
-###  2.1 Modélisation
+Comme lors du précédent TP, vous avez 2 possibilités pour récupérer le code de base du TP3 : 
 
-Reprenons le diagramme de classe du TP 1et limitons nous à la partie "attaque" (pas les *Pokémons*) et réfléchissons où mettre une méthode qui permet de persister les attaques.
+#### :arrow_right: Si vous voulez repartir du code du TP2 
+
+* Ouvrez **Visual Studio Code**
+    * File > Open Folder
+        * Allez dans `/p/Cours2A/UE3_Complements_informatique/TP/TP2`
+        * cliquez une fois sur **ENSAI-2A-complement-info-TP**
+        * puis sur le bouton **Sélectionner un dossier**
+    * Ouvrez un Terminal Git Bash dans VSCode (Terminal > New terminal)
+    * Créez un point de sauvegarde de vos travaux de la semaine dernière
+        * `git add .`
+        * `git commit -m "Mon super code du TP2"`
+    * Mettez à jour votre dépôt local
+        * `git pull`
+
+#### :arrow_right: Si vous n'avez pas le code du TP2 sur votre machine
+
+* Ouvrez le logiciel **Git Bash**
+    * Créez un dossier pour stocker le code du TP
+        * par exemple, copiez la ligne ci-dessous, et collez là dans Git Bash (clic droit > Paste)
+        * `mkdir -p /p/Cours2A/UE3_Complements_informatique/TP/TP3 && cd $_`
+    * Clonez le dépôt
+        * `git clone https://github.com/ludo2ne/ENSAI-2A-complement-info-TP.git`
+    * Fermez **Git Bash**
+* Ouvrez **Visual Studio Code**
+    * File > Open Folder
+        * Allez dans `/p/Cours2A/UE3_Complements_informatique/TP/TP2`
+        * cliquez une fois sur **ENSAI-2A-complement-info-TP**
+        * puis sur le bouton **Sélectionner un dossier**
+    * Ouvrez un Terminal Git Bash dans VSCode (Terminal > New terminal)
+
+
+#### :arrow_right: Dans les 2 cas
+
+* Passez sur la branche du TP3
+    * `git checkout tp3_base`
+* Si ce n'est pas déjà fait, installez les dépendances nécessaires (voir fichier README)
+    * `pip install -r requirements.txt`
+* pour pour vérifier que tout fonctionne bien
+    * lancez le fichier `__main__.py`
+    * lancez les tests unitaires
+        * dans terminal : `python -m unittest`
+* Pour pouvoir vous connecter à votre base de données, renseignez les variables du fichier **.env** avec votre id : 
+    * `DATABASE=id????`
+    * `USER=id????`
+    * `PASSWORD=id????`
+
+#### :warning: Attention quand vous faites Open Folder dans VSCode
+
+Le dossier parent de l'explorer de VSCode (à gauche) doit être : **ENSAI-2A-complement-info-TP**. 
+Si c'est TP1, TP2, TP3, TP ou autre chose ce n'est pas bon ! Vous allez avoir des soucis d'imports par la suite.
+
+---
+
+
+## :arrow_forward: 2. Data Access Objet (DAO)
+
+### :small_orange_diamond:  2.1 Modélisation
+
+
+Reprenons le diagramme de classe du TP1. Limitons nous à la partie "attaque" et réfléchissons où mettre une méthode qui permet de persister les attaques.
 
 ````mermaid
 classDiagram
@@ -123,24 +118,26 @@ class AbstractAttack{
 
 ````
 
-Vu que les attributs de nos attaques sont similaires on ne va pas coder ça dans les classes spécifiques des attaques. On pourrait mettre les méthodes dans `AbstractAttack`.  Ça fonctionnerait bien d'ailleurs. On aurait une classe unique avec nos méthodes pour interagir avec la base. Mais on ne va pas faire ça !
+Vu que les attributs de nos attaques sont similaires, on ne va pas coder ça dans les classes spécifiques des attaques. On pourrait mettre les méthodes dans `AbstractAttack`.  Ça fonctionnerait bien d'ailleurs. On aurait une classe unique avec nos méthodes pour interagir avec la base. Mais on ne va pas faire ça !
 
-Et là vous êtes en droit de vous demander 
+Et là vous vous demandez : 
 
 >  :scream: Mais pourquoi ???
 
-Et la réponse est
+Et la réponse est :
 
 > :stuck_out_tongue: Car ça n'a aucun sens !
 
-Revenons sur la phrase : **faible couplage, forte cohésion**. Si on met toutes les méthodes de persistance de nos attaques dans la classe `AbstractAttack` on va avoir une classe qui :
+Revenons sur la phrase : **faible couplage, forte cohésion**. Si l'on met toutes les méthodes de persistance de nos attaques dans la classe `AbstractAttack` on va avoir une classe qui :
 
  - :heavy_check_mark: Détermine le comportement des attaques. C'est exactement ce que l'on souhaite (**forte cohésion**).
  - :x: Détermine comment on persiste une attaques.
 
-  Mais ça, **ce n'est pas de la responsabilité d'une attaque, mais du système de persistance choisi, **ou du moins de **l'intermédiaire entre nos objets et le système de persistance** ! Je n'ai personnellement pas envie d'aller modifier ma classe `AbstractAttack` uniquement car j'ai décidé de changer de système de gestion de la persistance. Je risque de modifier quelque chose que je ne devrais pas et créer des régressions (= faire apparaitre des erreurs sur un code qui n'en avait pas avant) dans mon code. Or j'aimerais bien limiter les sources d'erreur car je sais que j'en commets facilement.
+  Mais ça, **ce n'est pas de la responsabilité d'une attaque, mais du système de persistance choisi,** ou du moins de **l'intermédiaire entre nos objets et le système de persistance** ! 
+  
+  Je n'ai personnellement pas envie d'aller modifier ma classe `AbstractAttack` uniquement car j'ai décidé de changer de système de gestion de la persistance. Je risque de modifier quelque chose que je ne devrais pas et créer des régressions (faire apparaitre des erreurs sur un code qui n'en avait pas avant) dans mon code. Or j'aimerais bien limiter les sources d'erreurs.
 
-À la place on va créer une classe qui va s'occuper uniquement de cette tâche. Et on appelle ce type de classe DAO pour **Data Access Object**. C'est une classe technique qui va faire **l'interface entre nos données stockées et notre application**. Voilà ce que cela donne en terme de diagramme de classe
+À la place, nous allons créer une classe qui va s'occuper uniquement de cette tâche. Et on appelle ce type de classe DAO pour **Data Access Object**. C'est une classe technique qui va faire **l'interface entre nos données stockées et notre application**. Voilà ce que cela donne en terme de diagramme de classe
 
 ````mermaid
 classDiagram
@@ -201,53 +198,57 @@ AttackDao..> DBConnection: use
 
 ````
 
-### 2.2 Gestion des connexions et patern singleton
+### :small_orange_diamond: 2.2 Gestion des connexions et patern singleton
 
-Pour vous connecter à la base de données nous allons utiliser la bibliothèque python `psycopg2` ([doc](https://www.psycopg.org/docs/index.html)). C'est elle qui va établir la connexion avec la base, envoyer nos requêtes et nous retourner les résultats. Mais il faut faire un peu attention à la gestion des connexions. Car on pourrait se retrouver à ouvrir des centaines de connexions rapidement et dégrader les performances de notre application. C'est le travail de la classe `DBConnection`. Comme c'est un singleton, il y aura une seule instance de cette classe dans toute notre application, et comme c'est elle qui se connecte à la base on s'assure de l'unicité de la connexion.
+Pour vous connecter à la base de données nous allons utiliser la bibliothèque python [**psycopg2**](https://www.psycopg.org/docs/index.html). C'est elle qui va établir la connexion avec la base, envoyer nos requêtes et nous retourner les résultats. 
 
->  Cette classe est une solution purement technique alors n'hésitez pas à la réutiliser pour votre projet. Le code de la classe est bien documenté pour les personnes intéressées. Elle introduit un concept avancé de POO, à savoir les méta classes. Une méta classe permet de modifier le comportement d'une classe à un niveau poussé (par exemple modifier comment les objets sont construits par python). À moins que vous ayez une appétence tout particulière pour l'informatique, ne passez pas de temps sur ce sujet.
+Mais il faut faire un peu attention à la gestion des connexions. Car nous pourrions nous retrouver à ouvrir des centaines de connexions rapidement et dégrader les performances de notre application. C'est le travail de la classe `DBConnection`. Comme c'est un singleton, il y aura une seule instance de cette classe dans toute notre application, et comme c'est elle qui se connecte à la base on s'assure de l'unicité de la connexion.
 
-### 2.3 DAO et CRUD
+>  Cette classe est une solution purement technique alors n'hésitez pas à la réutiliser pour votre projet. Elle introduit un concept avancé de POO, à savoir les méta classes. Une méta classe permet de modifier le comportement d'une classe à un niveau poussé (par exemple modifier comment les objets sont construits par python). À moins que vous ayez une appétence tout particulière pour l'informatique, ne passez pas de temps sur ce sujet.
 
-Si vous faites attention, les méthodes de notre DAO ressemblent à celles du CRUD. C'est normal car c'est dans ces méthodes que le code SQL va être stocké, donc il nous faut les méthodes de bases. Néanmoins pour gagner du temps rien n'empêche de créer des méthodes plus complexes. Par exemple il y a deux méthodes pour lire des données :
+### :small_orange_diamond: 2.3 DAO et CRUD
 
-- `find_by_id()` : qui retourne juste l'enregistrement avec l'id souhaité ;
-- `find_all()` : qui va retourner toute une table.
+Si vous faites attention, les méthodes de notre DAO ressemblent à celles du CRUD. C'est normal car c'est dans ces méthodes que le code SQL va être stocké, donc il nous faut les méthodes de base. Néanmoins pour gagner du temps rien n'empêche de créer des méthodes plus complexes. Par exemple il y a deux méthodes pour lire des données :
+
+* `find_by_id()` : qui retourne juste l'enregistrement avec l'id souhaité
+* `find_all()` : qui va retourner toute une table.
 
 Mais on pourrait imaginer plus de méthode si elles nous sont utiles. Ainsi la liste proposée n'est en rien absolue, elle doit être adaptée à vos besoins.
 
 Voici la fonctionnement général d'une des méthodes de la DAO (avec un exemple de code)
 
 ````python
-def create_attack(attack) -> AbstractAttack:
-    # Etape 1 : On récupère une connexion en utilisant la classe DBConnection. La connexion permet la communication avec la base
+def create_attack(self, attack) -> AbstractAttack:
+    # Etape 1 : On récupère une connexion en utilisant la classe DBConnection.
     connection = DBConnection().connection 
-    # Etape 2 : à partir de la connexion on fait un curseur pour la requête (cf doc). Le curseur permet à python de communiquer avec la base
+    
+    # Etape 2 : à partir de la connexion on fait un curseur pour la requête 
     with connection.cursor() as cursor : 
+        
         # Etape 3 : on exécute notre requête SQL. Les %()s vont être remplacés par les valeurs passées dans la seconde partie du execute. On laisse psycopg faire l'échappement des caractères pour nous.
         curseur.execute(
             "INSERT INTO arme (power, attack_name, attack_description)"
-            " VALUES (%(power)s, %(name)s, %(description)s) RETURNING id_attack;"
-            , {
+            " VALUES (%(power)s, %(name)s, %(description)s)"
+            " RETURNING id_attack;"
+            ,{
                 "power" : attack.power,
-                "name" : attack.name
+                "name" : attack.name,
                 "description" : attack.description
             })
+        
         # Etape 4 (optionnelle) : on récupère le résultat de la requête
         attack.id = curseur.fetchone()[0]
-    return attack
 
+    return attack
 ````
 
 ```python
 def find_attack_by_id(self, id: int) -> AbstractAttack:
-    # Etape 1 : On récupère une connexion
     connection = DBConnection().connection
-    # Etape 2 : à partir de la connexion on fait un curseur pour la requête (cf doc)
     with connection.cursor() as cursor : 
-     	# Etape 3 : on exécute notre requête SQL. Les %()s vont être remplacé par les valeurs passé dans la seconde partie du execute. On laisse psycopg faire l'échappement des caractères pour nous.
         cursor.execute(
-            "SELECT id_attack,attack_type_name, power,accuracy, element, attack_name, attack_description"
+            "SELECT id_attack,                           "
+                    attack_type_name, power,accuracy, element, attack_name, attack_description"
             "\n\tFROM attack JOIN attack_type type ON attack.id_attack_type=type.id_type_attack"
             "\n\t WHERE id_attack=%(id)s"
                 , {"id": id})
