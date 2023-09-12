@@ -74,7 +74,8 @@ Si c'est TP1, TP2, TP3, TP ou autre chose ce n'est pas bon ! Vous allez avoir de
     * cela crée un schéma et des données utiles pour ce TP
 * Ouvrez **DBeaver** pour une remise en jambes en SQL
     * Si vous n'êtes pas familier avec DBeaver, suivez ces [instructions](https://github.com/ludo2ne/ENSAI-2A-remise-a-niveau/blob/main/SQL/DBeaver.md)
-    * observez ces tables et leurs liens : `tp.pokemon`, `tp.pokemon_type`, `tp.attack`, `tp.attack_type`, `tp.pokemon_attack`, puis écrivez des requêtes pour : 
+    * observez ces tables et leurs liens : `tp.pokemon`, `tp.pokemon_type`, `tp.attack`, `tp.attack_type`, `tp.pokemon_attack` (schéma dans TP/images/)
+    * écrivez des requêtes pour : 
         * [ ] lister toutes les attaques, ainsi que le nom du type d'attaque 
         * [ ] lister tous les pokemon, ainsi que le nom du type de Pokemon
         * [ ] lister toutes les attaques de Pikachu 
