@@ -47,6 +47,14 @@ Comme lors du précédent TP, vous avez 2 possibilités pour récupérer le code
         * puis sur le bouton **Sélectionner un dossier**
     * Ouvrez un Terminal Git Bash dans VSCode (Terminal > New terminal)
 
+---
+
+#### :warning: Attention quand vous faites Open Folder dans VSCode
+
+Le dossier parent de l'explorer de VSCode (à gauche) doit être : **ENSAI-2A-complement-info-TP**. 
+Si c'est TP1, TP2, TP3, TP ou autre chose ce n'est pas bon ! Vous allez avoir des soucis d'imports par la suite.
+
+---
 
 #### :arrow_right: Dans les 2 cas
 
@@ -62,11 +70,16 @@ Comme lors du précédent TP, vous avez 2 possibilités pour récupérer le code
     * `DATABASE=id????`
     * `USER=id????`
     * `PASSWORD=id????`
+* Lancez le script `utils/reset_database.py`
+    * cela crée un schéma et des données utiles pour ce TP
+* Ouvrez **DBeaver** pour une remise en jambes en SQL
+    * Si vous n'êtes pas familier avec DBeaver, suivez ces [instructions](https://github.com/ludo2ne/ENSAI-2A-remise-a-niveau/blob/main/SQL/DBeaver.md)
+    * observez ces tables et leurs liens : `tp.pokemon`, `tp.pokemon_type`, `tp.attack`, `tp.attack_type`, `tp.pokemon_attack`, puis écrivez des requêtes pour : 
+        * [ ] lister toutes les attaques, ainsi que le nom du type d'attaque 
+        * [ ] lister tous les pokemon, ainsi que le nom du type de Pokemon
+        * [ ] lister toutes les attaques de Pikachu 
+    * gardez ces requêtes de coté, elles seront utiles plus loin
 
-#### :warning: Attention quand vous faites Open Folder dans VSCode
-
-Le dossier parent de l'explorer de VSCode (à gauche) doit être : **ENSAI-2A-complement-info-TP**. 
-Si c'est TP1, TP2, TP3, TP ou autre chose ce n'est pas bon ! Vous allez avoir des soucis d'imports par la suite.
 
 ---
 
@@ -180,10 +193,10 @@ class AbstractAttack{
 class AttackDao{
 <<Singleton>>
  +create(AbstractAttack) AbstractAttack
- +find_by_id(str) AbstractAttack
+ +find_by_id(int) AbstractAttack
  +find_all() List[AbstractAttack]
- +update(AbstractArme) AbstractAttack
- +delete(AbstractArme) bool
+ +update(AbstractAttack) AbstractAttack
+ +delete(AbstractAttack) bool
 }
 
 class DBConnection{
@@ -208,145 +221,97 @@ Mais il faut faire un peu attention à la gestion des connexions. Car nous pourr
 
 ### :small_orange_diamond: 2.3 DAO et CRUD
 
-Si vous faites attention, les méthodes de notre DAO ressemblent à celles du CRUD. C'est normal car c'est dans ces méthodes que le code SQL va être stocké, donc il nous faut les méthodes de base. Néanmoins pour gagner du temps rien n'empêche de créer des méthodes plus complexes. Par exemple il y a deux méthodes pour lire des données :
+Si vous faites attention, les méthodes de notre DAO ressemblent à celles du CRUD. C'est normal car c'est dans ces méthodes que le code SQL va être stocké, donc il nous faut les méthodes de base, généralement :
 
-* `find_by_id()` : qui retourne juste l'enregistrement avec l'id souhaité
-* `find_all()` : qui va retourner toute une table.
+* `find_all()` : qui va retourner toute la table.
+* `find_by_id()` : qui retourne un enregistrement à partir de son id
+* `create()` : qui crée un nouvel enregistrement
+* `delete()` : qui supprime un enregistrement
+* `update()` : qui met à jour un enregistrement
 
-Mais on pourrait imaginer plus de méthode si elles nous sont utiles. Ainsi la liste proposée n'est en rien absolue, elle doit être adaptée à vos besoins.
+Ces 5 méthodes suffisent pour communiquer avec votre base de données. Vous pouvez effectuer le reste des traitements dans vos classes **Service**. Néanmoins pour gagner du temps rien n'empêche de créer des méthodes plus complexes (ex : `find_by_type_and_level_order_by_name_desc()`)
 
-Voici la fonctionnement général d'une des méthodes de la DAO (avec un exemple de code)
-
-````python
-def create_attack(self, attack) -> AbstractAttack:
-    # Etape 1 : On récupère une connexion en utilisant la classe DBConnection.
-    connection = DBConnection().connection 
-    
-    # Etape 2 : à partir de la connexion on fait un curseur pour la requête 
-    with connection.cursor() as cursor : 
-        
-        # Etape 3 : on exécute notre requête SQL. Les %()s vont être remplacés par les valeurs passées dans la seconde partie du execute. On laisse psycopg faire l'échappement des caractères pour nous.
-        curseur.execute(
-            "INSERT INTO arme (power, attack_name, attack_description)"
-            " VALUES (%(power)s, %(name)s, %(description)s)"
-            " RETURNING id_attack;"
-            ,{
-                "power" : attack.power,
-                "name" : attack.name,
-                "description" : attack.description
-            })
-        
-        # Etape 4 (optionnelle) : on récupère le résultat de la requête
-        attack.id = curseur.fetchone()[0]
-
-    return attack
-````
-
-```python
-def find_attack_by_id(self, id: int) -> AbstractAttack:
-    connection = DBConnection().connection
-    with connection.cursor() as cursor : 
-        cursor.execute(
-            "SELECT id_attack,                           "
-                    attack_type_name, power,accuracy, element, attack_name, attack_description"
-            "\n\tFROM attack JOIN attack_type type ON attack.id_attack_type=type.id_type_attack"
-            "\n\t WHERE id_attack=%(id)s"
-                , {"id": id})
-        # Etape 4 (optionnelle) : on récupère le résultat de la requête
-        res = cursor.fetchone()
-	# Etape 5 (optionnelle) : on fait des choses avec le résultat de la requête qui se présente tout la forme d'un dictionnaire python avec comme clef les noms des colonnes
-    attack = None
-    if res is not None:
-        # /!\ ce code ne fonctionne pas !
-        attack = Attack(
-            name=res["attack_name"]
-            , id=res["id_attack"]
-            , power=res["power"]
-            , description=res["attack_description"]
-            )
-	return attack
-```
-
-Pour simplifier vos requêtes vont se présenter sous la forme suivante :
+Voici la fonctionnement général d'une des méthodes de la DAO :
 
 ```` python
+# Etape 1 : On récupère une connexion en utilisant la classe DBConnection.
 connection = DBConnection().connection
-with connection.cursor() as cursor : 
-	cursor.execute(requete_sql)
-	res = cursor.fetchone()
 
-#Code métier
+# Etape 2 : à partir de la connexion on fait un curseur pour la requête 
+with connection.cursor() as cursor : 
+    
+    # Etape 3 : on exécute notre requête SQL.
+    cursor.execute(requete_sql)
+    
+    # Etape 4 : on stocke le résultat de la requête
+    res = cursor.fetchall()
+
+if res:
+    # Etape 5 : on agence les résultats selon la forme souhaitée (liste...)
     
 return something
 ````
 
-L'objet `cursor` contient un pointeur vers les résultats de votre requête. Ce résultat n'est pas encore rapatrié sur votre machine, mais est stocké par la base de donnée. Vous avez 3 méthodes pour récupérer le résultat :
+L'objet `cursor` contient un pointeur vers les résultats de votre requête. Ce résultat n'est pas encore rapatrié sur votre machine, mais est stocké par la base de données. Vous avez 3 méthodes pour récupérer le résultat :
 
-- `cursor.fetchall()` : retourne l'intégralité des résultats sous forme d'une liste de dictionnaires. Les dictionnaires sont les lignes récupérées. Les clefs du dictionnaire sont les colonnes récupérées. Cette méthode fonctionne très bien quand on veut tous les résultats en une fois et qu'il y en a peu. Quand on a des millions d'enregistrements cela va poser problème car :
-
-  - Le transfert de données sur internet va prendre du temps et bloquer notre application ;
-  - Notre application va devoir gérer une grande quantité de données, et elle en est peut-être incapable.
-
-  Dans le cas des projets `cursor.fetchall()` ne devrait pas poser de problème, mais garder ce genre de problématique en tête.
-
-   Pour traiter ce tableau :
-
-  ````python
-  records = curseur.fetchall()
-  attacks = [] 
-  for row in records : # boucle sur les lignes du tableau
-      armes.append(Attack(row["id"], row["name"]...)) #row["key"] = la valeur pour la colonne key
-  ````
-
-- `curseur.fetchmany(size)`: retourne autant d'enregistrements que demandé sous forme d'une liste de dictionnaires. Elle permet de contrôler le volume de données que l'on traite. Si vous appelez de nouveau `fetchmany(size)` sur votre curseur vous allez récupérer les lignes suivantes (vous obtenez un système de pagination). La contrepartie est que cela demande de garder le curseur ouvert. Le résultat ce traite de la même manière que précédemment ; 
-
-- `curseur.fetchone()` : retourne uniquement un enregistrement sous forme de dictionnaire Si vous appelez de nouveau  `fetchone()` sur le même curseur vous obtiendrez la ligne suivante.
+- `curseur.fetchone()` : retourne uniquement un enregistrement sous forme de dictionnaire. Si vous appelez de nouveau `fetchone()` sur le même curseur vous obtiendrez la ligne suivante
+- `cursor.fetchall()` : retourne l'intégralité des résultats sous forme d'une liste de dictionnaires. 
+    - Les dictionnaires sont les lignes de la table récupérée. 
+    - Les clés du dictionnaire sont les colonnes récupérées. 
+    - Cette méthode fonctionne très bien quand on veut tous les résultats en une fois et qu'il y en a peu. Quand on a des millions d'enregistrements cela va poser problème car :
+        - Le transfert de données sur internet va prendre du temps et bloquer notre application ;
+        - Notre application va devoir gérer une grande quantité de données, et elle en est peut-être incapable.
+- `curseur.fetchmany(size)`: retourne autant d'enregistrements que demandé sous forme d'une liste de dictionnaires. Cela permet de contrôler le volume de données que l'on traite. Si vous appelez de nouveau `fetchmany(size)` sur votre curseur, vous allez récupérer les lignes suivantes (système de pagination)
 
 Pour plus d'information : [article de pynative](https://pynative.com/python-cursor-fetchall-fetchmany-fetchone-to-read-rows-from-table/)
 
-### ✍Hand on 1 : DAO avec des types d'attaque
+---
 
-![](image tp3/table attaque.png)
+### :small_orange_diamond: DAO avec des types d'attaque
 
-- Créez une classe `TypeAttackDao` pour récupérer les id des attaques. Vous créerez deux méthodes :
-  - `find_id_by_label` pour retourner l'id d'un type d’attaque ;
-  - `find_all`pour retourner le tableau de tous les types d'attaque ;
-- Créez la classe `AttaqueDao` avec les méthodes :
-  - `find_all_attack(limit:int, offset:int) -> List[AbsractAttack]` : retourne qui fait une requête SELECT à la base de donnée avec un paramètre LIMITE égale à `limit` et un paramètre `OFFSET`  égale à `offset`.
-  - `find_attack_by_id(id:int) -> Optional[AbsractAttack]` : retourne l'attaque avec l'id en paramètre ou retourne None si l'attaque n'est pas trouvée.
-  - `add_attack(attack : AbstractAttack) -> bool` : ajoute une attaque en base et retourne si l'ajout s'est bien passé.
-  - `update_attack(attack : AbstractAttack) -> bool` : met à jour les données de l'attaques passée en paramètre et retourne si la modification s'est bien passée.
+**✍Hand on 1**
+
+* [ ] Observez le fonctionnement de la classe AttaqueTypeDAO
+    * cela va vous être utile pour la suite
+* [ ] Dans DBeaver, créez une requête qui retourne le contenu de la table `tp.attack`, ainsi que le champ `attack_type_name` de la table `tp.attack_type`
+    * Cette requête servira pour les 2 méthodes `find` ci-après, car pour créer nos objets métier **Attack**, nous avons besoin de connaitre le nom du type d'attaque
+* [ ] Dans la classe `AttaqueDao`, créez les méthodes suivantes :
+  * [ ] `update_attack(attack : AbstractAttack) -> bool` : met à jour les données de l'attaque passée en paramètre et retourne si la modification s'est bien passée
+  * [ ] `find_attack_by_id(id:int) -> Optional[AbsractAttack]` : retourne l'attaque avec l'id en paramètre ou retourne None si l'attaque n'est pas trouvée.
+  * [ ] `find_all_attacks() -> List[AbsractAttack]` : qui retourne la liste de toutes les attaques
+      * [ ] Bonus : ajoutez à cette méthode les paramètres `limit` et `offset`
 
 Voici quelques conseils :
 
-- Vous pouvez utiliser l'attribut la property  `type` de chaque attaque pour avoir son label en base ;
-- Vous trouverez une classe `AttackFactory` pour instancier facilement des attaques
-- Pensez à faire des tests pour voir si votre code fonctionne.
+- Vous pouvez utiliser l'attribut `type` de chaque attaque pour avoir son label en base
+- Utilisez la classe `AttackFactory` pour instancier facilement des attaques
+- Pensez à faire des tests pour voir si votre code fonctionne
 
-### ✍Hand on 2 : Pokémon DAO
+---
 
-Créez la classe Pokémon DAO avec les méthodes suivantes :
+### :small_orange_diamond: Pokémon DAO
 
-- `find_all_pokemon()->List[AbstractPokemon]` : retourne tous les pokémons dans la base
-- `find_pokemon_by_name(name:str)->AbstractPokemon` : retourne un pokémon avec le nom donné. Ce pokémon doit être le plus complet possible et donc avoir sa liste d'attaques. Pour faire cela :
-  - Récupérez toutes les informations possibles de la table pokémon
-  - Faites une requête en joignant les tables `attack` et `pokemon_attack` en filtrant avec l'id du pokémon
-  - Générez les attaques à partir de là
+**✍Hand on 2**
 
-![](image tp3/schéma de base.png)
+Créez la classe **PokémonDAO** avec les méthodes suivantes :
 
-### ✍Hand on 3 : DAO et webservice
+* [ ] `find_all_pokemon()->List[AbstractPokemon]` : retourne tous les pokémons dans la base
+* [ ] `find_pokemon_by_name(name:str)->AbstractPokemon` : retourne un pokémon avec le nom donné. 
+* [ ] Complétez la méthode ci-dessus en incorporant la liste des attaques du Pokemon :
+  * [ ] Faites une requête en joignant les tables `attack` et `pokemon_attack` en filtrant avec l'id du pokémon
+  * [ ] Générez les attaques à partir de là
 
-Vous allez maintenant rendre accessible les données de votre base à des d'autres utilisateurs en réalisant un webservice REST. En vous basant sur ce code implémentez un webservice qui expose les endpoints suivants :
+---
+
+### :small_orange_diamond: DAO et webservice
+
+**✍Hand on 3**
+
+Vous allez maintenant rendre accessible les données de votre base à d'autres utilisateurs en réalisant un webservice REST. 
+
+Ajoutez dans le fichier `app.py` les endpoints suivants :
 
 ```python
-# Import classique
-from fastapi import FastAPI
-import uvicorn
-
-# On instancie le webservice
-app = FastAPI()
-
 # Défintion du endpoint get /attack?limit=100
 @app.get("/attack/")
 async def get_all_attacks(limit:int):
@@ -364,17 +329,20 @@ async def get_all_pokemons(limit:int):
 async def get_pokemon_by_name(name:str):
     # Vous devez récupérer le pokemon en base en utilisant votre DAO
     return pokemon
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=80)
 ```
 
-- `GET localhost:80/attack?limit=100` renverra une liste de 100 attaques par défaut. Il est possible de moduler cette valeur via le paramètre de requête `limit`
-- `GET localhost:80/pokemon?limit=100`. Il renverra une liste de 100 *pokémons* par défaut, mais peut être modulé avec le paramètre de requête `limite`. 
-- `GET localhost:80/pokemon/{nom}`. Il renverra un json représentant un *pokémon*.
+* `GET localhost:80/attack?limit=100` renverra une liste de 100 attaques par défaut. Il est possible de moduler cette valeur via le paramètre de requête `limit`
+* `GET localhost:80/pokemon?limit=100`. Il renverra une liste de 100 *pokémons* par défaut, mais peut être modulé avec le paramètre de requête `limit`. 
+* `GET localhost:80/pokemon/{nom}`. Il renverra un json représentant un *pokémon*.
 
 Pour retourner des objets, vous allez devoir définir des classes héritant de `BaseModel`. Vous trouverez toutes les infos dans la documentation de FastAPI.
 
-## 4 Conclusion
+---
 
-Dans ce TP vous avez implémenté votre première DAO. C'est une classe technique qui sert à communiquer avec votre système de persistance de données. L'avantage premier de faire une classe à part est de découpler au maximum la gestion du système de persistance et le code métier de votre application. Si vous décidez d'arrêter d'utiliser une base de données relationnelle et préférez désormais une base de données *no SQL* vous allez devoir changer uniquement les classes DAO tout en exposant toujours les mêmes méthodes.
+## :arrow_forward: 4. Conclusion
+
+Dans ce TP vous avez implémenté votre première DAO. 
+
+C'est une classe technique qui sert à communiquer avec votre système de persistance de données. L'avantage premier de faire une classe à part est de découpler au maximum la gestion du système de persistance et le code métier de votre application. 
+
+Si vous décidez d'arrêter d'utiliser une base de données relationnelle et préférez désormais une base de données *no SQL* vous allez devoir changer uniquement les classes DAO tout en exposant toujours les mêmes méthodes.
