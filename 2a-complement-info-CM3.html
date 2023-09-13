@@ -54,6 +54,19 @@
                     <p>ludovic.deneuville@ensai.fr</p>
                 </section>
             </section>  
+            
+            <section class="no-print">
+                <h2>Question ?</h2>
+                <iframe src="https://giphy.com/embed/xT0xeuOy2Fcl9vDGiA" width="480" height="480" frameBorder="0"
+                    class="no-print giphy-embed" allowFullScreen></iframe>
+                    
+                <aside class="notes">
+                    Retour sur les CM, TP 1 et 2 -> Questions, difficultés <br>
+                    Classe Factory, appel de WS depuis python, Open Folder, pb d'imports <br>
+                    Fichiers README, .gitignore, settings
+                    
+                </aside>
+            </section>
 
             <section>
                 <section>
@@ -87,11 +100,6 @@
 
             </section>
 
-            <section class="no-print">
-                <h2>Question ?</h2>
-                <iframe src="https://giphy.com/embed/xT0xeuOy2Fcl9vDGiA" width="480" height="480" frameBorder="0"
-                    class="no-print giphy-embed" allowFullScreen></iframe>
-            </section>
 
             <section>
                 <section>
@@ -101,7 +109,7 @@
                         class="giphy-embed no-print" allowFullScreen></iframe>
                         
                     <aside class="notes">
-                        Quels sont les éléments d'un ordinateur <br>
+                        Quels sont les éléments d'un ordinateur ? <br>
                         RAM (Random Access Memory)<br>
                         ROM (Read Only Memory)
                     </aside>    
@@ -149,9 +157,10 @@
                         <li>Une référence (le nom de la variable)</li>
                         <li class="fragment highlight-important">Un objet associé (sa valeur)</li>
                     </ul>
-                    <aside class="notes">On zap la notion d'adressage mémoire.
-                        <br>
-                        Pas besoin de stocker la référence, car elle est dans le code source
+                    <aside class="notes">
+                        On zappe la notion d'adressage mémoire. <br>
+                        Pas besoin de stocker la référence, car elle est dans le code source <br>
+                        pika = Pokemon(name="Pikachu",...)
                     </aside>
                 </section>
 
@@ -180,7 +189,11 @@
                     <aside class="notes">
                         Besoin d'un dessin <br>
                         Parallèle avec les dict python / json <br>
-                        Arbre car les attributs d'objets sont parfois eux-même des objets
+                        Arbre car les attributs d'objets sont parfois eux-même des objets <br>
+                        Personne : <br>
+                        -- nom, prenom
+                        -- Adresse :
+                        -- -- rue, ville
                     </aside>
 
                 </section>
@@ -201,7 +214,6 @@
                     </ul>
 
                     <aside class="notes">
-                        Pour les notions seront expliquées la semaine prochaine<br>
                         Question : Comment fait une BDD ? 
                         <ul>
                             <li>Elle gère dans des fichiers</li>
@@ -220,7 +232,10 @@
                         <li>Data Access Objects (DAO) en guise de lien</li>                        
                     </ul>
 
-                    <aside class="notes">Petite pose recap pour essayer de récupérer tout le monde avant la DAO</aside>
+                    <aside class="notes">
+                        Petite pose recap pour essayer de récupérer tout le monde avant la DAO<br>
+                        Dans la vraie vie, on repart pas de 0 quand on relance une appli                    
+                    </aside>
                 </section>
 
                 <section>
@@ -549,6 +564,14 @@ def find_all(self) -> list[Livre]:
                     illicites ou malveillantes.
                     <p class="fragment important">Mécanismes associés : signature électronique, checksum</p>
 
+
+                    <aside class="notes">
+                        Signature électronique : <br>
+                        garantir l'intégrité d'un document, c’est-à-dire s’assurer que le document n'a pas été altéré entre sa signature et sa consultation <br>
+                        authentifier son auteur, c’est-à-dire s’assurer de l’identité de la personne signataire <br>
+                        checksum : bit de parité
+                    </aside>
+
                 </section>
                 
                 <section>
@@ -559,7 +582,8 @@ def find_all(self) -> list[Livre]:
                         conteneurisation</p>
                         
                     <aside class="notes">
-                        Backup
+                        Backup<br>
+                        Parler mise en prod avant
                     </aside>
 
                 </section>
@@ -570,16 +594,24 @@ def find_all(self) -> list[Livre]:
                     sont conservées et exploitables.
                     <p class="fragment important">Mécanisme associé : journalisation</p>
 
+                    <aside class="notes">
+                        Logs (mieux que les prints)<br>
+                        Projet 2024-2025
+                    </aside>
+
                 </section>
                 
                 <section>
                     <h3>La non-répudiation</h3>
                     Aucun utilisateur ne doit pouvoir contester les opérations qu'il a réalisé dans le cadre de ses
-                    actions autorisées et aucun
-                    tiers ne doit pouvoir s'attribuer les actions d'un autre utilisateur.
+                    actions autorisées et aucun tiers ne doit pouvoir s'attribuer les actions d'un autre utilisateur.
                     <p class="fragment important">Mécanismes associés : traçabilité + authentification + intégrité</p>
 
-                    </li>
+                    <aside class="notes">
+                        C'est pas moi<br>
+                        Mais c'est votre nom !<br>
+                        Ne laissez pas vos sessions ouvertes aux pauses (CTRL + ALT + F12)
+                    </aside>
 
                 </section>
                 <section>
@@ -604,16 +636,18 @@ def find_all(self) -> list[Livre]:
                         </ul>
                     </aside>
                 </section>
+                
                 <section>
                     <h3>De quoi faut-il se méfier ?</h3>
                     <img class="plain w80 no-print"
                         src="https://66.media.tumblr.com/5fca28d9ff6a46e62aaa6ec391077f26/tumblr_mseaykBEjV1sg0a6co1_500.gif"
                         alt="">
                 </section>
+                
                 <section>
-
                     <p class="fragment important-bloc">De vos utilisateurs</p>
                 </section>
+                
                 <section>
                     <h2>Exemple de failles, les injections SQL</h2>
                     <img class="w80" src="https://imgs.xkcd.com/comics/exploits_of_a_mom.png"
@@ -623,7 +657,6 @@ def find_all(self) -> list[Livre]:
 
                 <section>
                     <h3>Exemple</h3>
-                    Application de micro blogging
                 </section>
                 <section>
                     <h3>Injection SQL</h3>
@@ -642,9 +675,10 @@ def find_all(self) -> list[Livre]:
                     <h3>Exemple : s'authentifier sans mot de passe</h3>
                     Requete d'authentification
                     <pre><code data-trim class="sql">
-                        SELECT * FROM user 
-                            WHERE name='input_name' 
-                            AND mdp='input_mdp';
+                        SELECT * 
+                          FROM user 
+                         WHERE name = 'input_name' 
+                           AND mdp = 'input_mdp';
                         </code></pre>
                 </section>
                 <section>
@@ -655,9 +689,10 @@ def find_all(self) -> list[Livre]:
                         <li>mon_super_password</li>
                     </ul>
                     <pre><code data-trim class="sql">
-                            SELECT * FROM user 
-                                WHERE name='Rémi' 
-                                AND mdp='mon_super_password';
+                            SELECT * 
+                              FROM user 
+                             WHERE name = 'Rémi' 
+                               AND mdp = 'mon_super_password';
                             </code></pre>
                     <p class="fragment important-bloc">Cas classique</p>
 
@@ -670,9 +705,10 @@ def find_all(self) -> list[Livre]:
                         <li>' OR 1=1; --</li>
                     </ul>
                     <pre><code data-trim class="sql">
-                                SELECT * FROM user 
-                                    WHERE name='Rémi' 
-                                    AND mdp='' OR 1=1; --';
+                        SELECT * 
+                          FROM user 
+                         WHERE name = 'Rémi' 
+                           AND mdp = '' OR 1=1; --';
                                 </code></pre>
                     <p class="fragment important-bloc">Connection sans mdp</p>
 
@@ -685,9 +721,10 @@ def find_all(self) -> list[Livre]:
                         <li>'; DROP TABLE user CASCADE; --</li>
                     </ul>
                     <pre><code data-trim class="sql">
-                                    SELECT * FROM user 
-                                        WHERE name='Rémi' 
-                                        AND mdp=''; DROP TABLE user CASCADE; --;
+                        SELECT * 
+                          FROM user 
+                         WHERE name='Rémi' 
+                           AND mdp=''; DROP TABLE user CASCADE; --;
                                     </code></pre>
                     <p class="fragment important-bloc">Bye bye la table user</p>
 
@@ -695,8 +732,8 @@ def find_all(self) -> list[Livre]:
                 <section>
                     <h3>Comment se protéger ?</h3>
                     <ul>
-                        <li class="fragment">Échapper les caractères spéciaux</li>
-                        <li class="fragment">Utiliser une requête préparée</li>
+                        <li>Échapper les caractères spéciaux</li>
+                        <li>Utiliser une requête préparée</li>
                     </ul>
                     <p class="fragment important-bloc">La bibliothèque que vous utiliserez ne fait que de l'échappement
                         de caractères spéciaux 😨
@@ -714,6 +751,7 @@ def find_all(self) -> list[Livre]:
                         2. envoie pour remplir les trous
                     </aside>
                 </section>
+                
                 <section>
                     <h3>Cross Site Scripting</h3>
                     Consiste à injecter du code provoquant des actions sur le navigateur. Cela peut
@@ -728,6 +766,7 @@ def find_all(self) -> list[Livre]:
                     </div>
                     <aside class="notes"></aside>
                 </section>
+                
                 <section>
                     <h3>Exemple d'injection d'un script JS</h3>
 
@@ -741,6 +780,8 @@ def find_all(self) -> list[Livre]:
                             </code></pre>
                     </ul>
                     <aside class="notes">
+                        Page statique HTML<br>
+                        JavaScript asynchrone
                     </aside>
 
                 </section>
