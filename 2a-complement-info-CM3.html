@@ -109,6 +109,7 @@
                         class="giphy-embed no-print" allowFullScreen></iframe>
                         
                     <aside class="notes">
+                        Notre objectif va être de stocker des données, mais avant :<br>
                         Quels sont les éléments d'un ordinateur ? <br>
                         RAM (Random Access Memory)<br>
                         ROM (Read Only Memory)
@@ -191,9 +192,10 @@
                         Parallèle avec les dict python / json <br>
                         Arbre car les attributs d'objets sont parfois eux-même des objets <br>
                         Personne : <br>
-                        -- nom, prenom
-                        -- Adresse :
-                        -- -- rue, ville
+                        -- nom, prenom<br>
+                        -- Adresse :<br>
+                        -- -- rue, ville<br>
+                        -- list[Vehicule]
                     </aside>
 
                 </section>
@@ -280,7 +282,8 @@
                         </ul>
                     </div>
 
-                    <aside class="notes">Faire participer<br>
+                    <aside class="notes">
+                        Faire participer<br><br>
                         Essayer de montrer que ces 4 là suffisent.
                         Après on peut avoir des raffinements en faisant des choses en masses, ou filtrer etc ...<br><br>
                         Quid de la copie ? <br>
@@ -306,7 +309,8 @@
 
                     <aside class="notes">
                         On remet une couche, ça fait pas de mal<br>
-                        Dans la vraie vie, si changement de système, plus facile de migrer
+                        Dans la vraie vie, si changement de système, plus facile de migrer<br><br>
+                        En projet la couche DAO peut être très facile à faire
                     </aside>
                 </section>
 
@@ -392,11 +396,15 @@ def dao_function(self, arg1, arg2...):
                 une_requete_sql_à_trous,
                 remplisage_des_trous)
 
-            # On récupère l'id généré
+            # On récupère le résultat de la requête
             res = curseur.fetchone()  # ou /fetchall()/fetchmany()
         
     return something                
                     </code></pre>
+                    
+                    <aside class="notes">
+                        res : list[dict]                         
+                    </aside>     
                 </section>
                 
                 <section>
@@ -468,6 +476,34 @@ def find_all(self) -> list[Livre]:
             )
             
     return liste_livres
+                </code></pre>
+
+                </section>
+                
+                <section>
+                    <h3>Un petit exemple : LivreDao</h3>
+
+                    <pre><code data-trim data-noescape>
+def find_by_isbm(self, isbm) -> Livre:
+    """Pour récupérer un livre depuis son isbm"""
+    with DBConnection().connection as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                "SELECT *                          "
+                "  FROM livre                      "
+                " WHERE isbm = %(isbm)s            ",
+                {"isbm": livre.isbm}
+            livre_bdd = cursor.fetchone()
+            
+    livre = None
+    if livre_bdd:
+        livre = Livre(
+            id=livre_bdd["id_livre"],
+            isbm=livre_bdd["isbm"],
+            titre=livre_bdd["titre"],
+            auteur=livre_bdd["auteur"],
+        )
+    return livre    
                 </code></pre>
 
                 </section>
