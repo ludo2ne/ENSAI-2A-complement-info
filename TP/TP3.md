@@ -260,8 +260,8 @@ L'objet `cursor` contient un pointeur vers les résultats de votre requête. Ce 
     - Les dictionnaires sont les lignes de la table récupérée. 
     - Les clés du dictionnaire sont les colonnes récupérées. 
     - Cette méthode fonctionne très bien quand on veut tous les résultats en une fois et qu'il y en a peu. Quand on a des millions d'enregistrements cela va poser problème car :
-        - Le transfert de données sur internet va prendre du temps et bloquer notre application ;
-        - Notre application va devoir gérer une grande quantité de données, et elle en est peut-être incapable.
+        - Le transfert de données sur internet va prendre du temps et bloquer notre application
+        - Notre application va devoir gérer une grande quantité de données, et elle en est peut-être incapable
 - `curseur.fetchmany(size)`: retourne autant d'enregistrements que demandé sous forme d'une liste de dictionnaires. Cela permet de contrôler le volume de données que l'on traite. Si vous appelez de nouveau `fetchmany(size)` sur votre curseur, vous allez récupérer les lignes suivantes (système de pagination)
 
 Pour plus d'information : [article de pynative](https://pynative.com/python-cursor-fetchall-fetchmany-fetchone-to-read-rows-from-table/)
@@ -275,7 +275,7 @@ Pour plus d'information : [article de pynative](https://pynative.com/python-curs
 * [ ] Observez le fonctionnement de la classe AttaqueTypeDAO
     * cela va vous être utile pour la suite
 * [ ] Dans DBeaver, créez une requête qui retourne le contenu de la table `tp.attack`, ainsi que le champ `attack_type_name` de la table `tp.attack_type`
-    * Cette requête servira pour les 2 méthodes `find` ci-après, car pour créer nos objets métier **Attack**, nous avons besoin de connaitre le nom du type d'attaque
+    * Cette requête servira pour les 2 méthodes `find` ci-après, car 
 * [ ] Dans la classe `AttaqueDao`, créez les méthodes suivantes :
   * [ ] `update_attack(attack : AbstractAttack) -> bool` : met à jour les données de l'attaque passée en paramètre et retourne si la modification s'est bien passée
   * [ ] `find_attack_by_id(id:int) -> Optional[AbsractAttack]` : retourne l'attaque avec l'id en paramètre ou retourne None si l'attaque n'est pas trouvée.
@@ -284,9 +284,13 @@ Pour plus d'information : [article de pynative](https://pynative.com/python-curs
 
 Voici quelques conseils :
 
-- Vous pouvez utiliser l'attribut `type` de chaque attaque pour avoir son label en base
-- Utilisez la classe `AttackFactory` pour instancier facilement des attaques
-- Pensez à faire des tests pour voir si votre code fonctionne
+* Vous pouvez utiliser l'attribut `type` de chaque attaque pour avoir son label en base
+* Utilisez la classe `AttackFactory` pour instancier facilement des attaques
+* Pensez à faire des tests pour voir si votre code fonctionne
+* Dans les 2 méthodes `find`, pour créer nos objets métier **Attack**
+  * nous avons besoin de connaitre le nom du type d'attaque
+  * or il n'y a pas cette colonne dans la table `attaque`
+  * mais peut-être avez-vous déjà une requête qui fait le job ?
 
 ---
 
