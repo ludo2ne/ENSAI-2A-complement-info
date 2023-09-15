@@ -236,16 +236,16 @@ Voici la fonctionnement général d'une des méthodes de la DAO :
 
 ```` python
 # Etape 1 : On récupère une connexion en utilisant la classe DBConnection.
-connection = DBConnection().connection
+with DBConnection().connection as connection :
 
 # Etape 2 : à partir de la connexion on fait un curseur pour la requête 
-with connection.cursor() as cursor : 
+	with connection.cursor() as cursor : 
     
     # Etape 3 : on exécute notre requête SQL.
-    cursor.execute(requete_sql)
+    		cursor.execute(requete_sql)
     
     # Etape 4 : on stocke le résultat de la requête
-    res = cursor.fetchall()
+    		res = cursor.fetchall()
 
 if res:
     # Etape 5 : on agence les résultats selon la forme souhaitée (liste...)
