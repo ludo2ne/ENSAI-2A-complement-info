@@ -230,7 +230,7 @@ En conclusion, avoir des conflits n'est pas grave même si c'est un peu pénible
 
 Si l'on reprend le modèle en couche présenté en cours, voici ce que l'on a fait depuis le début des TP :
 
-![](TP/images/TP4 bilan premiers TP.jpg)
+![](images/TP4_couches.jpg)
 
 ### :small_orange_diamond: La couche service
 
