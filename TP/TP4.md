@@ -1,4 +1,4 @@
-# TP 4 - Git et Création d'une IMH (interface homme machine)
+# TP 4 - Git et Création d'une IHM
 
 > :scream: Comme vous pouvez le constater le sujet de ce TP est lui aussi long. Cela ne doit pas vous effrayer. Il mélange explications complètes et manipulations pour être au maximum autosuffisant. **Vous n'allez surement pas terminer le sujet, ce n'est pas grave. Il est là pour vous aider lors du projet informatique.**
 >
@@ -9,44 +9,62 @@ Dans ce TP vous allez :
 * Faire vos premières classes qui gèrent l'affichage
 * Manipuler git (en mode **terminal de commande**)
 
-
-## :arrow_forward: 1. Travail en groupe et git 🧙‍♂️👩‍🔬🕵️‍♂️🦸‍♀️💻
-
-
-:bulb: Avec vos camarades de projet, vous devez choisir un site qui va héberger votre code (GitHub, GitLab...). Il vous servira de dépôt commun (ou dépôt distant).
+---
 
 Les instructions de ce TP seront données pour une utilisation de **GitHub** comme dépôt distant. Si vous choisissez GitLab ou un autre hébergeur, à vous de vous adapter (les instructions devraient être assez ressemblantes).
 
+## :arrow_forward: 0. Configuration de Git
+
+Pour faire d'un seul coup la config Git et la création d'un clé ssh, vous pouvez utiliser les scripts présent sur la page Moodle du cours, onglet TP
+
+
+### :small_orange_diamond: Configurez Git
+
+Ouvrez **Git Bash**, puis éxécutez les commandes suivantes en remplaçant les valeurs entre <>
+* [ ] `git config --global user.name <prenom> <nom>`
+* [ ] `git config --global user.email <mail_ensai>`
+* [ ] `git config --global core.mergeoptions --no-edit`
+* [ ] `git config --global core.editor "code -w"`
+* [ ] `git config --global credential.helper store`
+* [ ] pour vérifier les valeurs saisies : `git config -l` 
+
+---
+
+### :small_orange_diamond: Créez une clé ssh
+
+Elle permettra de vous authentifier auprès de GitHub.
+Dans **Git Bash** : 
+
+* [ ] `ssh-keygen -t rsa -b 2048 -N '' -q -f ~/.ssh/id_rsa`
+* [ ] `cp -r ~/.ssh /p/save/.ssh` pour créer une copie de votre clé
+* [ ] `cat ~/.ssh/id_rsa.pub | clip`
+    * pour récupérer votre clé publique dans le presse papier
+* [ ] Ouvrez un éditeur de texte et collez cette clé
+    * gardez la de coté quelques minutes, vous allez devoir juste après coller cette clé dans GitHub
+
+---
+
 ### :small_orange_diamond: Création de compte sur GitHub
-
-
-
-:::danger
-TODO clé ssh
-:::
 
 * [ ] Créez un compte utilsateur
     * https://github.com/join
-* Créez une clé ssh
-    * elle permettra de vous authentifier auprès de GitHub
-    * [ ] `setup.sh` (moodle > TP4)
-* [ ] Ajouter votre clé publique sur GitHub ([lien direct](https://github.com/settings/ssh/new))
+* [ ] Ajouter votre clé publique ssh sur GitHub ([lien direct](https://github.com/settings/ssh/new))
     * Cliquez sur votre icone profil en haut à droite
     * :gear: Settings
     * SSH and GPG keys
     * Cliquer sur le bouton **New SSH key**
         * Titre : `VM ENSAI` par exemple
-        * Key : *Collez le contenu du fichier .pub*
+        * Key : *Collez la clé publique* (contenu du fichier id_rsa.pub qui commence par **ssh-rsa** généré à l'étape précédente )
 
 ---
 
+## :arrow_forward: 1. Travail en groupe 🧙‍♂️👩‍🔬🕵️‍♂️🦸‍♀️💻
+
+
+:bulb: Avec vos camarades de projet, vous devez choisir un site qui va héberger votre code (GitHub, GitLab...). Il vous servira de dépôt commun (ou dépôt distant).
+
+
 ### :small_orange_diamond: Création d'un dépôt sur GitHub
-
-:::info
-Le plus simple serait de faire un fork.
-Mais comme tout le monde n'utilise pas forcément GitHub, mieux vaut créer un nouveau répo
-:::
-
 
 * [ ] Repositories > New (ou [lien direct](https://github.com/new))
 * [ ] Repository name : **ENSAI-2A-cinfo-TP4**
@@ -212,10 +230,7 @@ En conclusion, avoir des conflits n'est pas grave même si c'est un peu pénible
 
 Si l'on reprend le modèle en couche présenté en cours, voici ce que l'on a fait depuis le début des TP :
 
-:::danger
-insérer image
-![](image tp4/bilan premiers TPs.png)
-:::
+![](TP/images/TP4 bilan premiers TPs.jpg)
 
 ### :small_orange_diamond: La couche service
 
@@ -336,13 +351,18 @@ Cette architecture vous permet de séparer vos différents menu en fichiers sép
 
 :warning: La création de vos menus peut générer des problèmes de dépendances circulaires. En effet si la page A envoie sur la page B et la page B envoie sur la page A, en fonction de la façon dont vous gérez vos imports vous allez voir un problème de dépendances circulaires. Quand le problème se présentera voici 2 solutions possibles : 
 
-- remplacer `from X import Y` en `import Y as name`
-- déplacer vos imports dans la fonction qui en a besoin
+* remplacer `from X import Y` en `import Y as name`
+* déplacer vos imports dans la fonction qui en a besoin
 
 ## :arrow_forward: 5. InquirerPy 
 
 Pour nous faciliter la gestion de la console nous allons utiliser la bibliothèque python [InquirerPy](https://inquirerpy.readthedocs.io/en/latest/). Elle permet de créer facilement des applications interactives en console. Le projet est bien documenté avec plusieurs [exemples](https://github.com/kazhala/InquirerPy/tree/master/examples) de code, faciles à transposer.
 
+* [ ] Lancez le `__main__.py` et testez un peu l'application
+* [ ] Regardez les fichiers du package **view** pour essayer de comprendre comment fonctionnent les vues. Le principe est toujours le même lorsque l'on arrive sur une nouvelle vue : 
+    * on répond aux questions demandées
+    * un traitement est éventuellement fait (appel à des services)
+    * on bascule vers une autre vue
 
 
 ### :small_orange_diamond: Mes premières `View`
@@ -352,12 +372,12 @@ Pour nous faciliter la gestion de la console nous allons utiliser la bibliothèq
 Répartissez vous le travail entre membre du groupe pour implémenter les `Views` suivantes :
 
 * Affichage Pokémon:
-  * `PokemonListView` : qui permet de visualiser 30 Pokémons sommairement. Il est possible de sélectionner un pokémon pour aller sur `PokemonDetailsView`.  Vous pouvez permettre un retour arrière sur la `WelcomeView` si vous le souhaitez.
-  * `PokemonDetailsView` : qui affiche les détails du Pokémon sélectionné comme ses statistiques et ses attaques. Renvoie sur la `StartView` ou `PokemonListeView` en fonction du choix de l'utilisateur.
+  * [ ] `PokemonListView` : qui permet de visualiser 30 Pokémons sommairement. Il est possible de sélectionner un pokémon pour aller sur `PokemonDetailsView`.  Vous pouvez permettre un retour arrière sur la `WelcomeView` si vous le souhaitez.
+  * [ ] `PokemonDetailsView` : qui affiche les détails du Pokémon sélectionné comme ses statistiques et ses attaques. Renvoie sur la `StartView` ou `PokemonListeView` en fonction du choix de l'utilisateur.
 * Affichage attaque:
-  * `AttackListView` :  qui permet de visualiser 50 attaques sommairement et d'en sélectionner une pour aller sur `AttackDetailsView`.  Vous pouvez permettre un retour arrière sur la `StartView`.
-  * `AttackDetailsView` : qui affiche les détails de l'attaque sélectionnée, comme par exemple ses caractéristiques (name, power, description), mais également quelles sont les Pokémons qui peuvent l'apprendre. Renvoie sur la `StartView` ou `AttackListView` en fonction du choix de l'utilisateur.
-* `CreatePokemonView` : qui permet de créer un Pokémon et le mettre en session. Après validation de l'utilisateur on retourne sur `WelcomeView`
+  * [ ] `AttackListView` :  qui permet de visualiser 50 attaques sommairement et d'en sélectionner une pour aller sur `AttackDetailsView`.  Vous pouvez permettre un retour arrière sur la `StartView`.
+  * [ ] `AttackDetailsView` : qui affiche les détails de l'attaque sélectionnée, comme par exemple ses caractéristiques (name, power, description), mais également quelles sont les Pokémons qui peuvent l'apprendre. Renvoie sur la `StartView` ou `AttackListView` en fonction du choix de l'utilisateur.
+* [ ] `CreatePokemonView` : qui permet de créer un Pokémon et le mettre en session. Après validation de l'utilisateur on retourne sur `WelcomeView`
 
 
 
@@ -365,18 +385,11 @@ Quelques astuces :
 
 - `PokemonService` dispose d'une méthode `get_pokemon_from_db(limit:int, offset:int)` pour récupérer des pokémons de la base
 - `AttackService` dispose d'une méthode `get_attack_from_db(limit:int, offset:int)` pour récupérer des attaques de la base
-- La définition des questions passe par les paramètres que vous passez à la méthode select. Aller voir la page de [PyInquirer](https://inquirerpy.readthedocs.io/en/latest/pages/prompts/list.html) sur les selects.
+- La définition des questions passe par les paramètres que vous passez à la méthode select. Aller voir la page de [InquirerPy](https://inquirerpy.readthedocs.io/en/latest/pages/prompts/list.html) sur les selects.
 
 
 Quand vous avez terminé une classe, faites un commit, puis poussez sur le dépôt distant.
 
+---
 
-## :arrow_forward: 6. BattleView (Bonus)
-
-**✍Hand on 4**
-
-Le service qui gère les combats de Pokémons est déjà implémenté. Utilisez-le pour créer un écran qui permet :
-
-- De sélectionner deux Pokémons
-- De simuler le combat
-- D'afficher le résultat
+Merci d'avoir participé et Vive les Pokemons !
