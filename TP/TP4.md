@@ -6,8 +6,9 @@
 
 Dans ce TP vous allez :
 
+* Paramétrer Git
+* Manipuler Git (en mode **terminal de commande**)
 * Faire vos premières classes qui gèrent l'affichage
-* Manipuler git (en mode **terminal de commande**)
 
 ---
 
@@ -15,12 +16,12 @@ Les instructions de ce TP seront données pour une utilisation de **GitHub** com
 
 ## :arrow_forward: 0. Configuration de Git
 
-Pour faire d'un seul coup la config Git et la création d'un clé ssh, vous pouvez utiliser les scripts présent sur la page Moodle du cours, onglet TP
-
+Pour faire d'un seul coup la config Git et la création d'un clé ssh, vous pouvez utiliser les scripts présents sur la page Moodle du cours, onglet TP. Sinon cela se fait également très vite avec les commandes ci-dessous.
 
 ### :small_orange_diamond: Configurez Git
 
 Ouvrez **Git Bash**, puis éxécutez les commandes suivantes en remplaçant les valeurs entre <>
+
 * [ ] `git config --global user.name <prenom> <nom>`
 * [ ] `git config --global user.email <mail_ensai>`
 * [ ] `git config --global core.mergeoptions --no-edit`
@@ -33,36 +34,36 @@ Ouvrez **Git Bash**, puis éxécutez les commandes suivantes en remplaçant les 
 ### :small_orange_diamond: Créez une clé ssh
 
 Elle permettra de vous authentifier auprès de GitHub.
-Dans **Git Bash** : 
+Dans **Git Bash** :
 
 * [ ] `ssh-keygen -t rsa -b 2048 -N '' -q -f ~/.ssh/id_rsa`
-* [ ] `cp -r ~/.ssh /p/save/.ssh` pour créer une copie de votre clé
+* [ ] `cp -r ~/.ssh /p/save/.ssh` pour créer une sauvegarde de votre clé
+  * Par défaut la clé est générée dans `C:/users/idxxxx/.ssh`
+  * Si jamais cette clé venait à disparaitre, utilisez la sauvegarde pour la recopier dans `C:/users/idxxxx/.ssh`
 * [ ] `cat ~/.ssh/id_rsa.pub | clip`
-    * pour récupérer votre clé publique dans le presse papier
+  * pour récupérer votre clé publique dans le presse papier
 * [ ] Ouvrez un éditeur de texte et collez cette clé
-    * gardez la de coté quelques minutes, vous allez devoir juste après coller cette clé dans GitHub
+  * gardez la de coté quelques minutes, vous allez devoir juste après coller cette clé dans GitHub
 
 ---
 
 ### :small_orange_diamond: Création de compte sur GitHub
 
 * [ ] Créez un compte utilsateur
-    * https://github.com/join
+  * https://github.com/join
 * [ ] Ajouter votre clé publique ssh sur GitHub ([lien direct](https://github.com/settings/ssh/new))
-    * Cliquez sur votre icone profil en haut à droite
-    * :gear: Settings
-    * SSH and GPG keys
-    * Cliquer sur le bouton **New SSH key**
-        * Titre : `VM ENSAI` par exemple
-        * Key : *Collez la clé publique* (contenu du fichier id_rsa.pub qui commence par **ssh-rsa** généré à l'étape précédente )
+  * Cliquez sur votre icone profil en haut à droite
+  * :gear: Settings
+  * SSH and GPG keys
+  * Cliquer sur le bouton **New SSH key**
+    * Titre : `VM ENSAI` par exemple
+    * Key : *Collez la clé publique* (contenu du fichier id_rsa.pub qui commence par **ssh-rsa** généré à l'étape précédente )
 
 ---
 
 ## :arrow_forward: 1. Travail en groupe 🧙‍♂️👩‍🔬🕵️‍♂️🦸‍♀️💻
 
-
 :bulb: Avec vos camarades de projet, vous devez choisir un site qui va héberger votre code (GitHub, GitLab...). Il vous servira de dépôt commun (ou dépôt distant).
-
 
 ### :small_orange_diamond: Création d'un dépôt sur GitHub
 
@@ -81,21 +82,21 @@ Dans les autres TP, vous aviez l'habitude de simplement cloner le dépôt distan
 Aujourd'hui, vous allez : 
 
 * Cloner le dépôt distant
-    * Pour créer votre dépôt local (jusque là, c'est toujours pareil)
+  * Pour créer votre dépôt local (jusque là, c'est toujours pareil)
 * Connecter votre dépôt local à votre propre dépôt distant (celui que vous venez de créer)
 * Interagir entre vos 2 dépôts (push, pull...)
 
 ---
 
-* Créez un dossier puis importez le code du TP
-    * [ ] `mkdir -p /p/Cours2A/UE3_Complements_informatique/TP/TP4 && cd $_`
-    * [ ] `git clone https://github.com/ludo2ne/ENSAI-2A-complement-info-TP.git`
+* Créez un dossier puis importez le code du TP (branche tp4_base uniquement)
+  * [ ] `mkdir -p /p/Cours2A/UE3_Complements_informatique/TP/TP4 && cd $_`
+  * [ ] `git clone -b tp4_base --single-branch https://github.com/ludo2ne/ENSAI-2A-complement-info-TP.git`
 * Modifiez le dépôt distant en déclarant le dépôt que vous avez créé juste avant
-    * [ ] `git remote set-url origin git@github.com:<username_github>/ENSAI-2A-cinfo-TP4.git`
-        * en remplaçant *<username_github>* par votre nom d'utilisateur GitHub
-    * [ ] `git remote -v` pour vérifier que le dépôt distant a bien changé
+  * [ ] `git remote set-url origin git@github.com:<username_github>/ENSAI-2A-cinfo-TP4.git`
+    * en remplaçant *<username_github>* par votre nom d'utilisateur GitHub
+  * [ ] `git remote -v` pour vérifier que le dépôt distant a bien changé
 * [ ] `git push` pour pousser votre code local vers le dépôt GitHub
-    * Rafraîchissez la page GitHub pour vérifier
+  * Rafraîchissez la page GitHub pour vérifier
 
 ---
 
@@ -171,16 +172,17 @@ Si c'est TP1, TP2, TP3, TP ou autre chose ce n'est pas bon ! Vous allez avoir de
 * Dans ce cas, faites dans l'ordre 
     * [ ] `git pull` : pour mettre à jour votre dépôt local à partir du dépôt distant
     * [ ] `git push` : pour partager vos modifications faites en local vers le dépôt distant
-* [ ] Une fois que tous membres de l'équipe ont réussi à faire leur **push**, faites tous un `git pull` pour avoir chacun des dépôts identiques.
+* [ ] Une fois que tous les membres de l'équipe ont réussi à faire leur **push**, faites tous un `git pull` pour avoir chacun des dépôts identiques.
 
 ## :arrow_forward: 3. Gérer un conflit avec git
 
 ### :small_orange_diamond: Définition
 
-Un conflit apparait lorsque 2 versions s'affrontent et que Git ne sait pas quelle est la bonne.
+Un conflit apparait lorsque 2 versions s'affrontent et que Git ne peut pas savoir laquelle est la bonne.
 
 Exemple : 
 Un dépôt commun contient un seul fichier `hello.txt` qui contient **hello world**
+
 * Alice et Bob clonent ce dépôt
 * En local Alice modifie le contenu du fichier en `hello Alice` et fait un **add** puis **commit**
 * Bob fait de même en saisissant `hello Bob`
@@ -196,7 +198,7 @@ Un dépôt commun contient un seul fichier `hello.txt` qui contient **hello worl
 	>>>>>>>
 	```
 * Bob doit maintenant décider quelle version il souhaite garder
-* Bob choisit au hasard `Hello Bob`, fait un add, commit, push et c'est terminé 
+* Bob choisit `Hello Bob`, fait un add, commit, push et c'est terminé
 
 ---
 
@@ -228,7 +230,7 @@ En conclusion, avoir des conflits n'est pas grave même si c'est un peu pénible
 
 ## :arrow_forward:  3. Bilan des trois premiers TP 
 
-Si l'on reprend le modèle en couche présenté en cours, voici ce que l'on a fait depuis le début des TP :
+Si l'on reprend le modèle en couches présenté en cours, voici ce que l'on a fait depuis le début des TP :
 
 ![](images/TP4_couches.jpg)
 
@@ -292,7 +294,6 @@ Dans notre **Session**, nous allons pouvoir stocker des objets utiles, par exemp
 
 Ainsi, une fois connecté, on stocke l'utilisateur en session et on peut se servir de cet objet à tout moment !
 
-
 Voici les liens entre notre `Session` et nos `Views` :
 
 ```mermaid
@@ -314,31 +315,23 @@ class StartView{
 	+display_info() None
 	+make_choice() AbstractView
 }
-class CheckBoxExampleView{
-	+display_info() None
-	+make_choice() AbstractView
-}
+
 class ListPokemonView{
 	+display_info() None
 	+make_choice() AbstractView
 }
+
 class ListAttackView{
 	+display_info() None
 	+make_choice() AbstractView
 }
 
 Session <..AbstractView: "use"
-AbstractView ..> AbstractView : "create"
 
-StartView --|> AbstractView
+AbstractView <|-- StartView
 AbstractView <|-- ListPokemonView
-
-
 AbstractView <|-- ListAttackView
-CheckBoxExampleView --|> AbstractView
-
 ```
-
 
 Toute nos `Views` vont hériter de la classe `AbstractView`. Cette classe va contenir deux méthodes abstraites :
 
