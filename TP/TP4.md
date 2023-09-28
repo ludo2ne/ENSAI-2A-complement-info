@@ -365,20 +365,20 @@ Pour nous faciliter la gestion de la console nous allons utiliser la bibliothèq
 Répartissez vous le travail entre membre du groupe pour implémenter les `Views` suivantes :
 
 * Affichage Pokémon:
-  * [ ] `PokemonListView` : qui permet de visualiser 30 Pokémons sommairement. Il est possible de sélectionner un pokémon pour aller sur `PokemonDetailsView`.  Vous pouvez permettre un retour arrière sur la `WelcomeView` si vous le souhaitez.
+  * [ ] `PokemonListView` : qui permet de visualiser 30 Pokémons sommairement. Il est possible de sélectionner un pokémon pour aller sur `PokemonDetailsView`.  Vous pouvez permettre un retour arrière sur la `StartView` si vous le souhaitez.
   * [ ] `PokemonDetailsView` : qui affiche les détails du Pokémon sélectionné comme ses statistiques et ses attaques. Renvoie sur la `StartView` ou `PokemonListeView` en fonction du choix de l'utilisateur.
 * Affichage attaque:
   * [ ] `AttackListView` :  qui permet de visualiser 50 attaques sommairement et d'en sélectionner une pour aller sur `AttackDetailsView`.  Vous pouvez permettre un retour arrière sur la `StartView`.
-  * [ ] `AttackDetailsView` : qui affiche les détails de l'attaque sélectionnée, comme par exemple ses caractéristiques (name, power, description), mais également quelles sont les Pokémons qui peuvent l'apprendre. Renvoie sur la `StartView` ou `AttackListView` en fonction du choix de l'utilisateur.
-* [ ] `CreatePokemonView` : qui permet de créer un Pokémon et le mettre en session. Après validation de l'utilisateur on retourne sur `WelcomeView`
+  * [ ] `AttackDetailsView` : qui affiche les détails de l'attaque sélectionnée, comme par exemple ses caractéristiques (name, power, description), mais également quels sont les Pokémons qui peuvent l'apprendre. Renvoie sur la `StartView` ou `AttackListView` en fonction du choix de l'utilisateur.
+* [ ] `CreatePokemonView` : qui permet de créer un Pokémon et le mettre en session. Après validation de l'utilisateur on retourne sur `StartView`
 
 
 
 Quelques astuces :
 
-- `PokemonService` dispose d'une méthode `get_pokemon_from_db(limit:int, offset:int)` pour récupérer des pokémons de la base
-- `AttackService` dispose d'une méthode `get_attack_from_db(limit:int, offset:int)` pour récupérer des attaques de la base
-- La définition des questions passe par les paramètres que vous passez à la méthode select. Aller voir la page de [InquirerPy](https://inquirerpy.readthedocs.io/en/latest/pages/prompts/list.html) sur les selects.
+- `PokemonService` dispose d'une méthode `get_pokemon_from_webservice(limit:int, offset:int)` pour récupérer des pokémons de la base
+- `AttackService` dispose d'une méthode `get_attacks_from_webservice(limit:int, offset:int)` pour récupérer des attaques de la base
+- de nombreux exemples sont disponibles sur la [doc InquirerPy](https://inquirerpy.readthedocs.io/en/latest/pages/prompts/list.html)
 
 
 Quand vous avez terminé une classe, faites un commit, puis poussez sur le dépôt distant.
