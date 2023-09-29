@@ -124,7 +124,7 @@ Pour les autres, il vous faut maintenant tous récupérer le contenu du dépôt.
 * [ ] Copiez le lien **Clone with SSH** qui ressemble à ceci : `git@github.com:<username_github>/ENSAI-2A-cinfo-TP4.git`
 * Dans **Git Bash**, créez un nouveau dossier pour mettre votre dépôt local
     * [ ] `mkdir -p /p/Cours2A/UE3_Complements_informatique/TP/TP4/depot_commun && cd $_`
-    * [ ] `git clone https://github.com/<username_github>/ENSAI-2A-complement-info-TP.git`
+    * [ ] `git clone git@github.com:<username_github>/ENSAI-2A-cinfo-TP4.git`
     * Fermez Git Bash
 * Ouvrez **Visual Studio Code**, puis ouvrez le dépôt commun
     * File > Open Folder
