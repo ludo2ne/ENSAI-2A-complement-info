@@ -37,7 +37,7 @@ Elle permettra de vous authentifier auprès de GitHub.
 Dans **Git Bash** :
 
 * [ ] `ssh-keygen -t rsa -b 2048 -N '' -q -f ~/.ssh/id_rsa`
-* [ ] `cp -r ~/.ssh /p/save/.ssh` pour créer une sauvegarde de votre clé
+* [ ] `mkdir /p/save` puis `cp -r ~/.ssh /p/save/.ssh` pour créer une sauvegarde de votre clé
   * Par défaut la clé est générée dans `C:/users/idxxxx/.ssh`
   * Si jamais cette clé venait à disparaitre, utilisez la sauvegarde pour la recopier dans `C:/users/idxxxx/.ssh`
 * [ ] `cat ~/.ssh/id_rsa.pub | clip`
