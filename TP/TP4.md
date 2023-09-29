@@ -90,7 +90,7 @@ Aujourd'hui, vous allez :
 
 * Créez un dossier puis importez le code du TP (branche tp4_base uniquement)
   * [ ] `mkdir -p /p/Cours2A/UE3_Complements_informatique/TP/TP4 && cd $_`
-  * [ ] `git clone -b tp4_base --single-branch https://github.com/ludo2ne/ENSAI-2A-complement-info-TP.git`
+  * [ ] `git clone -b tp4_base --single-branch https://github.com/ludo2ne/ENSAI-2A-complement-info-TP.git && cd $_`
 * Modifiez le dépôt distant en déclarant le dépôt que vous avez créé juste avant
   * [ ] `git remote set-url origin git@github.com:<username_github>/ENSAI-2A-cinfo-TP4.git`
     * en remplaçant *<username_github>* par votre nom d'utilisateur GitHub
