@@ -1,0 +1,1025 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Compléments info</title>
+    <link rel="icon" href="../img/ensai_logo_transparent.png" type="image/x-icon">
+
+
+    <link rel="stylesheet" href="../../css/reveal.css">
+    <link rel="stylesheet" href="../../css/theme/solarized.css">
+    <link rel="stylesheet" href="../../css/mine.css">
+    <link rel="stylesheet" href="../../css/simple-grid.css">
+
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../../plugin/highlight/monokai.css" id="highlight-theme">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? '../../css/print/pdf.css' : '../../css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+
+
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? '../../css/print/mine-pdf.css' : '../../css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? '../../css/theme/white.css' : '../../css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
+
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section>
+                <section>
+                    <h1>Compléments info,  CM3</h1>
+                    <h3>DAO et sécurité</h3>
+                    <p>DENEUVILLE Ludovic (sur la base des cours de Rémi Pépin)</p>
+                    <p>ludovic.deneuville@ensai.fr</p>
+                </section>
+            </section>  
+            
+            <section class="no-print">
+                <h2>Question ?</h2>
+                <iframe src="https://giphy.com/embed/xT0xeuOy2Fcl9vDGiA" width="480" height="480" frameBorder="0"
+                    class="no-print giphy-embed" allowFullScreen></iframe>
+                    
+                <aside class="notes">
+                    Retour sur les CM, TP 1 et 2 -> Questions, difficultés <br>
+                    Classe Factory, appel de WS depuis python, Open Folder, pb d'imports <br>
+                    Fichiers README, .gitignore, settings
+                    
+                </aside>
+            </section>
+
+            <section>
+                <section>
+                    <h3>Le plan</h3>
+                    <ol style="font-size: xx-large;">
+                        <li>Data Access Object
+                            <ol>
+                                <li>Pourquoi persister des données ?</li>
+                                <li>C'est quoi une DAO</li>
+                                <li>Exemple de DAO</li>
+                            </ol>
+                        </li>
+                        <hr>
+                        <li>Sécurité Informatique
+                            <ol>
+                                <li>Définition</li>
+                                <li>Failles de sécurité</li>
+                                <li>Injection SQL</li>
+                            </ol>
+                        </li>
+                        <li>
+                            Gestion des mots de passe
+                            <ol>
+                                <li>Authentification avec cypher</li>
+                                <li>Hashage de mots de passe</li>
+                                <li>Exemple</li>
+                            </ol>
+                        </li>
+                    </ol>
+                </section>
+
+            </section>
+
+
+            <section>
+                <section>
+                    <h2>Data access object (DAO)</h2>
+
+                    <iframe src="https://giphy.com/embed/dIBLtolI6axTGIGopo" width="960" height="540" frameBorder="0"
+                        class="giphy-embed no-print" allowFullScreen></iframe>
+                        
+                    <aside class="notes">
+                        Notre objectif va être de stocker des données, mais avant :<br>
+                        Quels sont les éléments d'un ordinateur ? <br>
+                        RAM (Random Access Memory)<br>
+                        ROM (Read Only Memory)
+                    </aside>    
+                </section>
+
+
+                <section>
+                    <h3>Un ordinateur (en gros)</h3>
+                    <ul>
+                        <li>Un processeur (CPU) : fait UNIQUEMENT du calcul</li>
+                        <li>La mémoire RAM : mémoire volatile rapide</li>
+                        <li>Disque dur (HDD, SSD) : mémoire longue durée</li>
+                        <li>Carte graphique : unité de calcul spécialisée</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Bien insister sur CPU, RAM, disque ! <br>
+                        Rendent 3 services différents <br>
+                        <b>Faire un dessin</b>
+                        <ul>
+                            <li>CPU : processeur</li>
+                            <li>DD : disque</li>
+                            <li>RAM : barettes</li>
+                        
+                    </aside>
+                </section>
+
+
+                <section>
+                    <h3>Comment résoudre ce problème ?</h3>
+                    <img src="https://media2.giphy.com/media/a5viI92PAF89q/giphy.gif?cid=790b76119068737928a0a3e1282ee7ff952e04585d31791e&rid=giphy.gif"
+                        class="plain w80 no-print" alt="Batman pensif">
+
+                    <aside class="notes">
+                        Quel problème ??? <br>
+                        Conserver les données une fois le programme python terminé
+                    </aside>                        
+                        
+                </section>
+
+                <section>
+                    <h3>Une question à se poser</h3>
+                    <p>C'est quoi une variable python ?</p>
+                    <ul class="fragment">
+                        <li>Une référence (le nom de la variable)</li>
+                        <li class="fragment highlight-important">Un objet associé (sa valeur)</li>
+                    </ul>
+                    <aside class="notes">
+                        On zappe la notion d'adressage mémoire. <br>
+                        Pas besoin de stocker la référence, car elle est dans le code source <br>
+                        pika = Pokemon(name="Pikachu",...)
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Une question qui en découle</h3>
+                    <p>C'est quoi un objet python ?</p>
+                    <ul class="fragment">
+                        <li class="fragment highlight-important">Des attributs (qui peuvent être eux-mêmes des objets)
+                        </li>
+                        <li>Des méthodes</li>
+                    </ul>
+                    <aside class="notes">Pareil, les méthodes c'est du code, nous on veut juste les attributs</aside>
+
+                </section>
+
+                <section>
+                    <h3>Pour résumer</h3>
+                    <p>
+                        On veut sauvegarder des couples clef-valeur<br>
+                        Avec des valeurs qui peuvent être elles-mêmes constituées de couples clef-valeur
+                    </p>
+
+                    <p class="fragment important">On veut sauvegarder un arbre 🌳
+                    </p>
+
+                    <aside class="notes">
+                        Besoin d'un dessin <br>
+                        Parallèle avec les dict python / json <br>
+                        Arbre car les attributs d'objets sont parfois eux-même des objets <br>
+                        Personne : <br>
+                        -- nom, prenom<br>
+                        -- Adresse :<br>
+                        -- -- rue, ville<br>
+                        -- list[Vehicule]
+                    </aside>
+
+                </section>
+
+
+                <section>
+                    <h3>Comment faire ça ?</h3>
+
+                    <ul>
+                        <li class="fragment">
+                            Écrire nos données sur le disque dur dans un fichier 
+                            (csv, json, xml ...) <img class="plain icon no-print" src=https://img.icons8.com/dusk/48/000000/hdd.png>
+                        </li>
+                        <li class="fragment">
+                            Utiliser une base de données (SQL tables + relations; No-SQL) <img
+                                class="plain icon no-print" src="https://img.icons8.com/clouds/100/000000/favorite-database.png">
+                        </li>
+                    </ul>
+
+                    <aside class="notes">
+                        Question : Comment fait une BDD ? 
+                        <ul>
+                            <li>Elle gère dans des fichiers</li>
+                            <li>on peut faire le parallèle avec les couches</li>
+                            <li>La bdd rend un service, j'ignore comment elle fait</li>
+                            <li>je sais ce qu'elle attend en entrée et ce qu'elle me donne en sortie !</li>                            
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Lien persistance / application</h3>
+                    <ul>
+                        <li>Python : Variables volatiles en RAM</li>
+                        <li>Système de persistance : Données stockées sur disque </li>
+                        <li>Data Access Objects (DAO) en guise de lien</li>                        
+                    </ul>
+
+                    <aside class="notes">
+                        Petite pose recap pour essayer de récupérer tout le monde avant la DAO<br>
+                        Dans la vraie vie, on repart pas de 0 quand on relance une appli                    
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>C'est quoi une DAO ?</h3>
+
+                    <img src="https://media2.giphy.com/media/a5viI92PAF89q/giphy.gif?cid=790b76119068737928a0a3e1282ee7ff952e04585d31791e&rid=giphy.gif"
+                        class="plain w80 no-print" alt="Batman pensif">
+                </section>
+
+                <section>
+                    <h3>C'est quoi une DAO ?</h3>
+
+                    <ul>
+                        <li>Classe technique <img class="plain icon"
+                                src="https://img.icons8.com/color/48/000000/sonic-screwdriver.png">
+                        </li>
+                        <li>Une classe DAO / objet métier <img class="plain icon"
+                                src="https://img.icons8.com/officel/48/000000/one-to-one.png">
+                        </li>
+                        <li>Expose des méthodes pour communiquer avec la couche de persistance <img
+                                class="plain icon" src=https://img.icons8.com/dusk/48/000000/hdd.png>
+                        </li>
+                    </ul>
+                    <aside class="notes">
+                        C'est une API <br>
+                        Rend un service à des clients<br>
+                        Comment elle fait ? -> Pas le problème du client. <br>
+                        Comme vous au restaurant. Vous voulez manger, comment c'est fait vous
+                        importe peu tant que le service est rendu (avec un niveau d'exigence)
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Quelles méthodes exposer ?</h3>
+                    <div class="fragment">
+                        <p class="important">CRUD</p>
+                        <ul>
+                            <li><span class="important">C</span>reate</li>
+                            <li><span class="important">R</span>ead</li>
+                            <li><span class="important">U</span>pdate</li>
+                            <li><span class="important">D</span>elete</li>
+                        </ul>
+                    </div>
+
+                    <aside class="notes">
+                        Faire participer<br><br>
+                        Essayer de montrer que ces 4 là suffisent.
+                        Après on peut avoir des raffinements en faisant des choses en masses, ou filtrer etc ...<br><br>
+                        Quid de la copie ? <br>
+                        Une copie c'est une lecture + creation donc on sait faire<br><br>
+                        Exemple dessin : classe Personne - table personne - dao personneDAO
+                    </aside>
+                </section>
+
+
+                <section>
+                    <h3>L'intérêt d'une classe à part</h3>
+                    <div class="fragment">
+                        <p class="important">Séparation des responsabilités</p>
+                        <ul>
+                            <li>Classe "jetable"🚮</li> 
+                            <li>Modifiable sans risque 🔨
+                            </li>
+                            <li>Parallélisation du travail 🦸‍♀️🧙‍♂️👨‍💼👩‍🔬
+                            </li>
+                        </ul>
+
+                    </div>
+
+                    <aside class="notes">
+                        On remet une couche, ça fait pas de mal<br>
+                        Dans la vraie vie, si changement de système, plus facile de migrer<br><br>
+                        En projet la couche DAO peut être très facile à faire
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Petit recap</h3>
+                    <img src="img/Zoom metier.png" class="w90" alt="">
+                    
+                    <aside class="notes">
+                        Petit exemple pour illustrer. <br>
+                        Exemple : lister toutes les personnes fans de Pokemon
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Comment se connecter à une DB en python ?</h3>
+                    <p>Utilisation d'une bibliothèque dédiée</p>
+                    <ul>
+                        <li class="important">PostgreSQL : psycopg2</li>
+                        <li>MySQL : mysql-connector-python </li>
+                        <li>Oracle : cx_Oracle</li>
+                        <li>MongoDB : pymongo </li>
+                    </ul>
+                    
+                    <aside class="notes">
+                        Vous lirez en entier la doc : https://www.psycopg.org/docs/<br>
+                        Il y aura des questions à l'exam !
+                    </aside>
+                    
+                </section>
+
+                <section>
+                    <h3>psycopg2</h3>
+                    <ul>
+                        <li>
+                            <pre><code data-trim data-noescape bash>
+                            pip install psycopg2-binary
+                        </code></pre>
+                    </li>
+                        <li>connection : permet d'établir la connexion avec la base
+                            <br/> Pas super intéressant à faire le code est donné
+                        </li>
+                        <li>cursor : encapsule la requête
+                            <pre><code data-trim data-noescape >
+                                with getConnexion() as conn :
+                                    with  conn.cursor() as curseur :
+                            </code></pre>
+                        </li>
+                        <li> cursor.execute() : permet de faire une requête</li>
+                        <li> cursor.fetchone()/fetchall()/fetchmany() : Récupération des résultats</li>
+                    </ul>
+                    
+                    <aside class="notes">
+                        Classe Connection: <br>
+                        def __init__(self):                             <br>
+                            dotenv.load_dotenv(override=True)           <br>
+                            # Open the connection.                      <br>
+                            self.__connection = psycopg2.connect(       <br>
+                                host=os.environ["HOST"],                <br>
+                                port=os.environ["PORT"],                <br>
+                                database=os.environ["DATABASE"],        <br>
+                                user=os.environ["USER"],                <br>
+                                password=os.environ["PASSWORD"],        <br>
+                                cursor_factory=RealDictCursor)
+                    </aside>
+
+                    
+                    
+                    
+                </section>
+
+                <section>
+                    <h3>Forme de base</h3>
+
+                    <pre><code data-trim data-noescape class="python">
+def dao_function(self, arg1, arg2...):
+    # Récupération de la connexion à la base
+    with getConnexion() as conn :
+    # Création d'un curseur pour faire une requête
+    # (le curseur stocke les résultats de la requête)
+        with conn.cursor() as curseur :
+            # On envoie au serveur la requête SQL
+            curseur.execute(
+                une_requete_sql_à_trous,
+                remplisage_des_trous)
+
+            # On récupère le résultat de la requête
+            res = curseur.fetchone()  # ou /fetchall()/fetchmany()
+        
+    return something                
+                    </code></pre>
+                    
+                    <aside class="notes">
+                        res : list[dict]                         
+                    </aside>     
+                </section>
+                
+                <section>
+                    <h3>Un petit exemple : LivreDao</h3>
+                    <img src="img/uml/class_diagramm_DAO.png" alt="">
+                    
+                    <aside class="notes">
+                        ISBN : International Standard Book Number                         
+                    </aside>                    
+                    
+                </section>
+
+
+                <section data-auto-animate>
+                    <h3>Un petit exemple : LivreDao</h3>
+
+                    <pre><code data-trim data-noescape python>
+def create(self, livre) -> Livre:
+    """Pour créer un livre en base"""
+    with DBConnection().connection as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                "INSERT INTO livre (isbm, titre, auteur)         "
+                "     VALUES (%(isbm)s, %(titre)s, %(auteur)s)   "
+                "  RETURNING id_livre;                           ",
+                {"isbm": livre.isbm, 
+                 "titre": livre.titre, 
+                 "auteur": livre.auteur},
+            )
+            livre.id = cursor.fetchone()["id_livre"]
+    return livre                
+                </code></pre>
+
+                    <aside class="notes">
+                        Exemple avec une base<br>
+                        Décrire le SQL, le reste c'est du technique<br>
+                        TP 3
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Un petit exemple : LivreDao</h3>
+
+                    <pre><code data-trim data-noescape>
+def find_all(self) -> list[Livre]:
+    """Pour récupérer tous les livres en base"""
+    with DBConnection().connection as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                "SELECT id_livre,                  "
+                "       isbm,                      "
+                "       titre,                     "
+                "       auteur                     "
+                "  FROM livre ;                    "
+            )
+            livre_bdd = cursor.fetchall()
+            
+    liste_livres = []
+
+    if livre_bdd:
+        for livre in livre_bdd:
+            liste_livres.append(
+                Livre(
+                    id=livre["id_livre"],
+                    isbm=livre["isbm"],
+                    titre=livre["titre"],
+                    auteur=livre["auteur"],
+                )
+            )
+            
+    return liste_livres
+                </code></pre>
+
+                </section>
+                
+                <section>
+                    <h3>Un petit exemple : LivreDao</h3>
+
+                    <pre><code data-trim data-noescape>
+def find_by_isbm(self, isbm) -> Livre:
+    """Pour récupérer un livre depuis son isbm"""
+    with DBConnection().connection as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                "SELECT *                          "
+                "  FROM livre                      "
+                " WHERE isbm = %(isbm)s            ",
+                {"isbm": livre.isbm}
+            livre_bdd = cursor.fetchone()
+            
+    livre = None
+    if livre_bdd:
+        livre = Livre(
+            id=livre_bdd["id_livre"],
+            isbm=livre_bdd["isbm"],
+            titre=livre_bdd["titre"],
+            auteur=livre_bdd["auteur"],
+        )
+    return livre    
+                </code></pre>
+
+                </section>
+
+
+                <section>
+                    <h3>Conclusion</h3>
+
+                    <ul>
+                        <li class="fragment">Python travaille en RAM (volatile) <img class="plain icon"
+                                src="https://img.icons8.com/color/48/000000/the-flash-sign--v2.png">
+                        </li>
+                        <li class="fragment">Obligation d'avoir un mécanisme de persistance des données <img
+                                class="plain icon" src=https://img.icons8.com/dusk/48/000000/hdd.png>
+                        </li>
+                        <li class="fragment">DAO : centralise les méthodes pour lire/écrire nos données <img
+                                class="plain icon" src="https://img.icons8.com/color/48/000000/edit-property.png">
+                        </li>
+                        <li class="fragment">Le couche métier appelle la DAO sans se préoccuper du système de persistance
+                            <img class="plain icon" src="https://img.icons8.com/color/48/000000/invisible.png">
+                        </li>
+                        <li class="fragment">Permet un travail d'équipe efficace 🦸‍♀️🧙‍♂️👨‍💼👩‍🔬
+                        </li>
+                    </ul>
+
+                </section>
+
+                <section>
+                    <h3>Question ?</h3>
+
+                </section>
+
+            </section>
+
+
+            <section>
+                <section>
+                    <h2>Sécurité informatique</h2>
+                </section>
+
+
+                <section>
+                    <h3>Principes CAID</h3>
+                    <img src="https://i.kym-cdn.com/entries/icons/original/000/035/843/cover3.jpg" alt="">
+                </section>
+
+                <section>
+                    <h3>4 pilliers de la sécurité info</h3>
+                    <ul>
+                        <li><span class="important">C</span>onfidentialité</li>
+                        <li><span class="important">A</span>uthentification</li>
+                        <li><span class="important">I</span>ntégrité</li>
+                        <li><span class="important">D</span>isponibilité</li>
+                    </ul>
+                    <aside class="notes">
+                        On utilise aussi parfois DICP ou DICPA <br>
+                        Disponibilité, Intégrité, Confidentialité, Preuve
+
+                    </aside>
+                </section>
+                
+                <section>
+                    <h3>Deux bonus</h3>
+                    <ul>
+                        <li>Traçabilité</li>
+                        <li>Non-répudiation</li>
+                    </ul>
+
+                </section>
+                <section>
+                    <h3>Confidentialité</h3>
+                    Seules les personnes autorisées doivent avoir accès aux informations qui leur sont destinées
+                    (notions de droits ou permissions).
+                    Tout accès indésirable doit être empêché.
+                    <p class="fragment important">Mécanismes associés : gestion des droits (annuaires, rôles ...), cryptographie</p>
+                    <aside class="notes">
+                        On parle plutôt de chiffrement
+                    </aside>
+                </section>
+                
+                <section>
+                    <h3>Authentification</h3>
+                    Les utilisateurs doivent prouver leur identité en répondant à un "challenge".
+
+                    <p class="fragment important">Mécanismes associés : authentification faible (idep, mdp), forte
+                        (données
+                        biométriques, multi facteurs)</p>
+
+                </section>
+                
+                <section>
+                    <h3>Intégrité</h3>
+                    Les données doivent être celles que l'on attend, et ne doivent pas être altérées de façons fortuites,
+                    illicites ou malveillantes.
+                    <p class="fragment important">Mécanismes associés : signature électronique, checksum</p>
+
+
+                    <aside class="notes">
+                        Signature électronique : <br>
+                        garantir l'intégrité d'un document, c’est-à-dire s’assurer que le document n'a pas été altéré entre sa signature et sa consultation <br>
+                        authentifier son auteur, c’est-à-dire s’assurer de l’identité de la personne signataire <br>
+                        checksum : bit de parité
+                    </aside>
+
+                </section>
+                
+                <section>
+                    <h3>Disponibilité</h3>
+                    L'accès aux ressources du système d'information doit être permanent et sans faille durant les plages
+                    d'utilisation prévues.
+                    <p class="fragment important">Mécanismes associés : redondance des serveurs, virtualisation,
+                        conteneurisation</p>
+                        
+                    <aside class="notes">
+                        Backup<br>
+                        Parler mise en prod avant
+                    </aside>
+
+                </section>
+                
+                <section>
+                    <h3>Traçabilité</h3>
+                    Garantit que les accès et tentatives d'accès aux éléments considérés sont tracés et que ces traces
+                    sont conservées et exploitables.
+                    <p class="fragment important">Mécanisme associé : journalisation</p>
+
+                    <aside class="notes">
+                        Logs (mieux que les prints)<br>
+                        Projet 2024-2025
+                    </aside>
+
+                </section>
+                
+                <section>
+                    <h3>La non-répudiation</h3>
+                    Aucun utilisateur ne doit pouvoir contester les opérations qu'il a réalisé dans le cadre de ses
+                    actions autorisées et aucun tiers ne doit pouvoir s'attribuer les actions d'un autre utilisateur.
+                    <p class="fragment important">Mécanismes associés : traçabilité + authentification + intégrité</p>
+
+                    <aside class="notes">
+                        C'est pas moi<br>
+                        Mais c'est votre nom !<br>
+                        Ne laissez pas vos sessions ouvertes aux pauses (CTRL + ALT + F12)
+                    </aside>
+
+                </section>
+                <section>
+                    <h2>Les failles informatiques</h2>
+                </section>
+
+              <section>
+                    <h3>Trop de failles !!!</h3>
+                    <ul>
+                        <li class="fragment">Failles physiques "bas niveau"</li>
+                        <li class="fragment">Failles physiques "haut niveau"</li>
+                        <li class="fragment"><span class="fragment highlight-important">Injection SQL</span></li>
+                        <li class="fragment">Injection de données</li>
+                        <li class="fragment"><span class="fragment highlight-important">Faille XSS</span></li>
+                        <li class="fragment">Exécution de code</li>
+                        <li class="fragment">...</li>
+                    </ul>
+                    <aside class="notes">
+                        <ul>
+                            <li>Failles physique "bas niveau" : coupure électrique, inondation salle serveur</li>
+                            <li>Failles physique "haut niveau" : accès physique à une machine</li>
+                        </ul>
+                    </aside>
+                </section>
+                
+                <section>
+                    <h3>De quoi faut-il se méfier ?</h3>
+                    <img class="plain w80 no-print"
+                        src="https://66.media.tumblr.com/5fca28d9ff6a46e62aaa6ec391077f26/tumblr_mseaykBEjV1sg0a6co1_500.gif"
+                        alt="">
+                </section>
+                
+                <section>
+                    <p class="fragment important-bloc">De vos utilisateurs</p>
+                </section>
+                
+                <section>
+                    <h2>Exemple de failles, les injections SQL</h2>
+                    <img class="w80" src="https://imgs.xkcd.com/comics/exploits_of_a_mom.png"
+                        alt="injection sql">
+
+                </section>
+
+                <section>
+                    <h3>Exemple</h3>
+                </section>
+                <section>
+                    <h3>Injection SQL</h3>
+                    Consiste à saisir du SQL pour exécuter une autre requête que celle prévue.
+                    <div class="fragment">
+                        <p class="important">Problèmes</p>
+                        <ul>
+                            <li>Confidentialité</li>
+                            <li>Authentification</li>
+                            <li>Intégrité</li>
+                            <li>Disponibilité</li>
+                        </ul>
+                    </div>
+                </section>
+                <section>
+                    <h3>Exemple : s'authentifier sans mot de passe</h3>
+                    Requete d'authentification
+                    <pre><code data-trim class="sql">
+                        SELECT * 
+                          FROM user 
+                         WHERE name = 'input_name' 
+                           AND mdp = 'input_mdp';
+                        </code></pre>
+                </section>
+                <section>
+                    <h3>Exemple : s'authentifier sans mot de passe</h3>
+                    <p>Saisie</p>
+                    <ul>
+                        <li>Rémi</li>
+                        <li>mon_super_password</li>
+                    </ul>
+                    <pre><code data-trim class="sql">
+                            SELECT * 
+                              FROM user 
+                             WHERE name = 'Rémi' 
+                               AND mdp = 'mon_super_password';
+                            </code></pre>
+                    <p class="fragment important-bloc">Cas classique</p>
+
+                </section>
+                <section>
+                    <h3>Exemple : s'authentifier sans mot de passe</h3>
+                    <p>Saisie</p>
+                    <ul>
+                        <li>Rémi</li>
+                        <li>' OR 1=1; --</li>
+                    </ul>
+                    <pre><code data-trim class="sql">
+                        SELECT * 
+                          FROM user 
+                         WHERE name = 'Rémi' 
+                           AND mdp = '' OR 1=1; --';
+                                </code></pre>
+                    <p class="fragment important-bloc">Connection sans mdp</p>
+
+                </section>
+                <section>
+                    <h3>Exemple : supprimer une table</h3>
+                    <p>Saisie</p>
+                    <ul>
+                        <li>Rémi</li>
+                        <li>'; DROP TABLE user CASCADE; --</li>
+                    </ul>
+                    <pre><code data-trim class="sql">
+                        SELECT * 
+                          FROM user 
+                         WHERE name='Rémi' 
+                           AND mdp=''; DROP TABLE user CASCADE; --;
+                                    </code></pre>
+                    <p class="fragment important-bloc">Bye bye la table user</p>
+
+                </section>
+                <section>
+                    <h3>Comment se protéger ?</h3>
+                    <ul>
+                        <li>Échapper les caractères spéciaux</li>
+                        <li>Utiliser une requête préparée</li>
+                    </ul>
+                    <p class="fragment important-bloc">La bibliothèque que vous utiliserez ne fait que de l'échappement
+                        de caractères spéciaux 😨
+
+                    </p>
+                    <aside class="notes">
+                        La seconde solution est mieux que la première mais psycopg2 ne semble pas la proposer simplement. <br>
+                        Donc il faut la connaître, mais savoir que c'est la première solution qui va être faite.<br><br>
+                        
+                        Echapper les caractères spéciaux : par exemple, « ' » sera remplacé par « \' » <br>
+                        l'apostrophe ne sera donc pas interprété comme une fin de chaîne par le SGBD<br><br>
+                        
+                        instruction "prepare" : <br>
+                        1. envoie la requête à trous à la BDD<br>
+                        2. envoie pour remplir les trous
+                    </aside>
+                </section>
+                
+                <section>
+                    <h3>Cross Site Scripting</h3>
+                    Consiste à injecter du code provoquant des actions sur le navigateur. Cela peut
+                    permettre :
+                    <div class="fragment">
+                        <ul>
+                            <li>Des redirections de page (phishing)</li>
+                            <li>Du vol d'information</li>
+                            <li>Des actions sur le site</li>
+                            <li>Rendre le site difficile à utiliser</li>
+                        </ul>
+                    </div>
+                    <aside class="notes"></aside>
+                </section>
+                
+                <section>
+                    <h3>Exemple d'injection d'un script JS</h3>
+
+                    <ul>
+                        <li class="fragment">Site de micro blogging</li>
+                        <li class="fragment">Les utilisateurs peuvent rentrer du texte
+                            qui sera ensuite mis dynamiquement dans la page web
+                        </li>
+                            <pre class="fragment"><code data-trim data-noescape>
+                                &lt;script> while(1==1){alert('bonjour')}&lt;/script>
+                            </code></pre>
+                    </ul>
+                    <aside class="notes">
+                        Page statique HTML<br>
+                        JavaScript asynchrone
+                    </aside>
+
+                </section>
+
+                <section>
+                    <h3>Comment se protéger ?</h3>
+                    <ul>
+                        <li class="fragment">Ne jamais insérer des données brutes</li>
+                        <li class="fragment">Échapper les caractères spéciaux</li>
+                        <li class="fragment">Vérifier vos données</li>
+                    </ul>
+                    <p class="fragment important-bloc">Les bibliothèques web 
+                        le font souvent pour vous !😁
+
+                    </p>
+
+                </section>
+
+                <section>
+                    <h3>To sum up : injection</h3>
+                    <ul>
+                        <li class="fragment">Ne jamais faire confiance aux utilisateurs, vérifier / nettoyer leurs
+                            inputs</li>
+                        <li class="fragment">Ne jamais faire confiance aux utilisateurs, vérifier / nettoyer leurs
+                            inputs</li>
+                        <li class="fragment">Ne jamais faire confiance aux utilisateurs, vérifier / nettoyer leurs
+                            inputs</li>
+                        <li class="fragment">Ne jamais faire confiance aux utilisateurs, vérifier / nettoyer leurs
+                            inputs</li>
+                        <li class="fragment">Ne jamais faire confiance aux utilisateurs, vérifier / nettoyer leurs
+                            inputs</li>
+                </section>
+            </section>
+            <section>
+
+                <section>
+                    <h2>Gestion des mots de passe</h2>
+                </section>
+                <section>
+                    <h3>Votre application doit-elle stocker des mots de passe en clair?</h3>
+                    <img src="https://media.giphy.com/media/d10dMmzqCYqQ0/source.gif" class="fragment w60 plain no-print" alt="">
+                </section>
+                <section>
+                    <h3>Votre application doit-elle connaître le mot de passe d'un utilisateur pour l'authentifier ?
+                    </h3>
+                    
+                    <img src="https://media.giphy.com/media/Y8hzdgPnZ6Hwk/source.gif" class="fragment w50 plain no-print" alt="">
+
+                </section>
+
+                <section>
+                    <h3>????</h3>
+                    <img src="https://media.giphy.com/media/kQOxxwjjuTB7O/source.gif" class="w70 plain no-print" alt="">
+                </section>
+
+                <section>
+                    <h3>Hasher le mot de passe</h3>
+                    <ul>
+                        <li class="fragment">Hashage du mot de passe => cypher</li>
+                        <li class="fragment">Stockage du cypher en base</li>
+                        <li class="fragment">Quand besoin de comparer on hashe le mdp saisi</li>
+                        <li class="fragment">Et on compare les cyphers</li>
+                    </ul>
+                    <div class="important-bloc fragment">Authentification sans persister les mots de passe !!!!</div>
+                    <aside class="notes">
+                        C'est tellement simple et sécurisé ! <br>
+                        Mais pas tous le site le font ... <br>
+                        Un site qui vous renvoi votre mdp le garde en mémoire (ou du moins le moyen de le déchiffrer) <br><br>
+                        
+                        Dans la vraie vie on rajoute un "sel" au mdp avec de le hacher. <br>
+                        C'est une valeur aléatoire calculées pour chaque utilisateur que l'on va rajouter au mdp avant de le hacher<br>                        
+                        Cela rend une attaque en force brute plus coûteuse.
+                    </aside>
+                </section>
+                
+                <section>
+                    <img src="https://media.giphy.com/media/Pk4ldVR0sCHgA/source.gif" class="w80 plain no-print"alt="">
+                </section>
+                
+                <section>
+                    <h3>Ajouter du sel pour plus de sécurité</h3>
+                        <img src="https://media.giphy.com/media/3o7P4F86TAI9Kz7XYk/giphy.gif" class="w50 plain no-print"alt="">
+                </section>
+
+                <section>
+                    <h3>Une base sans sel ajouté</h3>
+                    <ul>
+                        <li>Votre base mail/mdp fuite mais les mdp sont hachés</li>
+                        <li>Les attaquants doivent <em>bruteforce</em> les mdp</li>
+                        <li>Ils commencent par les mdp les plus courants, et les hachent avec les algo de hash courants</li>
+                        <li>Puis ils comparent avec la base</li>
+                        <li>Forte chance d'avoir plusieurs correspondances</li>
+                    </ul>
+
+                    <aside class="notes">
+                        bruteforce : tester toutes les combinaisons possibles
+                    </aside>                    
+                    
+                </section>
+
+                <section>
+                    <h3>Le sel c'est bon pour la sécurité</h3>
+                    <p>
+                        Au lieu de hacher et stocker le mdp vous stockez et hachez le mdp 
+                        ET un élément lié à l'utilisateur de manière déterministe (le sel).
+                    </p>
+                    <p>
+                        Maintenant même si 2 personnes ont le même mdp, elles auront des hash
+                        différents.
+                    </p>
+                </section>
+                <section>
+                    <h3>Le sel c'est bon pour la sécurité</h3>
+                    <ul>
+                        <li>Votre base mail/mdp fuite mais les mdp sont hachés et salés</li>
+                        <li>Les attaquants doivent <em>bruteforce</em> les mdp</li>
+                        <li>Ils commencent par les mdp les plus courants, et les hachent avec les algo de hash courants</li>
+                        <li>Puis ils comparent avec la base.</li>
+                        <li>Il y a pas de match car vos mdp sont salés</li>
+                        <li>Et trouver un mdp ne permet de trouver les autres</li>
+                    </ul>
+
+                </section>
+
+
+                <section>
+                    <img class="no-print w50" src="https://i.imgflip.com/3acxa9.jpg" title="made at imgflip.com" />
+                </section>
+                
+                <section>
+                    <h3>Exemple de hashage de mdp</h3>
+
+                    <pre><code data-trim>
+                    import hashlib
+                     
+                    def hash_password(password, idep):
+                        salt = idep
+                        return hashlib.sha256(salt.encode() + password.encode()).hexdigest()
+                        
+                    print(hash_password("mon_super_password", "remi"))
+                </code></pre>
+
+                </section>
+
+            </section>
+            <section>
+                <h3>To sum up the security part</h3>
+                <ul>
+                    <li class="fragment">Toujours vérifier les inputs</li>
+                    <li class="fragment">Ne jamais faire confiance aux utilisateurs</li>
+                    <li class="fragment">Plusieurs niveaux de sécurité</li>
+                    <li class="fragment">Pas besoin de stocker les mots de passe en clair</li>
+                </ul>
+            </section>
+            <section>
+                <h3>Question</h3>
+                <iframe src="https://giphy.com/embed/6wcympMVVZxOGZc2ph" width="900" height="500" frameBorder="0"
+                    class="no-print giphy-embed" allowFullScreen></iframe>
+            </section>
+                <section class="no-print">
+                <h2>THE END</h2>
+                <iframe src="https://giphy.com/embed/fnlXXGImVWB0RYWWQj" width="480" height="480" frameBorder="0"
+                    class="no-print giphy-embed" allowFullScreen></iframe>
+            </section>
+
+
+        </div>
+    </div>
+
+
+    <script src="../../dist/reveal.js"></script>
+    <script src="../../plugin/zoom/zoom.js"></script>
+    <script src="../../plugin/notes/notes.js"></script>
+    <script src="../../plugin/search/search.js"></script>
+    <script src="../../plugin/markdown/markdown.js"></script>
+    <script src="../../plugin/highlight/highlight.js"></script>
+    <script src="../../plugin/math/math.js"></script>
+    <script>
+
+        // Also available as an ES module, see:
+        // https://revealjs.com/initialization/
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            center: true,
+            hash: true,
+            viewDistance: 3,
+            width: 1080,
+            height: 720,
+            slideNumber: 'c/t',
+            pdfSeparateFragments: false ,
+            mathjax: 'https://cdn.jsdelivr.net/gh/mathjax/mathjax@2.7.8/MathJax.js',
+            config: 'TeX-AMS_HTML-full',
+            // pass other options into `MathJax.Hub.Config()`
+            TeX: { Macros: { RR: "{\\bf R}" } },
+
+            // Learn about plugins: https://revealjs.com/plugins/
+            plugins: [RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight,RevealMath ]
+        });
+
+    </script>
+
+</body>
+
+</html>

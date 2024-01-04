@@ -1,14 +1,40 @@
-# ENSAI-2A-complement-info
+# Cours de compléments d'informatique
 
-Cours et TP de compléments d'informatique.
-
-Ces supports ont été créés par [Rémi Pépin](https://github.com/healermikado), et repris par Ludovic Deneuville à partir de 2023.
-
+* ENSAI 2e année
+* inspiré du cours de [Rémi Pépin](https://github.com/healermikado)
 
 ## Notions abordées
 
-* architecture logicielle, génie logiciel, poo
-* internet, web et client-serveur
-* communiquer avec une base de données depuis un code python, sécurité informatique
-* versionnage avec git
+* Versionnage avec git
+* Analyse fonctionnelle, génie logiciel
+* Programmation orientée objet avancée
+* Communication avec une base de données en python
+* Sécurité informatique
+* Communication client-serveur
 
+## :construction: Todo 
+
+* [ ] diapo intro
+  * [ ] Projet -> truc à faire ou ne pas faire
+  * [ ] TP -> exmpliquer les settings...
+* [ ] Commencer par Git
+* [ ] CICD
+* [ ] logs
+* [ ] documentation
+
+---
+
+### Généré avec RevealJS
+
+<p align="center">
+  <a href="https://revealjs.com">
+  <img src="https://hakim-static.s3.amazonaws.com/reveal-js/logo/v1/reveal-black-text-sticker.png" alt="reveal.js" width="500">
+  </a>
+  <br><br>
+  <a href="https://github.com/hakimel/reveal.js/actions"><img src="https://github.com/hakimel/reveal.js/workflows/tests/badge.svg"></a>
+  <a href="https://slides.com/"><img src="https://s3.amazonaws.com/static.slid.es/images/slides-github-banner-320x40.png?1" alt="Slides" width="160" height="20"></a>
+</p>
+
+reveal.js is an open source HTML presentation framework. It enables anyone with a web browser to create beautiful presentations for free. Check out the live demo at [revealjs.com](https://revealjs.com/).
+
+The framework comes with a powerful feature set including [nested slides](https://revealjs.com/vertical-slides/), [Markdown support](https://revealjs.com/markdown/), [Auto-Animate](https://revealjs.com/auto-animate/), [PDF export](https://revealjs.com/pdf-export/), [speaker notes](https://revealjs.com/speaker-view/), [LaTeX typesetting](https://revealjs.com/math/), [syntax highlighted code](https://revealjs.com/code/) and an [extensive API](https://revealjs.com/api/).
